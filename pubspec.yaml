@@ -44,11 +44,37 @@ flutter:
 
   
   fonts:
-    - family: SFPRODISPLAY
+    - family: Sf-Pro-Display
       fonts:
-        - asset: assets/fonts/SFPRODISPLAYBOLD.OTF
-        - asset: assets/fonts/SFPRODISPLAYREGULAR.OTF
-    
+        - asset: assets/fonts/SF-Pro-Display-Ultralight.otf
+          weight: 200
+          style: normal
+
+        - asset: assets/fonts/SF-Pro-Display-light.otf
+          weight: 300
+          style: normal
+
+        - asset: assets/fonts/SF-Pro-Display-Regular.otf
+          weight: 400
+          style: normal
+
+        - asset: assets/fonts/SF-Pro-Display-Medium.otf
+          weight: 500
+          style: normal
+
+        - asset: assets/fonts/SF-Pro-Display-Semibold.otf
+          weight: 600
+          style: normal
+
+        - asset: assets/fonts/SF-Pro-Display-Bold.otf
+          weight: 700
+          style: normal
+
+        - asset: assets/fonts/SF-Pro-Display-Heavy.otf
+          weight: 900
+          style: normal
+
+
     - family: TrippoIcons
       fonts:
-        - asset: assets\icon\TrippoIcons.ttf
+        - asset: assets/icons/TrippoIcons.ttf

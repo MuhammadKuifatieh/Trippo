@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 
-import '../../../../core/widget/trippo_icons_icons.dart';
+import '../../../../core/constants/icons/trippo_icons.dart';
 import '../../../explore/presentation/pages/explore_screen.dart';
 import '../../../home/presentation/pages/home_screen.dart';
 import '../../../plan/presentation/pages/plan_screen.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeApp {
   ThemeData getTheme() {
     return ThemeData(
-      fontFamily: 'SFPRODISPLAY',   
+      fontFamily: 'Sf-Pro-Display',   
       primaryColor: const Color(0xff32B768),
       colorScheme: ColorScheme.fromSwatch(
           primarySwatch: const MaterialColor(0xff32B768, {
