@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreenn extends StatefulWidget {
-  const ProfileScreenn({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
   static const String routeName = 'profile_screen';
 
   @override
-  _ProfileScreennState createState() => _ProfileScreennState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreennState extends State<ProfileScreenn> {
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Container();

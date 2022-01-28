@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/authentication/presentation/screens/authentication_screen.dart';
 
 import 'core/theme_app.dart';
 import 'features/explore/presentation/pages/explore_screen.dart';
@@ -19,12 +20,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Trippo',
       theme: ThemeApp().getTheme(),
-      home: const MainScreen(),
+      home: const AuthenticationScreen(),
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
         PlanScreen.routeName: (context) => const PlanScreen(),
         ExploreScreen.routeName: (context) => const ExploreScreen(),
-        ProfileScreenn.routeName: (context) => const ProfileScreenn(),
+        ProfileScreen.routeName: (context) => const ProfileScreen(),
+        AuthenticationScreen.routeName: (context) =>
+            const AuthenticationScreen(),
       },
     );
   }
