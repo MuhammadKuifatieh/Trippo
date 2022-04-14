@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 
 import '../../../../core/constants/icons/trippo_icons.dart';
+import '../../../../injection.dart';
 import '../../../explore/presentation/pages/explore_screen.dart';
 import '../../../home/presentation/pages/home_screen.dart';
 import '../../../plan/presentation/pages/plan_screen.dart';
-import '../../../profile/presentation/pages/profile_screen.dart';
+import '../../../profile/presentation/pages/setting_screen.dart';
 import '../bloc/page_manager/page_manager_bloc.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,17 +21,21 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int selectedIndex = 0;
+
   late PageController controller;
+  late PageManagerBloc pageManagerBloc;
+
   List<Widget> page = [
     const HomeScreen(),
     const ExploreScreen(),
     const PlanScreen(),
-    const ProfileScreenn(),
+    const SettingScreen(),
   ];
 
   @override
   void initState() {
     controller = PageController();
+    pageManagerBloc = serviceLocator<PageManagerBloc>();
     super.initState();
   }
 
@@ -45,19 +51,19 @@ class _MainScreenState extends State<MainScreen> {
             bottomNavigationBar: SlidingClippedNavBar(
               barItems: [
                 BarItem(
-                  title: 'Home',
+                  title: AppLocalizations.of(context)!.home,
                   icon: TrippoIcons.home,
                 ),
                 BarItem(
-                  title: 'Explore',
+                  title: AppLocalizations.of(context)!.explore,
                   icon: TrippoIcons.interface_essential_compass,
                 ),
                 BarItem(
-                  title: 'Plan',
+                  title: AppLocalizations.of(context)!.plan,
                   icon: TrippoIcons.favorite_border,
                 ),
                 BarItem(
-                  title: 'Profile',
+                  title: AppLocalizations.of(context)!.profile,
                   icon: TrippoIcons.profile,
                 ),
               ],
