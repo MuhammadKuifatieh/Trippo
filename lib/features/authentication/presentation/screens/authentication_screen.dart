@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trippo/core/config/app_text_styles.dart';
-import 'package:trippo/core/widget/rounded_expanded_button.dart';
+import 'package:trippo/core/constants/images/svg_images.dart';
+import 'package:trippo/core/widgets/asset_svg.dart';
+import 'package:trippo/core/widgets/rounded_expanded_button.dart';
+import 'package:trippo/features/authentication/presentation/widgets/auth_sheet_content.dart';
+import 'package:trippo/features/authentication/presentation/widgets/facebook_auth_button.dart';
+import 'package:trippo/features/authentication/presentation/widgets/google_auth_button.dart';
+import 'package:trippo/features/authentication/presentation/widgets/login_page.dart';
+import 'package:trippo/features/authentication/presentation/widgets/signup_page.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
@@ -20,13 +27,14 @@ class AuthenticationScreen extends StatelessWidget {
             child: Column(
               children: [
                 Row(
-                  children: const [
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Icon(
-                        Icons.arrow_back,
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: AssetSvg(
+                          SvgImages.arrowBackward,
+                          height: 30,
+                          color: Theme.of(context).primaryColor,
+                        )),
                   ],
                 ),
                 SizedBox(
@@ -69,56 +77,17 @@ class AuthenticationScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.04,
                 ),
-                RoundedExpandedButton(
-                  elevation: 2,
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: const Placeholder(color: Colors.red),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        'Google',
-                        style: AppTextStyles.styleWeight400(
-                          fontSize: 14,
-                          color: const Color(0xff09051C),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                GoogleAuthButton(),
                 SizedBox(height: screenHeight * 0.02),
-                RoundedExpandedButton(
-                  elevation: 2,
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: const Placeholder(color: Colors.blue),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        'Facebook',
-                        style: AppTextStyles.styleWeight400(
-                          fontSize: 14,
-                          color: const Color(0xff09051C),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                FacebookAuthButton(),
                 SizedBox(height: screenHeight * 0.02),
                 RoundedExpandedButton(
                   color: Theme.of(context).primaryColor,
+                  onTap: () {
+                    showAuthBottomSheet(context: context);
+                  },
                   child: Text(
                     'Login',
                     style: AppTextStyles.styleWeight400(
@@ -143,6 +112,21 @@ class AuthenticationScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> showAuthBottomSheet({
+    required BuildContext context,
+  }) {
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return const AuthSheetContent();
+      },
     );
   }
 }

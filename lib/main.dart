@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trippo/features/authentication/presentation/screens/authentication_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:trippo/features/authentication/presentation/screens/authentication_screen.dart';
 
 import 'core/theme_app.dart';
 import 'features/main/presentation/pages/main_screen.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'Trippo',
       theme: ThemeApp().getTheme(),
-      home: const MainScreen(),
+      home: const AuthenticationScreen(),
       onGenerateRoute: AppRouter.onGenerateRoute,
     );
   }
