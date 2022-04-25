@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trippo/core/config/app_text_styles.dart';
+import 'package:trippo/core/design/design_constants.dart';
 import 'package:trippo/core/widgets/rounded_expanded_button.dart';
+import 'package:trippo/features/authentication/presentation/screens/forgot_password_screen.dart';
 import 'package:trippo/features/authentication/presentation/widgets/email_text_field.dart';
 import 'package:trippo/features/authentication/presentation/widgets/facebook_auth_button.dart';
 import 'package:trippo/features/authentication/presentation/widgets/google_auth_button.dart';
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
       child: Column(
         children: [
           EmailTextFeild(emailController: widget.emailController),
@@ -49,12 +51,17 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
           const SizedBox(height: 24),
-          Text(
-            'Forgot your password?',
-            style: AppTextStyles.styleWeight400(
-                    color: Theme.of(context).primaryColor, fontSize: 12)
-                .copyWith(
-              decoration: TextDecoration.underline,
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, ForgotPasswordScreen.routeName);
+            },
+            child: Text(
+              'Forgot your password?',
+              style: AppTextStyles.styleWeight400(
+                      color: Theme.of(context).primaryColor, fontSize: 12)
+                  .copyWith(
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
           const Spacer(),

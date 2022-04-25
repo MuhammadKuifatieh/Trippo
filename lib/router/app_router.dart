@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trippo/features/authentication/presentation/screens/authentication_screen.dart';
+import 'package:trippo/features/authentication/presentation/screens/forgot_password_screen.dart';
+import 'package:trippo/features/authentication/presentation/screens/reset_password_screen.dart';
 
 import '../features/explore/presentation/pages/explore_screen.dart';
 import '../features/home/presentation/pages/home_screen.dart';
@@ -33,6 +35,14 @@ class AppRouter {
       case AuthenticationScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const AuthenticationScreen(),
+        );
+      case ForgotPasswordScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const ForgotPasswordScreen(),
+        );
+      case ResetPasswordScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const ResetPasswordScreen(),
         );
     }
   }

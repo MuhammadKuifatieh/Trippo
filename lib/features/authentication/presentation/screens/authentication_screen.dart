@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trippo/core/config/app_text_styles.dart';
 import 'package:trippo/core/constants/images/svg_images.dart';
+import 'package:trippo/core/design/design_constants.dart';
 import 'package:trippo/core/widgets/asset_svg.dart';
 import 'package:trippo/core/widgets/rounded_expanded_button.dart';
 import 'package:trippo/features/authentication/presentation/widgets/auth_sheet_content.dart';
@@ -21,7 +22,7 @@ class AuthenticationScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding, vertical: 20),
           child: SizedBox(
             width: double.infinity,
             child: Column(

@@ -9,4 +9,7 @@ class SvgImages {
   static const mail = '${_svgRelativePath}mail.svg';
   static const openedLock = '${_svgRelativePath}opened_lock.svg';
   static const arrowBackward = '${_svgRelativePath}arrow_backward.svg';
+  static const visible = '${_svgRelativePath}visible.svg';
+  static const notVisible = '${_svgRelativePath}not_visible.svg';
+  static const eye = '${_svgRelativePath}eye.svg';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trippo/core/config/app_text_styles.dart';
 import 'package:trippo/core/constants/images/svg_images.dart';
+import 'package:trippo/core/design/design_constants.dart';
 import 'package:trippo/core/widgets/asset_svg.dart';
 import 'package:trippo/core/widgets/rounded_expanded_button.dart';
 import 'package:trippo/features/authentication/presentation/widgets/password_text_field.dart';
@@ -24,7 +25,7 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
       child: Column(
         children: [
           AuthTextField(

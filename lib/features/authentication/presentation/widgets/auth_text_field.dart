@@ -8,17 +8,19 @@ class AuthTextField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.hintText,
+    this.obscureText = false,
   }) : super(key: key);
 
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextEditingController? controller;
   final String? hintText;
-
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
         fillColor: Colors.white,
