@@ -86,7 +86,7 @@ class AuthenticationScreen extends StatelessWidget {
                 RoundedExpandedButton(
                   color: Theme.of(context).primaryColor,
                   onTap: () {
-                    showAuthBottomSheet(context: context);
+                    showAuthBottomSheet(context: context, initialPageIndex: 1);
                   },
                   child: Text(
                     'Login',
@@ -98,6 +98,9 @@ class AuthenticationScreen extends StatelessWidget {
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 RoundedExpandedButton(
+                  onTap: () {
+                    showAuthBottomSheet(context: context, initialPageIndex: 0);
+                  },
                   color: const Color(0xffE0F4E8),
                   child: Text(
                     'Create Account',
@@ -117,6 +120,7 @@ class AuthenticationScreen extends StatelessWidget {
 
   Future<dynamic> showAuthBottomSheet({
     required BuildContext context,
+    required int initialPageIndex,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -125,7 +129,7 @@ class AuthenticationScreen extends StatelessWidget {
       ),
       isScrollControlled: true,
       builder: (context) {
-        return const AuthSheetContent();
+        return AuthSheetContent(initialPageIndex: initialPageIndex);
       },
     );
   }

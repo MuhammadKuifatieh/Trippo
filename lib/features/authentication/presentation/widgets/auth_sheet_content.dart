@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/authentication/presentation/widgets/page_switcher.dart';
 import 'package:trippo/features/authentication/presentation/widgets/signup_page.dart';
 
 import 'login_page.dart';
@@ -6,8 +7,10 @@ import 'login_page.dart';
 class AuthSheetContent extends StatefulWidget {
   const AuthSheetContent({
     Key? key,
+    required this.initialPageIndex,
   }) : super(key: key);
 
+  final int initialPageIndex;
   @override
   State<AuthSheetContent> createState() => _AuthSheetContentState();
 }
@@ -21,7 +24,7 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(initialPage: widget.initialPageIndex);
     emailController = TextEditingController();
     passwordController = TextEditingController();
     nameController = TextEditingController();
@@ -43,24 +46,20 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
             height: 5,
           ),
           const SizedBox(height: 25),
-          const SizedBox(
-            width: 300,
-            height: 60,
-            child: Placeholder(),
-          ),
+          PageSwitcher(pageController: _pageController),
           const SizedBox(height: 65),
           SizedBox(
             height: 400,
             child: PageView(
               controller: _pageController,
               children: [
-                LoginPage(
-                  emailController: emailController,
-                  passwordController: passwordController,
-                ),
                 SignupPage(
                   emailController: emailController,
                   nameController: nameController,
+                  passwordController: passwordController,
+                ),
+                LoginPage(
+                  emailController: emailController,
                   passwordController: passwordController,
                 ),
               ],
