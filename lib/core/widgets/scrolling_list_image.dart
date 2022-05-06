@@ -51,9 +51,9 @@ class ScrollingListImage extends StatelessWidget {
             controller: pageController,
             effect: ExpandingDotsEffect(
               spacing: size.width * .01,
-              expansionFactor: 3,
-              dotHeight: size.width * .025,
-              dotWidth: size.width * .025,
+              expansionFactor: 4,
+              dotHeight: size.width * .0175,
+              dotWidth: size.width * .0175,
               paintStyle: PaintingStyle.fill,
               strokeWidth: 1.5,
               dotColor: Colors.white54,
