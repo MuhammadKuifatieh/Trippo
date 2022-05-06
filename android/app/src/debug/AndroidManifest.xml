@@ -3,5 +3,13 @@
     <!-- Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
+    
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+     <application
+        android:label="trippo"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+            <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBWG3Jqv0Qxuz3_DTCFm3OUv43Zl4KM8VI"/>
+    </application>
 </manifest>

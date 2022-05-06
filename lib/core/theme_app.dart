@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeApp {
   ThemeData getTheme() {
     return ThemeData(
-      fontFamily: 'Sf-Pro-Display',   
+      fontFamily: 'Sf-Pro-Display',
       primaryColor: const Color(0xff32B768),
       colorScheme: ColorScheme.fromSwatch(
           primarySwatch: const MaterialColor(0xff32B768, {
@@ -18,9 +18,12 @@ class ThemeApp {
         800: Color(0xff32B768),
         900: Color(0xff32B768),
       })).copyWith(
-        secondary: const Color(0xff333333),
+        secondary: const Color(0xff666666),
         error: const Color(0xffFF97A7),
-        
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: Color(0xff32B768),
       ),
       errorColor: const Color(0xffFF97A7),
       scaffoldBackgroundColor: Colors.white,

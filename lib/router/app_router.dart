@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/map/presentation/pages/map_screen.dart';
 
 import '../features/explore/presentation/pages/explore_screen.dart';
 import '../features/home/presentation/pages/home_screen.dart';
@@ -20,6 +21,10 @@ class AppRouter {
       case ExploreScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const ExploreScreen(),
+        );
+      case MapScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const MapScreen(),
         );
       case SettingScreen.routeName:
         return MaterialPageRoute(

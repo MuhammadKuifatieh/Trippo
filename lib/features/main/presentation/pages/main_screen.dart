@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
+import 'package:trippo/features/map/presentation/pages/map_screen.dart';
 
 import '../../../../core/constants/icons/trippo_icons.dart';
 import '../../../../injection.dart';
@@ -28,7 +29,8 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> page = [
     const HomeScreen(),
     const ExploreScreen(),
-    const PlanScreen(),
+    const MapScreen(),
+    // const PlanScreen(),
     const SettingScreen(),
   ];
 
@@ -42,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PageManagerBloc(),
+      create: (context) => pageManagerBloc,
       child: BlocConsumer<PageManagerBloc, PageManagerState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -59,9 +61,13 @@ class _MainScreenState extends State<MainScreen> {
                   icon: TrippoIcons.interface_essential_compass,
                 ),
                 BarItem(
-                  title: AppLocalizations.of(context)!.plan,
-                  icon: TrippoIcons.favorite_border,
+                  title: AppLocalizations.of(context)!.map,
+                  icon: Icons.map,
                 ),
+                // BarItem(
+                //   title: AppLocalizations.of(context)!.plan,
+                //   icon: TrippoIcons.favorite_border,
+                // ),
                 BarItem(
                   title: AppLocalizations.of(context)!.profile,
                   icon: TrippoIcons.profile,
@@ -70,9 +76,7 @@ class _MainScreenState extends State<MainScreen> {
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               selectedIndex: state.selectedIndex,
               onButtonPressed: (index) {
-                context
-                    .read<PageManagerBloc>()
-                    .add(ChangePageEvent(selectedIndex: index));
+                pageManagerBloc.add(ChangePageEvent(selectedIndex: index));
               },
               activeColor: Theme.of(context).primaryColor,
             ),

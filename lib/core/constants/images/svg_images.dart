@@ -4,4 +4,5 @@ class SvgImages {
   static const String _svgRelativePath = 'assets/svg/';
 
   static const facebook = '${_svgRelativePath}facebook.svg';
+  static const filtter = '${_svgRelativePath}filtter.svg';
 }
