@@ -49,7 +49,10 @@ class _MainScreenState extends State<MainScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            body: page[state.selectedIndex],
+            body: IndexedStack(
+              index: state.selectedIndex,
+              children: page,
+            ),
             bottomNavigationBar: SlidingClippedNavBar(
               barItems: [
                 BarItem(

@@ -45,7 +45,7 @@ class CacheImage extends StatelessWidget {
                   clipper: ShapeBorderClipper(
                     shape: RoundedRectangleBorder(
                       borderRadius: shape == BoxShape.rectangle
-                          ? borderRadius!
+                          ? (borderRadius?? BorderRadius.zero)
                           : BorderRadius.circular(1000),
                     ),
                     textDirection: GlobalFunction().isRTLDirectionality(context)
@@ -100,7 +100,7 @@ class CacheImage extends StatelessWidget {
                     clipper: ShapeBorderClipper(
                       shape: RoundedRectangleBorder(
                         borderRadius: shape == BoxShape.rectangle
-                            ? borderRadius!
+                            ? (borderRadius?? BorderRadius.zero)
                             : BorderRadius.circular(1000),
                       ),
                       textDirection:

@@ -1,11 +1,13 @@
 part of '../pages/setting_screen.dart';
 
 class _ProfileSettingsWidget extends StatelessWidget {
-  const _ProfileSettingsWidget({
+  _ProfileSettingsWidget({
     Key? key,
     required this.size,
   }) : super(key: key);
   final Size size;
+  final ValueNotifier<bool> notification = ValueNotifier(true);
+  final ValueNotifier<bool> refresh = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,11 +22,7 @@ class _ProfileSettingsWidget extends StatelessWidget {
         ),
         TextButtonProfile(
           size: size,
-          onPressed: () {
-            Navigator.of(context).pushNamed(
-              ProfileScreen.routeName,
-            );
-          },
+          onPressed: () {},
           title: AppLocalizations.of(context)!.editProfile,
         ),
         TextButtonProfile(
@@ -32,24 +30,40 @@ class _ProfileSettingsWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.changePassword,
         ),
-        TextButtonProfile(
-          size: size,
-          title: AppLocalizations.of(context)!.sendPushNotifcation,
-          onPressed: () {},
-          child: CupertinoSwitch(
-            value: true,
-            onChanged: (value) {},
-          ),
-        ),
-        TextButtonProfile(
-          size: size,
-          title: AppLocalizations.of(context)!.refreshAutomatically,
-          onPressed: () {},
-          child: CupertinoSwitch(
-            value: false,
-            onChanged: (value) {},
-          ),
-        )
+        ValueListenableBuilder<bool>(
+            valueListenable: notification,
+            builder: (context, value, _) {
+              return TextButtonProfile(
+                size: size,
+                title: AppLocalizations.of(context)!.sendPushNotifcation,
+                onPressed: () {
+                  notification.value = !value;
+                },
+                child: CupertinoSwitch(
+                  value: value,
+                  onChanged: (value) {
+                    notification.value = value;
+                  },
+                ),
+              );
+            }),
+        ValueListenableBuilder<bool>(
+            valueListenable: refresh,
+            builder: (context, value, _) {
+              return TextButtonProfile(
+                size: size,
+                title: AppLocalizations.of(context)!.refreshAutomatically,
+                onPressed: () {
+                  refresh.value = !value;
+                },
+                child: CupertinoSwitch(
+                  value: value,
+                  onChanged: (value) {
+                    refresh.value = value;
+                  },
+                ),
+              );
+            })
       ],
     );
   }

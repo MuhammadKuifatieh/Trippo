@@ -21,8 +21,11 @@ class _PhotoProfileWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return CacheImage(
           key: ValueKey(index),
-          imageUrl: 'https://media.istockphoto.com/photos/old-fortress-of-aleppo-syria-picture-id157533378?k=20&m=157533378&s=612x612&w=0&h=VV2rsmsr4Cu5xSljSf0vl4Y19Ko78gXk-g7jB6koyAg=',
-          width: size.width * .35,
+          imageUrl:
+              'https://media.istockphoto.com/photos/old-fortress-of-aleppo-syria-picture-id157533378?k=20&m=157533378&s=612x612&w=0&h=VV2rsmsr4Cu5xSljSf0vl4Y19Ko78gXk-g7jB6koyAg=',
+          width: (index % 4 == 0 || index % 4 == 3)
+              ? size.width * .7
+              : size.width * .35,
           height: size.width * .35,
           borderRadius: BorderRadius.circular(10),
           child: Align(
