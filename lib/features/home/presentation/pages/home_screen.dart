@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
+import 'package:trippo/core/constants/hero_tag.dart';
+import 'package:trippo/features/place/presentation/pages/place_screen.dart';
+import 'package:trippo/features/profile/presentation/pages/profile_screen.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/icons/trippo_icons.dart';

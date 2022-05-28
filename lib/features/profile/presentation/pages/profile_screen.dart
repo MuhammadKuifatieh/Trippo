@@ -1,18 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:trippo/core/constants/hero_tag.dart';
-import 'package:trippo/core/widgets/cache_image.dart';
-import 'package:trippo/core/widgets/main_rating_bar.dart';
 
 import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/constants/hero_tag.dart';
+import '../../../../core/widgets/cache_image.dart';
 import '../../../../core/widgets/main_indicator.dart';
+import '../../../../core/widgets/main_rating_bar.dart';
 
+part '../widgets/photo_profile_widget.dart';
 part '../widgets/profile_sliver_app_bar.dart';
 part '../widgets/profile_sliver_app_bar_delegate.dart';
-part '../widgets/photo_profile_widget.dart';
 part '../widgets/saved_profile_widget.dart';
 part '../widgets/trips_profile_widget.dart';
 
