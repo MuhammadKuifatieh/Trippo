@@ -55,19 +55,25 @@ class _HomeAppBar extends StatelessWidget {
                   PositionedDirectional(
                     end: size.width * .025,
                     top: size.width * .125,
-                    child: CacheImage(
-                      imageUrl:
-                          'https://static.remove.bg/remove-bg-web/a8b5118d623a6b3f4b7813a78c686de384352145/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png',
-                      height: size.width * .1,
-                      width: size.width * .1,
-                      shape: BoxShape.circle,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(ProfileScreen.routeName);
+                      },
+                      child: CacheImage(
+                        imageUrl:
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuWlKVGJeILLo6n3_-9GgvdvWyz7MJbC1o7g&usqp=CAU',
+                        height: size.width * .1,
+                        width: size.width * .1,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                   PositionedDirectional(
                     start: size.width * .035,
                     top: size.width * .135,
                     child: AnimatedDefaultTextStyle(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       style: AppTextStyles.styleWeight700(
                           color: sequenceAnimation['isOpen'].value == 1
                               ? Colors.white

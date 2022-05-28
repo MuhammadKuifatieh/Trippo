@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MainRatingBar extends StatelessWidget {
-  const MainRatingBar({Key? key}) : super(key: key);
-
+  const MainRatingBar({
+    Key? key,
+    this.circleSize,
+  }) : super(key: key);
+  final double? circleSize;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return RatingBar(
-      itemSize: size.width * .035,
+      itemSize:circleSize?? size.width * .035,
       itemPadding: EdgeInsetsDirectional.only(
         end: size.width * .005,
       ),
@@ -17,8 +20,8 @@ class MainRatingBar extends StatelessWidget {
       ignoreGestures: false,
       ratingWidget: RatingWidget(
         full: Container(
-          width: size.width * .025,
-          height: size.width * .025,
+          width: circleSize ?? size.width * .035,
+          height: circleSize ?? size.width * .035,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Theme.of(context).primaryColor,
@@ -28,8 +31,8 @@ class MainRatingBar extends StatelessWidget {
           ),
         ),
         half: Container(
-          width: size.width * .025,
-          height: size.width * .025,
+          width: circleSize ?? size.width * .035,
+          height: circleSize ?? size.width * .035,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Theme.of(context).primaryColor,
@@ -39,8 +42,8 @@ class MainRatingBar extends StatelessWidget {
           ),
         ),
         empty: Container(
-          width: size.width * .025,
-          height: size.width * .025,
+          width: circleSize ?? size.width * .035,
+          height: circleSize ?? size.width * .035,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.transparent,
