@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:trippo/core/widgets/place_tile.dart';
 import 'package:trippo/core/constants/hero_tag.dart';
+import 'package:trippo/features/city/presentation/screens/city_screen.dart';
 import 'package:trippo/features/place/presentation/pages/place_screen.dart';
 import 'package:trippo/features/profile/presentation/pages/profile_screen.dart';
 

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
-import 'package:trippo/core/config/app_text_styles.dart';
-import 'package:trippo/core/constants/images/svg_images.dart';
-import 'package:trippo/core/widgets/asset_svg.dart';
-import 'package:trippo/core/widgets/cache_image.dart';
-import 'package:trippo/core/widgets/place_tile.dart';
+
+import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/constants/images/svg_images.dart';
+import '../../../../core/widgets/asset_svg.dart';
+import '../../../../core/widgets/cache_image.dart';
+import '../../../../core/widgets/place_tile.dart';
 
 class OverviewPage extends StatefulWidget {
-  OverviewPage({Key? key}) : super(key: key);
+  const OverviewPage({Key? key, required this.tabController}) : super(key: key);
+  final TabController tabController;
 
   @override
   State<OverviewPage> createState() => _OverviewPageState();
@@ -139,8 +141,11 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
           const SizedBox(height: 25),
           ListHeader(
-            title: 'Do',
+            title: 'Hotels',
             description: lorem(paragraphs: 1, words: 15),
+            seeAllHandler: () {
+              widget.tabController.animateTo(1);
+            },
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -158,8 +163,11 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
           const SizedBox(height: 50),
           ListHeader(
-            title: 'Stay',
+            title: 'THings to do',
             description: lorem(paragraphs: 1, words: 15),
+            seeAllHandler: () {
+              widget.tabController.animateTo(2);
+            },
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -177,8 +185,11 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
           const SizedBox(height: 50),
           ListHeader(
-            title: 'Eat',
+            title: 'Resturant',
             description: lorem(paragraphs: 1, words: 15),
+            seeAllHandler: () {
+              widget.tabController.animateTo(3);
+            },
           ),
           const SizedBox(height: 12),
           SizedBox(

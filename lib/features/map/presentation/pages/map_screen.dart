@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:trippo/features/map/presentation/widgets/map_list_image.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/icons/trippo_icons.dart';
@@ -12,7 +13,6 @@ import '../../../../core/widgets/main_rating_bar.dart';
 import '../../../../core/widgets/scrolling_list_image.dart';
 
 part '../widgets/map_app_bar.dart';
-part '../widgets/map_list_image.dart';
 part '../widgets/map_slider.dart';
 part '../widgets/map_tap_bar.dart';
 

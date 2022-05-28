@@ -91,7 +91,7 @@ class _MapSlider extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemCount: 10,
                                 itemBuilder: (context, index) {
-                                  return _MapListImage();
+                                  return MapListImage();
                                 },
                               ),
                             ),

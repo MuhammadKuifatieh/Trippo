@@ -1,7 +1,12 @@
-part of '../pages/map_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:trippo/core/widgets/main_rating_bar.dart';
 
-class _MapListImage extends StatelessWidget {
-  _MapListImage({
+import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/constants/icons/trippo_icons.dart';
+import '../../../../core/widgets/scrolling_list_image.dart';
+
+class MapListImage extends StatelessWidget {
+  MapListImage({
     Key? key,
   }) : super(key: key);
 

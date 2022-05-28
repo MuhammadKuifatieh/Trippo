@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../features/city/presentation/screens/city_screen.dart';
 
 import '../features/authentication/presentation/screens/authentication_screen.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
@@ -63,6 +64,10 @@ class AppRouter {
       case ImagesScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const ImagesScreen(),
+        );
+        case CityScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const CityScreen(),
         );
     }
   }
