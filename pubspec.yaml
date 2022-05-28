@@ -1,7 +1,7 @@
 name: trippo
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -20,9 +20,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.0
-  flutter_blurhash: ^0.6.0  
+  flutter_blurhash: ^0.6.0
   flutter_localizations:
     sdk: flutter
+  flutter_lorem: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_reorderable_list: ^1.2.0
   flutter_sequence_animation: ^4.0.0-nullsafety
@@ -46,7 +47,6 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
   generate: true
 
