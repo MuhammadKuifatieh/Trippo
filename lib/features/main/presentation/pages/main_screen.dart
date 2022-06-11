@@ -6,7 +6,7 @@ import 'package:trippo/features/map/presentation/pages/map_screen.dart';
 
 import '../../../../core/constants/icons/trippo_icons.dart';
 import '../../../../injection.dart';
-import '../../../explore/presentation/pages/explore_screen.dart';
+import '../../../explore/presentation/pages/search_screen.dart';
 import '../../../home/presentation/pages/home_screen.dart';
 import '../../../plan/presentation/pages/plan_screen.dart';
 import '../../../profile/presentation/pages/setting_screen.dart';
@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
                   icon: TrippoIcons.home,
                 ),
                 BarItem(
-                  title: AppLocalizations.of(context)!.explore,
+                  title: AppLocalizations.of(context)!.search,
                   icon: TrippoIcons.interface_essential_compass,
                 ),
                 BarItem(

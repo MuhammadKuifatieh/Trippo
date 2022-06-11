@@ -134,6 +134,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0"
+<<<<<<< Updated upstream
+=======
+  extended_nested_scroll_view:
+    dependency: "direct main"
+    description:
+      name: extended_nested_scroll_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
+>>>>>>> Stashed changes
   fake_async:
     dependency: transitive
     description:
@@ -193,6 +203,7 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< Updated upstream
   flutter_lorem:
     dependency: "direct main"
     description:
@@ -200,6 +211,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+=======
+>>>>>>> Stashed changes
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -336,6 +349,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
+  material_floating_search_bar:
+    dependency: "direct main"
+    description:
+      name: material_floating_search_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.7"
   meta:
     dependency: transitive
     description:
