@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 part 'filter_event.dart';
 part 'filter_state.dart';
@@ -40,11 +39,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
           filterTitle: List.of(state.filterTitle)..add(event.itemTitle!),
         ),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the num of data items is: ${state.ratingData.length}");
-      print("the  data items are: ${state.ratingData}");
 
       //add new item to the list
     } else {
@@ -56,10 +50,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             filterTitle: List.of(state.filterTitle)..remove(event.itemTitle!),
             dataData: Map.of(state.dataData)..remove(state.dataData)),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the num of data items is: ${state.ratingData.length}");
+
       //change value isSelected
       //remove item from the list by id
     }
@@ -75,13 +66,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             reviewDate: List.of(state.reviewDate)..add(event.item),
             filterTitle: List.of(state.filterTitle)..add(event.itemTitle!)),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the selsctedData items is: ${state.filterTitle}");
-      print("the num of data items is: ${state.reviewDate.length}");
-      print("the reviewDate data items are: ${state.reviewDate}");
-      print("the reviewDate data items are: ${event.item}");
 
       //add new item to the list
     } else {
@@ -105,11 +89,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             timeOfYear: List.of(state.timeOfYear)..add(event.item),
             filterTitle: List.of(state.filterTitle)..add(event.itemTitle!)),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the num of data items is: ${state.timeOfYear.length}");
-      print("the  data items are: ${state.timeOfYear}");
 
       //add new item to the list
     } else {
@@ -133,11 +112,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             typeOfVisit: List.of(state.typeOfVisit)..add(event.item),
             filterTitle: List.of(state.filterTitle)..add(event.itemTitle!)),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the num of data items is: ${state.ratingData.length}");
-      print("the  data items are: ${state.ratingData}");
 
       //add new item to the list
     } else {
@@ -161,11 +135,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             typeOfVisit2: List.of(state.typeOfVisit2)..add(event.item),
             filterTitle: List.of(state.filterTitle)..add(event.itemTitle!)),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the num of data items is: ${state.ratingData.length}");
-      print("the  data items are: ${state.ratingData}");
 
       //add new item to the list
     } else {
@@ -189,11 +158,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             typeOfVisit3: List.of(state.typeOfVisit3)..add(event.item),
             filterTitle: List.of(state.filterTitle)..add(event.itemTitle!)),
       );
-      print("the status is: ${state.status}");
-      print("isSelected is: ${event.isSelected}");
-      print("the num of selsctedData items is: ${state.filterTitle.length}");
-      print("the num of data items is: ${state.ratingData.length}");
-      print("the  data items are: ${state.ratingData}");
 
       //add new item to the list
     } else {
@@ -206,19 +170,18 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       );
     }
   }
-  _mapClearFilterEvent(ClearFilter event, Emitter<FilterState> emit){
-      state.dataData={};
-            state.ratingData=[];
-            state.reviewDate=[];
-            state.timeOfYear=[];
-            state.typeOfVisit3=[];
-            state.typeOfVisit=[];
-            state.typeOfVisit2=[];
-            state.filterTitle=[];
-    emit(
-        state.copyWith(
-            status: FilterStatus.clearFilter,
-            
-      ));
+
+  _mapClearFilterEvent(ClearFilter event, Emitter<FilterState> emit) {
+    state.dataData = {};
+    state.ratingData = [];
+    state.reviewDate = [];
+    state.timeOfYear = [];
+    state.typeOfVisit3 = [];
+    state.typeOfVisit = [];
+    state.typeOfVisit2 = [];
+    state.filterTitle = [];
+    emit(state.copyWith(
+      status: FilterStatus.clearFilter,
+    ));
   }
 }
