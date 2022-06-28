@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trippo/injection.dart';
 
 import '../../../../core/bloc/language_manager/language_manager_bloc.dart';
-import '../../../../core/common/global_function.dart';
+import '../../../../core/config/global_functions.dart';
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/hero_tag.dart';
 import '../../../../core/widgets/cache_image.dart';

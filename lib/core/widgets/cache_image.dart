@@ -4,7 +4,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 // import 'package:intl/intl.dart';
-import '../common/global_function.dart';
+import '../config/global_functions.dart';
 
 class CacheImage extends StatelessWidget {
   const CacheImage({
@@ -48,7 +48,7 @@ class CacheImage extends StatelessWidget {
                           ? (borderRadius?? BorderRadius.zero)
                           : BorderRadius.circular(1000),
                     ),
-                    textDirection: GlobalFunction().isRTLDirectionality(context)
+                    textDirection: GlobalFunctions().isRTLDirectionality(context)
                         ? TextDirection.rtl
                         : TextDirection.ltr,
                   ),
@@ -104,7 +104,7 @@ class CacheImage extends StatelessWidget {
                             : BorderRadius.circular(1000),
                       ),
                       textDirection:
-                          GlobalFunction().isRTLDirectionality(context)
+                          GlobalFunctions().isRTLDirectionality(context)
                               ? TextDirection.rtl
                               : TextDirection.ltr,
                     ),

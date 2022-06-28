@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../core/common/global_function.dart';
+import '../../../../core/config/global_functions.dart';
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/widgets/cache_image.dart';
 import '../../../../core/widgets/main_rating_bar.dart';
@@ -315,7 +315,7 @@ class _PlaceScreenState extends State<PlaceScreen>
                     ),
                     const Spacer(),
                     Icon(
-                      GlobalFunction().isRTLDirectionality(context)
+                      GlobalFunctions().isRTLDirectionality(context)
                           ? Icons.keyboard_arrow_left_rounded
                           : Icons.keyboard_arrow_right_rounded,
                       size: size.width * .1,

@@ -23,7 +23,7 @@ class _SupportWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.support,
           child: Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .075,
@@ -35,7 +35,7 @@ class _SupportWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.help,
           child: Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .075,
@@ -47,7 +47,7 @@ class _SupportWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.faq,
           child: Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .075,

@@ -51,7 +51,7 @@ class _SettingAppBarTitle extends StatelessWidget {
           ),
           SizedBox(width: size.width * .075),
           Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .1,

@@ -3,34 +3,41 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import 'handling_exception.dart';
+import '../config/global_functions.dart';
+import 'handling_exception_request.dart';
 
 typedef _FromJson<T> = T Function(String body);
 
-class DeleteApi with HandlingExceptionRequest {
+class DeleteApi<T> with HandlingExceptionRequest {
   final Uri uri;
   final _FromJson fromJson;
   DeleteApi({
     required this.uri,
     required this.fromJson,
   });
-  Future<dynamic> callRequest() async {
-    String token = '';
+  Future<T> callRequest() async {
+    String? token = await GlobalFunctions().getToken();
+    String fcmToken = await GlobalFunctions().getFCMToken();
+    bool isAuth = await GlobalFunctions().isAuth();
+    String language = await GlobalFunctions().getLanguage();
     try {
       Map<String, String> headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+        'fcmtoken': fcmToken,
+        "language": language,
+        if (isAuth) 'Authorization': 'Bearer $token',
       };
       var request = http.Request('DELETE', uri);
       request.headers.addAll(headers);
       http.StreamedResponse streamedResponse =
           await request.send().timeout(const Duration(seconds: 20));
       http.Response response = await http.Response.fromStream(streamedResponse);
-
+      log(response.body);
       if (response.statusCode == 200) {
         return fromJson(response.body);
       } else {
-        Exception exception = getException(statusCode: response.statusCode);
+        Exception exception = getException(response: response);
         throw exception;
       }
     } on HttpException {
@@ -38,11 +45,13 @@ class DeleteApi with HandlingExceptionRequest {
         'http exception',
         name: 'RequestManager get function',
       );
+      rethrow;
     } on FormatException {
       log(
         'something wrong in parsing the uri',
         name: 'RequestManager get function',
       );
+      rethrow;
     } on SocketException {
       log(
         'socket exception',
