@@ -1,21 +1,18 @@
-import 'dart:developer';
-
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:trippo/features/authentication/presentation/screens/authentication_screen.dart';
-import 'package:trippo/features/city/presentation/screens/city_screen.dart';
-import 'package:trippo/features/profile/presentation/pages/profile_screen.dart';
+import 'package:trippo/features/splash/presentation/screens/splash_screen.dart';
 
 import 'core/bloc/language_manager/language_manager_bloc.dart';
 import 'core/theme_app.dart';
-import 'features/main/presentation/pages/main_screen.dart';
 import 'injection.dart' as di;
 import 'router/app_router.dart';
 
 void main() async {
-  di.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -39,7 +36,9 @@ class MyApp extends StatelessWidget {
             ],
             title: 'Trippo',
             theme: ThemeApp().getTheme(),
-            home: const MainScreen(),
+            builder: BotToastInit(),
+            navigatorObservers: [BotToastNavigatorObserver()],
+            home: const SplashScreen(),
             onGenerateRoute: AppRouter.onGenerateRoute,
           );
         },

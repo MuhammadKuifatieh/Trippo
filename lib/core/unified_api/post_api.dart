@@ -12,7 +12,7 @@ typedef _FromJson<T> = T Function(String body);
 class PostApi<T> with HandlingExceptionRequest {
   final Uri uri;
   final Map body;
-  final _FromJson fromJson;
+  final _FromJson<T> fromJson;
   final bool isLogin;
   PostApi({
     required this.uri,
@@ -21,7 +21,7 @@ class PostApi<T> with HandlingExceptionRequest {
     this.isLogin = false,
   });
   Future<T> callRequest() async {
-    String? token = await GlobalFunctions().getToken();
+    String? token = GlobalFunctions.getToken();
 
     String fcmToken = await GlobalFunctions().getFCMToken();
     bool isAuth = await GlobalFunctions().isAuth();
@@ -29,53 +29,27 @@ class PostApi<T> with HandlingExceptionRequest {
 
     log('the token in the request header is $token',
         name: 'request manager ==> post function ');
-    try {
-      var headers = {
-        'Content-Type': 'application/json',
-        'fcmtoken': fcmToken,
-        'Accept': 'application/json',
-        "language": language,
-        if (isAuth) 'Authorization': 'Bearer $token',
-      };
+    var headers = {
+      'Content-Type': 'application/json',
+      'fcmtoken': fcmToken,
+      'Accept': 'application/json',
+      "language": language,
+      if (isAuth) 'Authorization': 'Bearer $token',
+    };
 
-      var request = http.Request('POST', uri);
-      request.body = jsonEncode(body);
-      request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(const Duration(seconds: 20));
-      http.Response response = await http.Response.fromStream(streamedResponse);
-      log(response.body);
-      log(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        return fromJson(response.body);
-      } else {
-        Exception exception = getException(response: response);
-        throw exception;
-      }
-    } on HttpException {
-      log(
-        'http exception',
-        name: 'RequestManager post function',
-      );
-      rethrow;
-    } on FormatException {
-      log(
-        'something wrong in parsing the uri',
-        name: 'RequestManager post function',
-      );
-      rethrow;
-    } on SocketException {
-      log(
-        'socket exception',
-        name: 'RequestManager post function',
-      );
-      rethrow;
-    } catch (e) {
-      log(
-        e.toString(),
-        name: 'RequestManager post function',
-      );
-      rethrow;
+    var request = http.Request('POST', uri);
+    request.body = jsonEncode(body);
+    request.headers.addAll(headers);
+    http.StreamedResponse streamedResponse =
+        await request.send().timeout(const Duration(seconds: 20));
+    http.Response response = await http.Response.fromStream(streamedResponse);
+    log(response.body);
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      return fromJson(response.body);
+    } else {
+      Exception exception = getException(response: response);
+      throw exception;
     }
   }
 }

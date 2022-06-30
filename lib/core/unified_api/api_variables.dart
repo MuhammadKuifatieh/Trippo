@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 class ApiVariables {
-  final _scheme = 'http';
-  final _host = '192.168.137.1';
-  final _port = 5000;
+  ApiVariables._();
 
-  Uri _mainUri({
+  static const _scheme = 'http';
+  static const _host = '192.168.137.1';
+  static const _port = 5000;
+
+  static Uri _mainUri({
     required String path,
     Map<String, dynamic>? queryParameters,
   }) {
@@ -20,4 +22,13 @@ class ApiVariables {
     return uri;
   }
 
+  static Uri registerUri({Map<String, dynamic>? queryParameters}) {
+    return _mainUri(
+        path: 'auth/user/register', queryParameters: queryParameters);
+  }
+
+  static Uri loginUri({Map<String, dynamic>? queryParameters}) {
+    return _mainUri(
+        path: 'auth/user/login', queryParameters: queryParameters);
+  }
 }

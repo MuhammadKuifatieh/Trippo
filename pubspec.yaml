@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   auto_direction: ^0.0.5
-  bot_toast: ^4.0.1
+  bot_toast: ^4.0.2
   cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
@@ -42,9 +42,12 @@ dependencies:
   sliding_clipped_nav_bar: ^2.0.1
   smooth_page_indicator: ^1.0.0+2
   sticky_headers: ^0.2.0
+  json_annotation: ^4.5.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0
+  json_serializable: ^6.2.0
+  build_runner: ^2.1.11
   flutter_test:
     sdk: flutter
 

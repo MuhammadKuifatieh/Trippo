@@ -26,51 +26,25 @@ class GetApi<T> with HandlingExceptionRequest {
     String language = await GlobalFunctions().getLanguage();
     // bool isAuth = await GlobalFunctions().isAuth();
 
-    try {
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'fcmtoken': fcmToken,
-        "language": language,
-        // if (isAuth) 'Authorization': 'Bearer $token',
-      };
-      var request = http.Request('GET', uri);
-      request.body = jsonEncode(body);
-      request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(const Duration(seconds: 20));
-      http.Response response = await http.Response.fromStream(streamedResponse);
-      log(response.body);
-      if (response.statusCode == 200) {
-        return fromJson(response.body);
-      } else {
-        Exception exception = getException(response: response);
-        throw exception;
-      }
-    } on HttpException {
-      log(
-        'http exception',
-        name: 'RequestManager get function',
-      );
-      rethrow;
-    } on FormatException {
-      log(
-        'something wrong in parsing the uri',
-        name: 'RequestManager get function',
-      );
-      rethrow;
-    } on SocketException {
-      log(
-        'socket exception',
-        name: 'RequestManager get function',
-      );
-      rethrow;
-    } catch (e) {
-      log(
-        e.toString(),
-        name: 'RequestManager get function',
-      );
-      rethrow;
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'fcmtoken': fcmToken,
+      "language": language,
+      // if (isAuth) 'Authorization': 'Bearer $token',
+    };
+    var request = http.Request('GET', uri);
+    request.body = jsonEncode(body);
+    request.headers.addAll(headers);
+    http.StreamedResponse streamedResponse =
+        await request.send().timeout(const Duration(seconds: 20));
+    http.Response response = await http.Response.fromStream(streamedResponse);
+    log(response.body);
+    if (response.statusCode == 200) {
+      return fromJson(response.body);
+    } else {
+      Exception exception = getException(response: response);
+      throw exception;
     }
   }
 }

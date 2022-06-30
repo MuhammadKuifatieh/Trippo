@@ -15,7 +15,7 @@ class EmailTextFeild extends StatelessWidget {
   Widget build(BuildContext context) {
     return AuthTextField(
       controller: emailController,
-      hintText: 'Email',
+      hintText: 'Username Or Email',
       prefixIcon: const Padding(
         padding: EdgeInsets.all(11.0),
         child: AssetSvg(

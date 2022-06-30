@@ -1,6 +1,7 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trippo/core/constants/prefs_keys.dart';
+import 'package:trippo/injection.dart';
 
 class GlobalFunctions {
   bool isRTLDirectionality(context) {
@@ -13,10 +14,9 @@ class GlobalFunctions {
     return language;
   }
 
-  Future<String?> getToken() async {
-    SharedPreferences _sp = await SharedPreferences.getInstance();
-    String? token = _sp.getString(PrefsKeys.accessToken);
-    return token;
+  static String? getToken() {
+    final prefs = serviceLocator<SharedPreferences>();
+    return prefs.getString(PrefsKeys.accessToken);
   }
 
   Future<String> getFCMToken({bool getFCMToken = false}) async {
