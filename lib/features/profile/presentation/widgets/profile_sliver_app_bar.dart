@@ -38,7 +38,7 @@ class _ProfileSliverAppBar extends StatelessWidget {
                     tag: HeroTag.imageProfile,
                     child: CachedNetworkImage(
                       imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuWlKVGJeILLo6n3_-9GgvdvWyz7MJbC1o7g&usqp=CAU',
+                          'https://media-exp1.licdn.com/dms/image/C4E03AQEIZ8ds-8dtrw/profile-displayphoto-shrink_200_200/0/1623533074857?e=2147483647&v=beta&t=eFYm5aiC21gAVTXcQL-ZAxdhoo1AHFBt8IBUvnbmiUo',
                       imageBuilder: (context, imageProvider) =>
                           AnimatedContainer(
                         duration: const Duration(milliseconds: 50),

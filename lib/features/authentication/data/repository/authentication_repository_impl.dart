@@ -5,13 +5,15 @@ import 'package:trippo/features/authentication/data/data_sources/authentication_
 import 'package:trippo/features/authentication/data/models/registration_response/registration_response.dart';
 import 'package:trippo/features/authentication/domain/repository/authentication_repository.dart';
 
-class AuthenticationRepostitoryImp implements AuthenticationRepository {
+class AuthenticationRepostitoryImp
+    with HandlingExceptionManager
+    implements AuthenticationRepository {
   final _authDataSource = AuthenticationDataSource();
 
   @override
   Future<Either<Failure, RegistrationResponse>> register(
       {required Map<String, dynamic> params}) async {
-    return HandlingExceptionManager.wrapHandling<RegistrationResponse>(
+    return wrapHandling<RegistrationResponse>(
       tryCall: () async {
         final model = await _authDataSource.register(body: params);
         return Right(model);
@@ -22,7 +24,7 @@ class AuthenticationRepostitoryImp implements AuthenticationRepository {
   @override
   Future<Either<Failure, RegistrationResponse>> login(
       {required Map<String, dynamic> params}) async {
-    return HandlingExceptionManager.wrapHandling<RegistrationResponse>(
+    return wrapHandling<RegistrationResponse>(
       tryCall: () async {
         final model = await _authDataSource.login(body: params);
         return Right(model);

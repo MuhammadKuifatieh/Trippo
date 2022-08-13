@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:trippo/features/home/presentation/bloc/home/home_bloc.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/hero_tag.dart';
@@ -101,38 +103,47 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, _) {
-          return <Widget>[
-            _ProfileSliverAppBar(
-              animationController: animationController,
-              sequenceAnimation: sequenceAnimation,
-            ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverAppBarDelegate(
-                size: size,
-                tabController: tabController,
-              ),
-            ),
-          ];
-        },
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: const [
-                  _PhotoProfileWidget(),
-                  _TripsProfileWidget(),
-                  _SavedProfileWidget(),
+    return BlocProvider(
+      create: (context) => HomeBloc()
+        ..add(GetTrendingCitiesEvent())
+        ..add(GetRecentlyViewedPlacesEvent()),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return Scaffold(
+            body: NestedScrollView(
+              headerSliverBuilder: (context, _) {
+                return <Widget>[
+                  _ProfileSliverAppBar(
+                    animationController: animationController,
+                    sequenceAnimation: sequenceAnimation,
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      size: size,
+                      tabController: tabController,
+                    ),
+                  ),
+                ];
+              },
+              body: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: TabBarView(
+                      controller: tabController,
+                      children:  [
+                        _PhotoProfileWidget(state:state),
+                        _TripsProfileWidget(),
+                        _SavedProfileWidget(state:state),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:trippo/features/home/data/models/cities_response.dart';
 
 import 'cache_image.dart';
 
@@ -9,13 +10,13 @@ class ScrollingListImage extends StatelessWidget {
     required this.size,
     required this.height,
     required this.width,
-    required this.imageUrls,
+    required this.images,
   }) : super(key: key);
 
   final Size size;
   final double height;
   final double width;
-  final List<String> imageUrls;
+  final List<ImageModel> images;
   final pageController = PageController();
 
   @override
@@ -27,26 +28,30 @@ class ScrollingListImage extends StatelessWidget {
           height: height,
           child: PageView.builder(
               controller: pageController,
-              itemCount: imageUrls.length,
+              itemCount: images.length,
               itemBuilder: (context, index) {
-                return CacheImage(
-                  imageUrl: imageUrls[index],
-                  width: size.width * .9,
-                  height: size.width * .6,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      blurRadius: 1.5,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: CacheImage(
+                    imageUrl: images[index].url!,
+                    hash: images[index].hash,
+                    width: size.width * .9,
+                    height: size.width * .6,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        blurRadius: 3,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
                 );
               }),
         ),
         PositionedDirectional(
-          bottom: size.width * .015,
-          start: size.width * .015,
+          bottom: 15,
+          start: 15,
           child: SmoothPageIndicator(
             controller: pageController,
             effect: ExpandingDotsEffect(
@@ -59,7 +64,7 @@ class ScrollingListImage extends StatelessWidget {
               dotColor: Colors.white54,
               activeDotColor: Colors.white,
             ),
-            count: imageUrls.length,
+            count: images.length,
           ),
         ),
       ],

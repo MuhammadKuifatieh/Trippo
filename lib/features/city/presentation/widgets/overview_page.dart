@@ -46,7 +46,8 @@ class _OverviewPageState extends State<OverviewPage> {
                     return CacheImage(
                       width: size.width,
                       height: size.width * 0.68,
-                      imageUrl: testImageUrl,
+                      imageUrl:
+                          "https://i0.wp.com/iqr2.com/wp-content/uploads/2022/05/%D8%AD%D9%84%D8%A8_%D8%A7%D9%84%D8%B4%D9%87%D8%A8%D8%A7%D8%A1.jpg?resize=600%2C300&ssl=1",
                     );
                   },
                   itemCount: 10,
@@ -78,7 +79,7 @@ class _OverviewPageState extends State<OverviewPage> {
           Padding(
             padding: const EdgeInsetsDirectional.only(start: 16),
             child: Text(
-              'Antalya',
+              'حلب',
               style: AppTextStyles.styleWeight700(fontSize: 28),
             ),
           ),
@@ -86,7 +87,7 @@ class _OverviewPageState extends State<OverviewPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              lorem(paragraphs: 1),
+              "من اقدم المدن في التاريخ وتعد عاصمة سوريا الاقتصادية والصناعية وتحتوي على عدة مواقع أثرية واهمها قلعة حلب ومدينتها القديمة",
               style: AppTextStyles.styleWeight400(
                 fontSize: 16,
               ),
@@ -101,7 +102,7 @@ class _OverviewPageState extends State<OverviewPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Read more',
+                  'عرض المزيد',
                   style: AppTextStyles.styleWeight500(fontSize: 16)
                       .copyWith(decoration: TextDecoration.underline),
                 ),
@@ -130,7 +131,7 @@ class _OverviewPageState extends State<OverviewPage> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'View map',
+                  'عرض على الخريطة',
                   style: AppTextStyles.styleWeight500(
                     color: Colors.white,
                     fontSize: 16,
@@ -141,7 +142,7 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
           const SizedBox(height: 25),
           ListHeader(
-            title: 'Hotels',
+            title: 'أماكن للاقامة',
             description: lorem(paragraphs: 1, words: 15),
             seeAllHandler: () {
               widget.tabController.animateTo(1);
@@ -163,7 +164,7 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
           const SizedBox(height: 50),
           ListHeader(
-            title: 'THings to do',
+            title: 'انشطة للقيام بها',
             description: lorem(paragraphs: 1, words: 15),
             seeAllHandler: () {
               widget.tabController.animateTo(2);
@@ -185,7 +186,7 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
           const SizedBox(height: 50),
           ListHeader(
-            title: 'Resturant',
+            title: 'مطاعم',
             description: lorem(paragraphs: 1, words: 15),
             seeAllHandler: () {
               widget.tabController.animateTo(3);
@@ -213,7 +214,7 @@ class _OverviewPageState extends State<OverviewPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Q&A',
+                  'اسئلة واجوبة',
                   style: AppTextStyles.styleWeight600(
                     fontSize: 26,
                   ),
@@ -227,7 +228,7 @@ class _OverviewPageState extends State<OverviewPage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
-                    'Ask a question',
+                    'إضافة سؤال',
                     style: AppTextStyles.styleWeight500(
                       color: Colors.white,
                       fontSize: 16,
@@ -337,7 +338,7 @@ class ListHeader extends StatelessWidget {
               InkWell(
                 onTap: seeAllHandler,
                 child: Text(
-                  'See all',
+                  'عرض الكل',
                   style: AppTextStyles.styleWeight500(fontSize: 16)
                       .copyWith(decoration: TextDecoration.underline),
                 ),

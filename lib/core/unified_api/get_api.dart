@@ -20,7 +20,7 @@ class GetApi<T> with HandlingExceptionRequest {
       this.getFCMToken = false,
       this.body = const {}});
   Future<T> callRequest() async {
-    // String? token = await GlobalFunctions().getToken();
+    String? token = GlobalFunctions.getToken();
     String fcmToken =
         await GlobalFunctions().getFCMToken(getFCMToken: getFCMToken);
     String language = await GlobalFunctions().getLanguage();
@@ -31,7 +31,8 @@ class GetApi<T> with HandlingExceptionRequest {
       'Accept': 'application/json',
       'fcmtoken': fcmToken,
       "language": language,
-      // if (isAuth) 'Authorization': 'Bearer $token',
+      // if (isAuth) 
+      'Authorization': 'Bearer $token',
     };
     var request = http.Request('GET', uri);
     request.body = jsonEncode(body);

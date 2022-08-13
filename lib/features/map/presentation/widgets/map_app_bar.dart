@@ -31,26 +31,33 @@ class _MapAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ],
                     ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Where are you going?",
-                          hintStyle: AppTextStyles.styleWeight400(
-                            fontSize: size.width * .04,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: size.width * .025,
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide.none,
-                          ),
-                          prefixIcon: Icon(
-                            TrippoIcons.search,
-                            color: Theme.of(context).primaryColor,
-                          )),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(SearchScreen.routeName);
+                      },
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.whereGoing,
+                            hintStyle: AppTextStyles.styleWeight400(
+                              fontSize: size.width * .04,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: size.width * .025,
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: BorderSide.none,
+                            ),
+                            prefixIcon: Icon(
+                              TrippoIcons.search,
+                              color: Theme.of(context).primaryColor,
+                            )),
+                      ),
                     ),
                   ),
                 ),

@@ -21,7 +21,7 @@ class CacheImage extends StatelessWidget {
     this.hash = "AEO2?U-W}SQ[",
   }) : super(key: key);
   final BoxFit fit;
-  final String hash;
+  final String ?hash;
   final double width;
   final double height;
   final BoxShape shape;
@@ -60,7 +60,7 @@ class CacheImage extends StatelessWidget {
                       // imageFit: fit,
                       // duration: const Duration(milliseconds: 1500),
                       // curve: Curves.linear,
-                      hash: hash,
+                      hash: hash!,
                     ),
                   ),
                 ),
@@ -116,7 +116,7 @@ class CacheImage extends StatelessWidget {
                         // imageFit: fit,
                         // duration: const Duration(milliseconds: 1500),
                         // curve: Curves.linear,
-                        hash: hash,
+                        hash: hash!,
                       ),
                     ),
                   ),

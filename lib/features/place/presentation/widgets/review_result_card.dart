@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/config/app_text_styles.dart';
-import '../pages/place_screen.dart';
 
 class ReviewResultCard extends StatelessWidget {
   const ReviewResultCard({
@@ -22,31 +22,25 @@ class ReviewResultCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Exellent :',
+                '${AppLocalizations.of(context)!.family} :',
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * .045,
                 ),
               ),
               Text(
-                'Very good :',
+                '${AppLocalizations.of(context)!.solo} :',
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * .045,
                 ),
               ),
               Text(
-                'Average :',
+                '${AppLocalizations.of(context)!.business} :',
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * .045,
                 ),
               ),
               Text(
-                'Poor :',
-                style: AppTextStyles.styleWeight400(
-                  fontSize: size.width * .045,
-                ),
-              ),
-              Text(
-                'Terrible :',
+                '${AppLocalizations.of(context)!.frinds} :',
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * .045,
                 ),
@@ -54,12 +48,12 @@ class ReviewResultCard extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: size.width * .05),
+        SizedBox(width: size.width * .025),
         SizedBox(
           height: size.width * .325,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ReviewBar(
                 size: size,
@@ -80,11 +74,6 @@ class ReviewResultCard extends StatelessWidget {
                 size: size,
                 value: 63,
                 statusBarWidth: size.width * .55,
-              ),
-              ReviewBar(
-                size: size,
-                value: 23,
-                statusBarWidth: size.width * .23,
               ),
             ],
           ),

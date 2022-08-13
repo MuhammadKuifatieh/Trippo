@@ -10,14 +10,14 @@ import '../bloc/filter_bloc.dart';
 import '../widgets/filter_widget.dart';
 import '../widgets/serch_app_bar.dart';
 
-class ExploreScreen extends StatefulWidget {
-  const ExploreScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
   static const String routeName = 'explroe_screen';
   @override
-  _ExploreScreenState createState() => _ExploreScreenState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _ExploreScreenState extends State<ExploreScreen>
+class _SearchScreenState extends State<SearchScreen>
     with TickerProviderStateMixin {
   final ScrollController sc = ScrollController();
   late Size size;

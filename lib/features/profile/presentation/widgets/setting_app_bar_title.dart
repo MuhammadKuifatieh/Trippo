@@ -28,7 +28,7 @@ class _SettingAppBarTitle extends StatelessWidget {
                 height: size.width * .25,
                 shape: BoxShape.circle,
                 imageUrl:
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuWlKVGJeILLo6n3_-9GgvdvWyz7MJbC1o7g&usqp=CAU",
+                    "https://media-exp1.licdn.com/dms/image/C4E03AQEIZ8ds-8dtrw/profile-displayphoto-shrink_200_200/0/1623533074857?e=2147483647&v=beta&t=eFYm5aiC21gAVTXcQL-ZAxdhoo1AHFBt8IBUvnbmiUo",
               ),
             ),
           ),
@@ -36,13 +36,13 @@ class _SettingAppBarTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'William',
+                'Muahammad',
                 style: AppTextStyles.styleWeight600(
                   fontSize: size.width * .06,
                 ),
               ),
               Text(
-                'william@studioalva.co',
+                'muhammad@gmail.co',
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * 0.04,
                 ),

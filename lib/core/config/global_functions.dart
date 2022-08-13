@@ -1,7 +1,10 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:trippo/core/constants/prefs_keys.dart';
-import 'package:trippo/injection.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../injection.dart';
+import '../constants/prefs_keys.dart';
 
 class GlobalFunctions {
   bool isRTLDirectionality(context) {
@@ -16,7 +19,41 @@ class GlobalFunctions {
 
   static String? getToken() {
     final prefs = serviceLocator<SharedPreferences>();
-    return prefs.getString(PrefsKeys.accessToken);
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjUwMDAvYXBpL2F1dGgvdXNlci9sb2dpbiIsImlhdCI6MTY2MDM1OTYxMywibmJmIjoxNjYwMzU5NjEzLCJqdGkiOiJKZmlwSENNZFh4S2hsRU9tIiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.QZ-gUbAlS-IB2UlrtjDX4zvA9euo7B8tci_P6aDjmww";
+  }
+
+  launchWeb(String url) {
+    launchUrl(Uri.parse(url));
+  }
+
+  launchPhoneNumber(String phoneNumber) {
+    launchUrl(Uri.parse("tel:$phoneNumber"));
+  }
+
+  launchEmail(String email) {
+    launchUrl(Uri.parse("mailto:$email"));
+  }
+
+  Future<LocationData?> getLocation() async {
+    Location location = Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
+    }
+    return location.getLocation();
   }
 
   Future<String> getFCMToken({bool getFCMToken = false}) async {

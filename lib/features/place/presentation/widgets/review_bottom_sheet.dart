@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/main_button.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/widgets/main_rating_bar.dart';

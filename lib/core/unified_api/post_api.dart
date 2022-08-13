@@ -34,7 +34,8 @@ class PostApi<T> with HandlingExceptionRequest {
       'fcmtoken': fcmToken,
       'Accept': 'application/json',
       "language": language,
-      if (isAuth) 'Authorization': 'Bearer $token',
+      // if (isAuth)
+       'Authorization': 'Bearer $token',
     };
 
     var request = http.Request('POST', uri);

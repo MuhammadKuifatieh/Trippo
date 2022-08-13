@@ -18,4 +18,4 @@ class SvgImages {
 }
 
 const testImageUrl =
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoxsa6Bi3ZEuSNlEpOJv9nu_HRNqCKMUAoGxasmY1kuvbmIgKy6csAGQ2Hfolit1f4LQs&usqp=CAU';
+    'https://www.cometosyria.com/files/images/hotels_photos/dedeman_alp/dedeman_hotel_aleppo_exterior.jpg';

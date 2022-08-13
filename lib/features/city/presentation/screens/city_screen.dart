@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trippo/features/map/presentation/widgets/map_list_image.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';
@@ -53,10 +52,12 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                       titlePadding: EdgeInsets.only(bottom: size.width * .15),
                       centerTitle: true,
                       title: Text(
-                        'City Name',
+                        'حلب',
                         style: AppTextStyles.styleWeight600(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
+                        ).copyWith(
+                          height: 1
                         ),
                       ),
                     ),
@@ -95,16 +96,16 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                       labelColor: Theme.of(context).primaryColor,
                       tabs: const [
                         Text(
-                          'Overview',
+                          'نظرة عامة',
                         ),
                         Text(
-                          'Hotels',
+                          'اماكن للزيارة',
                         ),
                         Text(
-                          'Things to do',
+                          'أنشطة للقيام بها',
                         ),
                         Text(
-                          'Restaurants',
+                          'مطاعم',
                         ),
                       ],
                     ),
@@ -118,18 +119,30 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
             children: [
               OverviewPage(tabController: tabController),
               ListView.builder(
+                itemCount: 5,
                 itemBuilder: (context, index) {
-                  return MapListImage();
+                  return Container(
+                    height: size.width * .6,
+                    width: size.width * .9,
+                  );
                 },
               ),
               ListView.builder(
+                itemCount: 5,
                 itemBuilder: (context, index) {
-                  return MapListImage();
+                  return Container(
+                    height: size.width * .6,
+                    width: size.width * .9,
+                  );
                 },
               ),
               ListView.builder(
+                itemCount: 5,
                 itemBuilder: (context, index) {
-                  return MapListImage();
+                  return Container(
+                    height: size.width * .6,
+                    width: size.width * .9,
+                  );
                 },
               ),
             ],

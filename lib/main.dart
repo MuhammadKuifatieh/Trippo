@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:trippo/features/splash/presentation/screens/splash_screen.dart';
 
 import 'core/bloc/language_manager/language_manager_bloc.dart';
 import 'core/theme_app.dart';
+import 'features/splash/presentation/screens/splash_screen.dart';
 import 'injection.dart' as di;
 import 'router/app_router.dart';
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               AppLocalizations.delegate,
             ],
             title: 'Trippo',
-            theme: ThemeApp().getTheme(),
+            theme: ThemeApp().getTheme(context),
             builder: BotToastInit(),
             navigatorObservers: [BotToastNavigatorObserver()],
             home: const SplashScreen(),

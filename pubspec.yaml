@@ -43,6 +43,11 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   sticky_headers: ^0.2.0
   json_annotation: ^4.5.0
+  shimmer: ^2.0.0
+  image_cropper: ^3.0.0
+  image_picker: ^0.8.5+3
+  url_launcher: ^6.1.5
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0
@@ -60,6 +65,36 @@ flutter:
     - assets/
 
   fonts:
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-Black.ttf
+        - asset: assets/fonts/Tajawal-Bold.ttf
+        - asset: assets/fonts/Tajawal-ExtraBold.ttf
+        - asset: assets/fonts/Tajawal-ExtraLight.ttf
+        - asset: assets/fonts/Tajawal-Light.ttf
+        - asset: assets/fonts/Tajawal-Medium.ttf
+        - asset: assets/fonts/Tajawal-Regular.ttf
+
+    - family : NotoNaskhArabic
+      fonts:
+       
+        - asset: assets\fonts\NotoNaskhArabic-Medium.ttf
+          weight: 300
+          style: normal
+
+        - asset: assets\fonts\NotoNaskhArabic-Regular.ttf
+          weight: 400
+          style: normal
+
+        - asset: assets\fonts\NotoNaskhArabic-SemiBold.ttf
+          weight: 500
+          style: normal
+
+        - asset: assets\fonts\NotoNaskhArabic-Bold.ttf
+          weight: 700
+          style: normal
+
+
     - family: Sf-Pro-Display
       fonts:
         - asset: assets/fonts/SF-Pro-Display-Ultralight.otf

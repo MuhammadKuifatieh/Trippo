@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:trippo/core/models/user/user.dart';
+import 'package:trippo/core/data/models/user/user.dart';
 
 part 'registration_response.g.dart';
 @JsonSerializable(explicitToJson: true)
