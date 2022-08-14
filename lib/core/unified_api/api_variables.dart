@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+
 class ApiVariables {
   ApiVariables._();
 
   static const _scheme = 'http';
-  static const _host = '192.168.1.102';
+  static const _host = '192.168.137.1';
   static const _port = 5000;
 
   static Uri _mainUri({
@@ -77,4 +78,15 @@ class ApiVariables {
         path: "place/place_by_point_map",
         queryParameters: params,
       );
+  ///////////
+  ///City///
+//////////
+
+  static Uri getCity({required Map<String, dynamic> params}) {
+    return _mainUri(path: "mobile/city/${params["id"]}/show");
+  }
+
+ static Uri getPlacesOfCity({required Map<String, dynamic> params}) {
+    return _mainUri(path: "mobile/place/${params["id"]}/show");
+  }
 }

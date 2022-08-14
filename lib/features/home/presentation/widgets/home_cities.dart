@@ -71,7 +71,7 @@ class _HomeCities extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.of(context)
-                                      .pushNamed(CityScreen.routeName);
+                                      .pushNamed(CityScreen.routeName,arguments: cities[index].id);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.only(

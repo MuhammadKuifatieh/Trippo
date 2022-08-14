@@ -69,8 +69,7 @@ class AppRouter {
         );
       case CityScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => const CityScreen(),
-        );
+          builder: (_) =>  CityScreen(cityId: routeSettings.arguments as int));
     }
   }
 }

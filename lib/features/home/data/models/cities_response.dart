@@ -68,7 +68,7 @@ class CitiesDataModel {
 }
 
 class CityModel {
-  CityModel({
+  const CityModel({
     this.id,
     this.name,
     this.description,
@@ -79,14 +79,14 @@ class CityModel {
     this.questions,
   });
 
-  int? id;
-  String? name;
-  String? description;
-  int? views;
-  String? latitude;
-  String? longitude;
-  List<ImageModel>? images;
-  List<QuestionModel>? questions;
+  final int? id;
+ final String? name;
+ final String? description;
+ final int? views;
+ final String? latitude;
+ final String? longitude;
+ final List<ImageModel>? images;
+ final List<QuestionModel>? questions;
 
   CityModel copyWith({
     int? id,
