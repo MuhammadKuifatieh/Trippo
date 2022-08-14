@@ -160,6 +160,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     onTapRety: () {
                       homeBloc.add(const GetRecentlyViewedPlacesEvent());
                     },
+                    onPop: (value, index) {
+                      homeBloc.add(
+                        UpdateRecentlyViewedPlaceFavoriteEvent(
+                          index: index,
+                          favoriteValue: value,
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: size.width * .075),
                   _HomeCities(
@@ -179,20 +187,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   SizedBox(height: size.width * .075),
                   _HomePlaces(
-                    size: size,
-                    places: state.topAttractionPlaces,
-                    title: appLocalizations.topAttraction,
-                    description: appLocalizations.mostPopularPlaceToVisit,
-                    isFailed: state.topAttractionPlacesStatus ==
-                        TopAttractionPlacesStatus.falied,
-                    isLoading: (state.topAttractionPlacesStatus ==
-                            TopAttractionPlacesStatus.loading ||
-                        state.topAttractionPlacesStatus ==
-                            TopAttractionPlacesStatus.init),
-                    onTapRety: () {
-                      homeBloc.add(const GetTopAttractionPlacesEvent());
-                    },
-                  ),
+                      size: size,
+                      places: state.topAttractionPlaces,
+                      title: appLocalizations.topAttraction,
+                      description: appLocalizations.mostPopularPlaceToVisit,
+                      isFailed: state.topAttractionPlacesStatus ==
+                          TopAttractionPlacesStatus.falied,
+                      isLoading: (state.topAttractionPlacesStatus ==
+                              TopAttractionPlacesStatus.loading ||
+                          state.topAttractionPlacesStatus ==
+                              TopAttractionPlacesStatus.init),
+                      onTapRety: () {
+                        homeBloc.add(const GetTopAttractionPlacesEvent());
+                      },
+                      onPop: (value, index) {
+                        homeBloc.add(UpdateTopAttractionPlaceFavoriteEvent(
+                          index: index,
+                          favoriteValue: value,
+                        ));
+                      }),
                   SizedBox(height: size.width * .075),
                   Text(
                     appLocalizations.descoverSomeExperince,
@@ -211,20 +224,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   SizedBox(height: size.width * .075),
                   SizedBox(height: size.width * .025),
                   _HomePlaces(
-                    title: appLocalizations.smallBatchStays,
-                    description: appLocalizations.coolCities,
-                    size: size,
-                    places: state.smallBatchPlaces,
-                    isFailed: state.smallBatchPlacesStatus ==
-                        SmallBatchPlacesStatus.falied,
-                    isLoading: (state.smallBatchPlacesStatus ==
-                            SmallBatchPlacesStatus.loading ||
-                        state.smallBatchPlacesStatus ==
-                            SmallBatchPlacesStatus.init),
-                    onTapRety: () {
-                      homeBloc.add(const GetSmallBatchPlacesEvent());
-                    },
-                  ),
+                      title: appLocalizations.smallBatchStays,
+                      description: appLocalizations.coolCities,
+                      size: size,
+                      places: state.smallBatchPlaces,
+                      isFailed: state.smallBatchPlacesStatus ==
+                          SmallBatchPlacesStatus.falied,
+                      isLoading: (state.smallBatchPlacesStatus ==
+                              SmallBatchPlacesStatus.loading ||
+                          state.smallBatchPlacesStatus ==
+                              SmallBatchPlacesStatus.init),
+                      onTapRety: () {
+                        homeBloc.add(const GetSmallBatchPlacesEvent());
+                      },
+                      onPop: (value, index) {
+                        homeBloc.add(UpdateSmallBatchPlaceFavoriteEvent(
+                          index: index,
+                          favoriteValue: value,
+                        ));
+                      }),
                   SizedBox(height: size.width * .075),
                   _HomePlaces(
                     title: appLocalizations.youMightLikeThis,
@@ -239,6 +257,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             MightLikePlacesStatus.init),
                     onTapRety: () {
                       homeBloc.add(const GetMightLikePlacesEvent());
+                    },
+                    onPop: (value, index) {
+                      homeBloc.add(UpdateMightLikePlaceFavoriteEvent(
+                        index: index,
+                        favoriteValue: value,
+                      ));
                     },
                   )
                 ],

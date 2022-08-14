@@ -9,6 +9,7 @@ class _HomePlaces extends StatelessWidget {
     required this.isFailed,
     required this.onTapRety,
     required this.isLoading,
+    required this.onPop,
     this.description,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class _HomePlaces extends StatelessWidget {
   final bool isLoading;
   final bool isFailed;
   final VoidCallback onTapRety;
+  final void Function(bool, int) onPop;
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +103,17 @@ class _HomePlaces extends StatelessWidget {
                           width: size.width * .6,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed(
+                              Navigator.of(context)
+                                  .pushNamed(
                                 PlaceScreen.routeName,
                                 arguments: PlaceScreenParams(
                                   id: places[index].id.toString(),
                                 ),
-                              );
+                              )
+                                  .then((value) {
+                                bool favoriteValue = value as bool;
+                                onPop(favoriteValue, index);
+                              });
                             },
                             child: Column(
                               children: [

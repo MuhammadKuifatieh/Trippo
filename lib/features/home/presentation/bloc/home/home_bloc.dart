@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 
 import '../../../data/models/cities_response.dart';
 import '../../../data/models/places_response.dart';
@@ -36,6 +38,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetSmallBatchPlacesEvent>(_mapGetSmallBatchPlacesState);
 
     on<GetTopAttractionPlacesEvent>(_mapGetTopAttractionPlacesState);
+
+    on<UpdateRecentlyViewedPlaceFavoriteEvent>(
+        _mapUpdateRecentlyViewedPlaceFavoriteState);
+    on<UpdateMightLikePlaceFavoriteEvent>(
+        _mapUpdateMightLikePlaceFavoriteState);
+    on<UpdateSmallBatchPlaceFavoriteEvent>(_mapUpdateSmallBatchPlaceValueState);
+    on<UpdateTopAttractionPlaceFavoriteEvent>(
+        _mapUpdateTopAttractionPlaceFavoriteSatet);
   }
 
   FutureOr<void> _mapGetHomeInfoState(
@@ -62,6 +72,67 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         mightLikePlaces: r.data!.places,
         mightLikePlacesStatus: MightLikePlacesStatus.succ,
       )),
+    );
+  }
+
+  FutureOr<void> _mapUpdateRecentlyViewedPlaceFavoriteState(
+      UpdateRecentlyViewedPlaceFavoriteEvent event, Emitter<HomeState> emit) {
+    emit(
+      state.copyWith(
+        recentlyViewedPalces: state.recentlyViewedPalces
+            .mapIndexed(
+              (index, element) => (index == event.index)
+                  ? element.copyWith(isFavorite: event.favoriteValue)
+                  : element,
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  FutureOr<void> _mapUpdateMightLikePlaceFavoriteState(
+      UpdateMightLikePlaceFavoriteEvent event, Emitter<HomeState> emit) {
+    emit(
+      state.copyWith(
+        mightLikePlaces: state.mightLikePlaces
+            .mapIndexed(
+              (index, element) => (index == event.index)
+                  ? element.copyWith(isFavorite: event.favoriteValue)
+                  : element,
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  FutureOr<void> _mapUpdateSmallBatchPlaceValueState(
+      UpdateSmallBatchPlaceFavoriteEvent event, Emitter<HomeState> emit) {
+    emit(
+      state.copyWith(
+        smallBatchPlaces: state.smallBatchPlaces
+            .mapIndexed(
+              (index, element) => (index == event.index)
+                  ? element.copyWith(isFavorite: event.favoriteValue)
+                  : element,
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  FutureOr<void> _mapUpdateTopAttractionPlaceFavoriteSatet(
+      UpdateTopAttractionPlaceFavoriteEvent event, Emitter<HomeState> emit) {
+    log("message", name: "message");
+    emit(
+      state.copyWith(
+        topAttractionPlaces: state.topAttractionPlaces
+            .mapIndexed(
+              (index, element) => (index == event.index)
+                  ? element.copyWith(isFavorite: event.favoriteValue)
+                  : element,
+            )
+            .toList(),
+      ),
     );
   }
 
