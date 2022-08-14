@@ -36,7 +36,7 @@ class AuthenticationBloc
       },
       (response) async {
         prefs.setString(PrefsKeys.accessToken, response.token);
-        prefs.setString(PrefsKeys.userInfo, jsonEncode(response.toJson()));
+        prefs.setString(PrefsKeys.userInfo, jsonEncode(response.user.toJson()));
         emit(state.copyWith(status: AuthenticationStatus.success));
       },
     );
@@ -53,7 +53,7 @@ class AuthenticationBloc
       },
       (response) async {
         prefs.setString(PrefsKeys.accessToken, response.token);
-        prefs.setString(PrefsKeys.userInfo, jsonEncode(response.toJson()));
+        prefs.setString(PrefsKeys.userInfo, jsonEncode(response.user.toJson()));
         emit(state.copyWith(status: AuthenticationStatus.success));
       },
     );
