@@ -13,7 +13,7 @@ class ExperinecesScreen extends StatefulWidget {
 }
 
 class _ExperinecesScreenState extends State<ExperinecesScreen> {
-  late final Size size;
+  late Size size;
   PageController pageController = PageController();
   @override
   void didChangeDependencies() {

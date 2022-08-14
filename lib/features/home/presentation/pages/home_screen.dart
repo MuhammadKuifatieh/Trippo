@@ -33,11 +33,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final AnimationController animationController;
-  late final SequenceAnimation sequenceAnimation;
-  late final Size size;
+  late SequenceAnimation sequenceAnimation;
+  late Size size;
   final PageController pageController = PageController();
   late final HomeBloc homeBloc;
-  late final AppLocalizations appLocalizations;
+  late AppLocalizations appLocalizations;
 
   @override
   void initState() {
