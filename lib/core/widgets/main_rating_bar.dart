@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MainRatingBar extends StatelessWidget {
-  
   final double? circleSize;
-  const MainRatingBar({Key? key, this.filterRating = 0, this.isFiter = false,
-    this.circleSize,})
-      : super(key: key);
+  const MainRatingBar({
+    Key? key,
+    this.filterRating = 0,
+    this.isFiter = false,
+    this.circleSize,
+    this.onRatingUpdate,
+  }) : super(key: key);
   final double filterRating;
   final bool isFiter;
+  final void Function(double)? onRatingUpdate;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return RatingBar(
-      itemSize:circleSize?? size.width * .035,
-      initialRating: isFiter?filterRating:0,
+      itemSize: circleSize ?? size.width * .035,
+      initialRating: isFiter ? filterRating : 0,
       itemPadding: EdgeInsetsDirectional.only(
         end: size.width * .005,
       ),
       unratedColor: Theme.of(context).scaffoldBackgroundColor,
       allowHalfRating: true,
-      ignoreGestures: isFiter?true: false,
+      ignoreGestures: isFiter ? true : false,
       ratingWidget: RatingWidget(
         full: Container(
           width: circleSize ?? size.width * .035,
@@ -56,7 +60,7 @@ class MainRatingBar extends StatelessWidget {
           ),
         ),
       ),
-      onRatingUpdate: (rate) {},
+      onRatingUpdate: onRatingUpdate ?? (rate) {},
     );
   }
 }

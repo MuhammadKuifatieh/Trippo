@@ -5,7 +5,7 @@ class ApiVariables {
   ApiVariables._();
 
   static const _scheme = 'http';
-  static const _host = '192.168.137.1';
+  static const _host = '192.168.1.112';
   static const _port = 5000;
 
   static Uri _mainUri({
@@ -69,6 +69,8 @@ class ApiVariables {
   static Uri getPlace(String id) => _mobileUri(
         path: "place/$id/show",
       );
+  static Uri indexPlaceImages(String id, Map<String, dynamic> params) =>
+      _mobileUri(path: "place/$id/image/index");
   static Uri uploadImagePlace(String id) =>
       _mobileUri(path: "place/$id/image/store");
   static Uri changeFavoriteState(String id) => _mobileUri(
@@ -106,4 +108,16 @@ static Uri answersAdd({Map<String, dynamic>? params, required int questionId}) =
         path: "answer/question/$questionId/store",
         queryParameters: params,
       );
+  static Uri indexFavoritePlace(Map<String, dynamic> params) => _mobileUri(
+        path: "favourite/index",
+        queryParameters: params,
+      );
+  static Uri addReviewToPlace(String id) =>
+      _mobileUri(path: "comment/place/$id/store");
+  static Uri getReviews(Map<String, dynamic> params) => _mobileUri(
+        path: "comment/index",
+        queryParameters: params,
+      );
+
+  static Uri getVisitTypes() => _mobileUri(path: "visitType/index");
 }

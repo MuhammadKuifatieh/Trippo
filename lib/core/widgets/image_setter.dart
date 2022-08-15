@@ -50,7 +50,6 @@ class _ImageSetterState extends State<ImageSetter> {
                   ? GestureDetector(
                       onTap: () async {
                         var value = await getAndCropImage(context);
-                        log(value.toString());
                         if (value != null) {
                           image.value = value;
                           imageUploadBloc.add(SetImageEvent(image: value));

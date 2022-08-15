@@ -35,7 +35,7 @@
   "mostPopularPlaceToVisit": "المكان الأكثر شعبية للزيارة",
   "smallBatchStays": "اماكن صغيرة للإقامة",
   "coolCities": "مدن رائعة ، فنادق بوتيك أكثر برودة",
-  "whereGoing": "إين تريد الذهاب ؟",
+  "whereGoing": "اين تريد الذهاب ؟",
   "yourLocation": "موقعك",
   "descoverSomeExperince": "اكتشف بعض المزيد التجارب",
   "closeNow": "مغلق الآن",
@@ -53,7 +53,16 @@
   "review": "التقييم",
   "family": "عائلي",
   "solo": "فردي",
-  "business":"للاعمال",
-  "frinds":"للاصدقاء",
-  "visitWebsite":"الموقع الالكتروني"
+  "business": "للاعمال",
+  "frinds": "للاصدقاء",
+  "visitWebsite": "الموقع الالكتروني",
+  "toVisit": "ممكن زيارتها",
+  "rattingReview": "كيف تقيم تجربتك ؟",
+  "typeReview": "ما هو نوع الزيارة كان هذا ؟",
+  "dateReview": "متى قمت بزيارة ؟",
+  "titleReview": "ضع عنوان لهذه المراجعة",
+  "descreptionReview": "اكتب مراجعتك",
+  "photoReivew": "شارك بعض الصور من زيارتك",
+  "submit": "إرسال",
+  "reviewDone": "تم ارسال التقييم بنجاح"
 }

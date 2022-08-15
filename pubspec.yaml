@@ -50,6 +50,10 @@ dependencies:
   sticky_headers: ^0.2.0
   stream_transform: ^2.0.0
   url_launcher: ^6.1.5
+  location: ^4.4.0
+  bloc_concurrency: ^0.2.0
+  flutter_holo_date_picker: ^1.0.6
+  photo_view: ^0.14.0
 
 dev_dependencies:
   build_runner: ^2.1.11

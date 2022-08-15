@@ -56,5 +56,14 @@
   "solo": "Solo",
   "business": "Business",
   "frinds": "Frinds",
-  "visitWebsite":"Visit website"
+  "visitWebsite": "Visit website",
+  "toVisit": "to visit",
+  "rattingReview": "How would you rate your experience?",
+  "typeReview": "What's Kind of visited was this?",
+  "dateReview": "When did you visit ?",
+  "titleReview": "Title this review",
+  "descreptionReview": "Write your review",
+  "photoReivew": "Share some photos from your visit",
+  "submit": "Submit",
+  "reviewDone": "The review has been sent successfully"
 }

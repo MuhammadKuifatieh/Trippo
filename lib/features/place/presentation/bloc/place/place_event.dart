@@ -30,3 +30,23 @@ class ChangeFavoriteStateEvent extends PlaceEvent {
 
   ChangeFavoriteStateEvent({required this.id});
 }
+
+class GetPlaceImagesEvent extends PlaceEvent {
+  final String id;
+  const GetPlaceImagesEvent({required this.id});
+}
+
+class AddReviewToPlaceEvent extends PlaceEvent {
+  final AddReviewToPlaceParams params;
+  AddReviewToPlaceEvent(this.params);
+}
+
+class GetVisitTypesEvent extends PlaceEvent {
+  GetVisitTypesEvent();
+}
+
+class GetFirstReviewsEvent extends PlaceEvent {
+  final String placeId;
+
+  GetFirstReviewsEvent({required this.placeId});
+}

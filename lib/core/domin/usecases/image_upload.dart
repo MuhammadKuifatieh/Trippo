@@ -23,7 +23,6 @@ class ImageUploadParams {
   final Uint8List image;
   ImageUploadParams({required this.image});
   Map<String, dynamic> getParams() {
-    log(base64.encode(image));
     return {
       'image64': "data:image/png;base64," + base64.encode(image),
     };

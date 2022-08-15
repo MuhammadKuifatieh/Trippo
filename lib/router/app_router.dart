@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:trippo/features/city/presentation/widgets/questions_screen.dart';
-import 'package:trippo/features/city/presentation/widgets/show_question_screen.dart';
-import 'package:trippo/features/home/data/models/cities_response.dart';
 
 import '../features/authentication/presentation/screens/authentication_screen.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/city/presentation/screens/city_screen.dart';
+import '../features/city/presentation/widgets/questions_screen.dart';
+import '../features/city/presentation/widgets/show_question_screen.dart';
 import '../features/explore/presentation/pages/search_screen.dart';
+import '../features/home/data/models/cities_response.dart';
 import '../features/home/presentation/pages/home_screen.dart';
 import '../features/map/presentation/pages/map_screen.dart';
 import '../features/place/presentation/pages/images_screen.dart';
@@ -64,11 +64,14 @@ class AppRouter {
         );
       case ReviewsScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => const ReviewsScreen(),
+          builder: (_) => ReviewsScreen(
+            arg: routeSettings.arguments as ReviewsScreenParams,
+          ),
         );
-      case ImagesScreen.routeName:
+      case PlaceImagesScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => const ImagesScreen(),
+          builder: (_) => PlaceImagesScreen(
+              arg: routeSettings.arguments as PlaceImagesScreenParams),
         );
       case CityScreen.routeName:
         return MaterialPageRoute(
@@ -80,9 +83,10 @@ class AppRouter {
                 ));
       case ShowQuestionScreen.routeName:
         return MaterialPageRoute(
-            builder: (_) => ShowQuestionScreen(
-                  params: routeSettings.arguments as ShowQuestionScreenParams,
-                ));
+          builder: (_) => ShowQuestionScreen(
+            params: routeSettings.arguments as ShowQuestionScreenParams,
+          ),
+        );
     }
   }
 }

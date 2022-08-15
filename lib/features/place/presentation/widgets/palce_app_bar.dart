@@ -12,6 +12,8 @@ class _PlaceAppBar extends StatelessWidget {
     required this.title,
     required this.onTapFavorite,
     required this.isFavorite,
+    required this.onTapPop,
+    required this.onTap,
   }) : super(key: key);
 
   final Size size;
@@ -23,6 +25,8 @@ class _PlaceAppBar extends StatelessWidget {
   final String title;
   final VoidCallback onTapFavorite;
   final bool? isFavorite;
+  final VoidCallback onTap;
+  final VoidCallback onTapPop;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,7 @@ class _PlaceAppBar extends StatelessWidget {
                   builder: (context, child) {
                     return MainButton(
                       onTap: () {
-                        Navigator.of(context).pop();
+                        onTapPop();
                       },
                       width: size.width * .1,
                       height: size.width * .1,
@@ -121,10 +125,7 @@ class _PlaceAppBar extends StatelessWidget {
                                     itemCount: images.length,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                              ImagesScreen.routeName);
-                                        },
+                                        onTap: onTap,
                                         child: CacheImage(
                                           width: size.width,
                                           height: size.width * .6666,

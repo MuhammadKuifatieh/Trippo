@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:trippo/features/home/presentation/bloc/home/home_bloc.dart';
+import 'package:trippo/features/profile/presentation/bloc/profile/profile_bloc.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/hero_tag.dart';
@@ -27,6 +28,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     with TickerProviderStateMixin {
+  late final ProfileBloc profileBloc;
   late AnimationController animationController;
   late SequenceAnimation sequenceAnimation;
   late Size size;
@@ -46,6 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void didChangeDependencies() {
     size = MediaQuery.of(context).size;
+    profileBloc = ProfileBloc()..add(GetFavoritePlacesEvent());
     sequenceAnimation = SequenceAnimationBuilder()
         .addAnimatable(
           animatable: Tween<double>(
@@ -104,10 +107,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc()
-        ..add(GetTrendingCitiesEvent())
-        ..add(GetRecentlyViewedPlacesEvent()),
-      child: BlocBuilder<HomeBloc, HomeState>(
+      create: (context) => profileBloc,
+      child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           return Scaffold(
             body: NestedScrollView(
@@ -132,10 +133,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                   Expanded(
                     child: TabBarView(
                       controller: tabController,
-                      children:  [
-                        _PhotoProfileWidget(state:state),
+                      children: [
+                        // _PhotoProfileWidget(state: state),
+                        Container(),
                         _TripsProfileWidget(),
-                        _SavedProfileWidget(state:state),
+                        _SavedProfileWidget(
+                          state: state,
+                          profileBloc: profileBloc,
+                        ),
                       ],
                     ),
                   ),

@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:trippo/core/widgets/main_error_widget.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/icons/trippo_icons.dart';
