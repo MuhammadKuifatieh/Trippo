@@ -5,9 +5,9 @@ import 'package:trippo/features/city/domain/repositories/city_repository.dart';
 import 'package:trippo/features/home/data/models/cities_response.dart';
 
 class GetCityUseCase implements UseCase<CityModel, GetCityParams> {
-  final GetCityRepository _getCityRepository;
+  final CityRepository _getCityRepository;
 
-  GetCityUseCase({required GetCityRepository getCityRepository})
+  GetCityUseCase({required CityRepository getCityRepository})
       : _getCityRepository = getCityRepository;
 
   @override

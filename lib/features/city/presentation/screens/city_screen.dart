@@ -1,14 +1,15 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trippo/core/widgets/loading_screen.dart';
 import 'package:trippo/core/widgets/main_error_widget.dart';
-import 'package:trippo/features/city/presentation/bloc/city_bloc.dart';
 import 'package:trippo/injection.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';
 import '../../../../core/widgets/asset_svg.dart';
 import '../../../../core/widgets/main_indicator.dart';
+import '../blocs/city/city_bloc.dart';
 import '../widgets/overview_page.dart';
 
 class CityScreen extends StatefulWidget {
@@ -26,11 +27,8 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     tabController = TabController(length: 4, vsync: this);
-    cityBloc = CityBloc(
-        getPlacesOfCityUseCase: serviceLocator(),
-        getCityByIdUseCase: serviceLocator())
-      ..add(GetCityEvent(cityId: widget.cityId!))
-      ..add(GetPlacesOfCityEvent(cityId: widget.cityId!));
+    cityBloc = CityBloc()..add(GetCityEvent(cityId: widget.cityId!));
+    // ..add(GetPlacesOfCityEvent(cityId: widget.cityId!));
   }
 
   @override
@@ -39,21 +37,35 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
     return BlocProvider(
       create: (context) => cityBloc,
       child: Scaffold(
-        body: BlocBuilder<CityBloc, CityState>(
+        body: BlocConsumer<CityBloc, CityState>(
+          listener: (context, state) {
+            if (state.questionAddingStatus == QuestionAddingStatus.loading) {
+              BotToast.showLoading();
+            } else if (state.questionAddingStatus ==
+                QuestionAddingStatus.failure) {
+              BotToast.closeAllLoading();
+              BotToast.showText(
+                  text:
+                      'Add Question Failed Please Check Your Internet Connection');
+            } else if (state.questionAddingStatus ==
+                QuestionAddingStatus.success) {
+              BotToast.closeAllLoading();
+              BotToast.showText(text: "Question Added Successfully");
+            }
+          },
           builder: (context, state) {
             if (state.cityStatus == GetCityStatus.loading ||
                 state.cityStatus == GetCityStatus.initial) {
               return const LoadingScreen();
-            } else if (state.cityStatus == GetCityStatus.failure) {
-              MainErrorWidget(
-                  size: size,
-                  onTapRety: () {
-                    cityBloc
-                      ..add(GetCityEvent(cityId: widget.cityId!))
-                      ..add(GetPlacesOfCityEvent(cityId: widget.cityId!));
-                  });
-              return Container();
-            } else {
+            }
+            // else if (state.cityStatus == GetCityStatus.failure) {
+            //   return MainErrorWidget(
+            //       size: size,
+            //       onTapRety: () {
+            //         cityBloc.add(GetCityEvent(cityId: widget.cityId!));
+            //       });
+            // }
+            else {
               return SafeArea(
                 child: NestedScrollView(
                   headerSliverBuilder: (context, _) {
@@ -146,7 +158,10 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                   body: TabBarView(
                     controller: tabController,
                     children: [
-                      OverviewPage(tabController: tabController),
+                      OverviewPage(
+                        tabController: tabController,
+                        city: state.city,
+                      ),
                       ListView.builder(
                         itemCount: 5,
                         itemBuilder: (context, index) {

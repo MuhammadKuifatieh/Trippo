@@ -1,32 +1,32 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:trippo/features/city/data/models/place_of_city_response_model/place_of_city_model.dart';
+import 'package:trippo/features/city/data/repositories/city_repository_impl.dart';
 import 'package:trippo/features/city/domain/usecases/get_city_use_case.dart';
 import 'package:trippo/features/city/domain/usecases/get_places_of_city_use_case.dart';
 import 'package:trippo/features/home/data/models/cities_response.dart';
+
+import '../../../domain/usecases/add_question_use_case.dart';
 
 part 'city_event.dart';
 part 'city_state.dart';
 
 class CityBloc extends Bloc<CityEvent, CityState> {
-  CityBloc({
-    required GetCityUseCase getCityByIdUseCase,
-    required GetPlacesOfCityUseCase getPlacesOfCityUseCase,
-   
-  })  : _getCityByIdUseCase = getCityByIdUseCase,
-        _getPlacesOfCityUseCase = getPlacesOfCityUseCase,
-        super(const CityState()) {
+  CityBloc() : super(const CityState()) {
     on<CityEvent>((event, emit) {});
     on<GetCityEvent>(_mapFetchCityEvent);
     on<GetPlacesOfCityEvent>(_mapGetPlacesOfCityEvent);
-   
+    on<QuestionAdded>(_mapQuestionAdded);
   }
-  final GetCityUseCase _getCityByIdUseCase;
-  final GetPlacesOfCityUseCase _getPlacesOfCityUseCase;
- 
+  final GetCityUseCase _getCityByIdUseCase =
+      GetCityUseCase(getCityRepository: CityRepositoryImpl());
+  final GetPlacesOfCityUseCase _getPlacesOfCityUseCase =
+      GetPlacesOfCityUseCase(getCityRepository: CityRepositoryImpl());
+  final _addQuestionUseCase =
+      AddQuestionUseCase(cityRepository: CityRepositoryImpl());
 
-  _mapFetchCityEvent(
-      GetCityEvent event, Emitter<CityState> emit) async {
+  _mapFetchCityEvent(GetCityEvent event, Emitter<CityState> emit) async {
     emit(state.copyWith(cityStatus: GetCityStatus.loading));
     final _fetchedResult =
         await _getCityByIdUseCase(GetCityParams(id: event.cityId));
@@ -57,7 +57,21 @@ class CityBloc extends Bloc<CityEvent, CityState> {
     );
   }
 
- 
+  FutureOr<void> _mapQuestionAdded(
+      QuestionAdded event, Emitter<CityState> emit) async {
+    emit(state.copyWith(questionAddingStatus: QuestionAddingStatus.loading));
 
- 
+    final result = await _addQuestionUseCase(event.params);
+    await result.fold(
+      (l) async {
+        emit(
+            state.copyWith(questionAddingStatus: QuestionAddingStatus.failure));
+      },
+      (r) async {
+        emit(
+            state.copyWith(questionAddingStatus: QuestionAddingStatus.success));
+      },
+    );
+    emit(state.copyWith(questionAddingStatus: QuestionAddingStatus.initial));
+  }
 }

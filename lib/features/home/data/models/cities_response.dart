@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../../city/data/models/question/question_model.dart';
+
 CitiesResponse citiesResponseFromJson(String str) =>
     CitiesResponse.fromJson(json.decode(str));
 
@@ -30,7 +32,9 @@ class CitiesResponse {
   factory CitiesResponse.fromJson(Map<String, dynamic> json) => CitiesResponse(
         success: json["success"],
         message: json["message"],
-        data: json["data"] == null ? null : CitiesDataModel.fromJson(json["data"]),
+        data: json["data"] == null
+            ? null
+            : CitiesDataModel.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,10 +58,12 @@ class CitiesDataModel {
         cities: cities ?? this.cities,
       );
 
-  factory CitiesDataModel.fromJson(Map<String, dynamic> json) => CitiesDataModel(
+  factory CitiesDataModel.fromJson(Map<String, dynamic> json) =>
+      CitiesDataModel(
         cities: json["cities"] == null
             ? null
-            : List<CityModel>.from(json["cities"].map((x) => CityModel.fromJson(x))),
+            : List<CityModel>.from(
+                json["cities"].map((x) => CityModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,13 +86,13 @@ class CityModel {
   });
 
   final int? id;
- final String? name;
- final String? description;
- final int? views;
- final String? latitude;
- final String? longitude;
- final List<ImageModel>? images;
- final List<QuestionModel>? questions;
+  final String? name;
+  final String? description;
+  final int? views;
+  final String? latitude;
+  final String? longitude;
+  final List<ImageModel>? images;
+  final List<QuestionModel>? questions;
 
   CityModel copyWith({
     int? id,
@@ -118,7 +124,8 @@ class CityModel {
         longitude: json["longitude"],
         images: json["images"] == null
             ? null
-            : List<ImageModel>.from(json["images"].map((x) => ImageModel.fromJson(x))),
+            : List<ImageModel>.from(
+                json["images"].map((x) => ImageModel.fromJson(x))),
         questions: json["questions"] == null
             ? null
             : List<QuestionModel>.from(
@@ -168,85 +175,16 @@ class ImageModel {
       );
 
   factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
-        id:  json["id"],
-        url:  json["url"],
+        id: json["id"],
+        url: json["url"],
         order: json["order"],
         hash: json["hash"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id":  id,
-        "url":  url,
-        "order":  order,
-        "hash": hash ,
-      };
-}
-
-
-class QuestionModel {
-  QuestionModel({
-    this.id,
-    this.text,
-    this.answers,
-  });
-
-  int ?id;
-  String? text;
-  List<AnswerModel>? answers;
-
-  QuestionModel copyWith({
-    int? id,
-    String ?text,
-    List<AnswerModel>? answers,
-  }) =>
-      QuestionModel(
-        id: id ?? this.id,
-        text: text ?? this.text,
-        answers: answers ?? this.answers,
-      );
-
-  factory QuestionModel.fromJson(Map<String, dynamic> json) => QuestionModel(
-        id: json["id"],
-        text:  json["text"],
-        answers: json["answers"] == null
-            ? null
-            : List<AnswerModel>.from(json["answers"].map((x) => AnswerModel.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id":  id,
-        "text":  text,
-        "answers": answers == null
-            ? null
-            : List<dynamic>.from(answers!.map((x) => x.toJson())),
-      };
-}
-
-class AnswerModel {
-  AnswerModel({
-    this.id,
-    this.text,
-  });
-
-  int ?id;
-  String? text;
-
-  AnswerModel copyWith({
-    int ?id,
-    String? text,
-  }) =>
-      AnswerModel(
-        id: id ?? this.id,
-        text: text ?? this.text,
-      );
-
-  factory AnswerModel.fromJson(Map<String, dynamic> json) => AnswerModel(
-        id:  json["id"],
-        text:  json["text"],
-      );
-
-  Map<String, dynamic> toJson() => {
         "id": id,
-        "text":  text,
+        "url": url,
+        "order": order,
+        "hash": hash,
       };
 }

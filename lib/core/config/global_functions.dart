@@ -19,7 +19,7 @@ class GlobalFunctions {
 
   static String? getToken() {
     final prefs = serviceLocator<SharedPreferences>();
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjUwMDAvYXBpL2F1dGgvdXNlci9sb2dpbiIsImlhdCI6MTY2MDM1OTYxMywibmJmIjoxNjYwMzU5NjEzLCJqdGkiOiJKZmlwSENNZFh4S2hsRU9tIiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.QZ-gUbAlS-IB2UlrtjDX4zvA9euo7B8tci_P6aDjmww";
+    return prefs.getString(PrefsKeys.accessToken);
   }
 
   launchWeb(String url) {
