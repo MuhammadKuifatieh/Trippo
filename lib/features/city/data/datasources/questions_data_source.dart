@@ -6,7 +6,7 @@ import 'package:trippo/core/unified_api/get_api.dart';
 import 'package:trippo/core/unified_api/post_api.dart';
 import 'package:trippo/features/home/data/models/cities_response.dart';
 
-import 'models/question/question_model.dart';
+import '../models/question/question_model.dart';
 
 class QuestionsDataSource {
   Future<QuestionModel> addQuestion(
@@ -39,6 +39,30 @@ class QuestionsDataSource {
   Future<bool> deleteQuestion({required int id}) async {
     final DeleteApi<bool> deleteApi = DeleteApi(
       uri: ApiVariables.questionsDelete(id: id),
+      fromJson: (jsonStr) {
+        final jsonMap = jsonDecode(jsonStr);
+        return jsonMap['success'];
+      },
+    );
+    return deleteApi.callRequest();
+  }
+
+  Future<AnswerModel> addAnswer(
+      {required int questionId, required Map<String, dynamic> body}) async {
+    final PostApi<AnswerModel> postApi = PostApi(
+        uri: ApiVariables.answersAdd(questionId: questionId),
+        body: body,
+        fromJson: (jsonStr) {
+          final jsonMap = jsonDecode(jsonStr);
+          return AnswerModel.fromJson(jsonMap['data']['answer']);
+        });
+
+    return await postApi.callRequest();
+  }
+
+  Future<bool> deleteAnswer({required int id}) async {
+    final DeleteApi<bool> deleteApi = DeleteApi(
+      uri: ApiVariables.answersDelete(id: id),
       fromJson: (jsonStr) {
         final jsonMap = jsonDecode(jsonStr);
         return jsonMap['success'];

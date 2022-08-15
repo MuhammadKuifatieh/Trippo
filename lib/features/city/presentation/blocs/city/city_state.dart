@@ -13,7 +13,7 @@ class CityState {
     this.questionAddingStatus = QuestionAddingStatus.initial,
   });
   final CityModel city;
-  final List<PlaceOfCityModel> placesOfCity;
+  final List<PlaceModel> placesOfCity;
   final GetCityStatus cityStatus;
   final GetPlacesOfCityStatus placesOfCityStatus;
   final QuestionAddingStatus questionAddingStatus;
@@ -21,7 +21,7 @@ class CityState {
   CityState copyWith({
     CityModel? city,
     GetCityStatus? cityStatus,
-    List<PlaceOfCityModel>? placesOfCity,
+    List<PlaceModel>? placesOfCity,
     GetPlacesOfCityStatus? placesOfCityStatus,
     QuestionAddingStatus? questionAddingStatus,
   }) {

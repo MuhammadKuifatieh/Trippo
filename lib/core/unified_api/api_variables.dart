@@ -98,4 +98,12 @@ class ApiVariables {
         path: "question/$id/delete",
         queryParameters: params,
       );
+static Uri answersDelete({Map<String, dynamic>? params, required int id}) => _mobileUri(
+        path: "answer/$id/delete",
+        queryParameters: params,
+      );
+static Uri answersAdd({Map<String, dynamic>? params, required int questionId}) => _mobileUri(
+        path: "answer/question/$questionId/store",
+        queryParameters: params,
+      );
 }

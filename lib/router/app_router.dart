@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/city/presentation/widgets/questions_screen.dart';
+import 'package:trippo/features/city/presentation/widgets/show_question_screen.dart';
+import 'package:trippo/features/home/data/models/cities_response.dart';
 
 import '../features/authentication/presentation/screens/authentication_screen.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
@@ -69,7 +72,17 @@ class AppRouter {
         );
       case CityScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) =>  CityScreen(cityId: routeSettings.arguments as int));
+            builder: (_) => CityScreen(cityId: routeSettings.arguments as int));
+      case QuestionsScreen.routeName:
+        return MaterialPageRoute(
+            builder: (_) => QuestionsScreen(
+                  city: routeSettings.arguments as CityModel,
+                ));
+      case ShowQuestionScreen.routeName:
+        return MaterialPageRoute(
+            builder: (_) => ShowQuestionScreen(
+                  params: routeSettings.arguments as ShowQuestionScreenParams,
+                ));
     }
   }
 }

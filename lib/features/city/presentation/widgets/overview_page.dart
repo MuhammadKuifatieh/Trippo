@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
+import 'package:trippo/core/widgets/main_button.dart';
 import 'package:trippo/features/city/presentation/blocs/city/city_bloc.dart';
+import 'package:trippo/features/city/presentation/widgets/questions_screen.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';
 import '../../../../core/widgets/asset_svg.dart';
 import '../../../../core/widgets/cache_image.dart';
+import '../../../../core/widgets/loading_screen.dart';
+import '../../../../core/widgets/main_error_widget.dart';
 import '../../../../core/widgets/place_tile.dart';
 import '../../../home/data/models/cities_response.dart';
 import 'add_question_sheet.dart';
@@ -16,10 +20,10 @@ class OverviewPage extends StatefulWidget {
   const OverviewPage({
     Key? key,
     required this.tabController,
-    required this.city,
+    required this.cityId,
   }) : super(key: key);
   final TabController tabController;
-  final CityModel city;
+  final int cityId;
   @override
   State<OverviewPage> createState() => _OverviewPageState();
 }
@@ -27,12 +31,15 @@ class OverviewPage extends StatefulWidget {
 class _OverviewPageState extends State<OverviewPage> {
   late final PageController _pageController;
   late ValueNotifier<int> currentPageIndex;
+  late final CityBloc cityBloc;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     currentPageIndex = ValueNotifier(0);
+    cityBloc = context.read<CityBloc>();
+    cityBloc.add(GetCityEvent(cityId: widget.cityId));
   }
 
   @override
@@ -40,6 +47,17 @@ class _OverviewPageState extends State<OverviewPage> {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<CityBloc, CityState>(
       builder: (context, state) {
+        if (state.cityStatus == GetCityStatus.loading ||
+            state.cityStatus == GetCityStatus.initial) {
+          return const LoadingScreen();
+        }
+        // else if (state.cityStatus == GetCityStatus.failure) {
+        //   return MainErrorWidget(
+        //       size: size,
+        //       onTapRety: () {
+        //         cityBloc.add(GetCityEvent(cityId: widget.cityId));
+        //       });
+        // }
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,11 +75,10 @@ class _OverviewPageState extends State<OverviewPage> {
                         return CacheImage(
                           width: size.width,
                           height: size.width * 0.68,
-                          imageUrl:
-                              "https://i0.wp.com/iqr2.com/wp-content/uploads/2022/05/%D8%AD%D9%84%D8%A8_%D8%A7%D9%84%D8%B4%D9%87%D8%A8%D8%A7%D8%A1.jpg?resize=600%2C300&ssl=1",
+                          imageUrl: state.city.images![index].url!,
                         );
                       },
-                      itemCount: 10,
+                      itemCount: state.city.images!.length,
                     ),
                     Positioned(
                       right: 16,
@@ -76,7 +93,7 @@ class _OverviewPageState extends State<OverviewPage> {
                                 borderRadius: BorderRadius.circular(2),
                               ),
                               child: Text(
-                                '${value + 1}/999+',
+                                '${value + 1}/${state.city.images!.length}',
                                 style: AppTextStyles.styleWeight500(
                                     color: Colors.white),
                               ),
@@ -90,7 +107,7 @@ class _OverviewPageState extends State<OverviewPage> {
               Padding(
                 padding: const EdgeInsetsDirectional.only(start: 16),
                 child: Text(
-                  'حلب',
+                  state.city.name ?? 'No Name',
                   style: AppTextStyles.styleWeight700(fontSize: 28),
                 ),
               ),
@@ -98,7 +115,7 @@ class _OverviewPageState extends State<OverviewPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  "من اقدم المدن في التاريخ وتعد عاصمة سوريا الاقتصادية والصناعية وتحتوي على عدة مواقع أثرية واهمها قلعة حلب ومدينتها القديمة",
+                  state.city.description ?? 'No Description',
                   style: AppTextStyles.styleWeight400(
                     fontSize: 16,
                   ),
@@ -241,7 +258,7 @@ class _OverviewPageState extends State<OverviewPage> {
                           builder: (_) {
                             return AddQuestionSheet(
                               cityBloc: context.read<CityBloc>(),
-                              city: widget.city,
+                              city: state.city,
                             );
                           },
                         );
@@ -263,6 +280,21 @@ class _OverviewPageState extends State<OverviewPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    MainButton(
+                      child: Text('Show All Questions'),
+                      height: 50,
+                      width: 120,
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          QuestionsScreen.routeName,
+                          arguments: CityModel(
+                            id: 2,
+                            name: 'Aleppo',
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

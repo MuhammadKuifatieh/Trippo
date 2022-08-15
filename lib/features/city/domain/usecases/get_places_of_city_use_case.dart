@@ -1,21 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:trippo/core/error/failures.dart';
 import 'package:trippo/core/use_case/use_case.dart';
-import 'package:trippo/features/city/data/models/place_of_city_response_model/place_of_city_model.dart';
 import 'package:trippo/features/city/domain/repositories/city_repository.dart';
+import 'package:trippo/features/home/data/models/places_response.dart';
 
 class GetPlacesOfCityUseCase
-    implements UseCase<List<PlaceOfCityModel>, GetPlacesOfCityParams> {
-  final CityRepository _getCityRepository;
+    implements UseCase<List<PlaceModel>, GetPlacesOfCityParams> {
+  final CityRepository getCityRepository;
 
-  GetPlacesOfCityUseCase({required CityRepository getCityRepository})
-      : _getCityRepository = getCityRepository;
+  GetPlacesOfCityUseCase({required this.getCityRepository});
 
   @override
-  Future<Either<Failure, List<PlaceOfCityModel>>> call(
+  Future<Either<Failure, List<PlaceModel>>> call(
       GetPlacesOfCityParams params) async {
-    return await _getCityRepository.getPlacesOfCity(
-        params: params.getParamsMap());
+    return await getCityRepository.getPlacesOfCity(
+        params: params);
   }
 }
 

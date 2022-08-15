@@ -5,22 +5,22 @@ import 'package:trippo/core/use_case/use_case.dart';
 import '../../data/models/question/question_model.dart';
 import '../repositories/city_repository.dart';
 
-class AddQuestionUseCase extends UseCase<QuestionModel, AddQuestionParams> {
+class AddAnswerUseCase extends UseCase<AnswerModel, AddAnswerParams> {
   final CityRepository cityRepository;
 
-  AddQuestionUseCase({required this.cityRepository});
+  AddAnswerUseCase({required this.cityRepository});
   @override
-  Future<Either<Failure, QuestionModel>> call(AddQuestionParams params) async {
-    return await cityRepository.addQuestion(params:params);
+  Future<Either<Failure, AnswerModel>> call(AddAnswerParams params) async {
+    return await cityRepository.addAnswer(params:params);
   }
 }
 
-class AddQuestionParams {
-  final int cityId;
+class AddAnswerParams {
+  final int questionId;
   final String text;
 
-  AddQuestionParams({
-    required this.cityId,
+  AddAnswerParams({
+    required this.questionId,
     required this.text,
   });
 

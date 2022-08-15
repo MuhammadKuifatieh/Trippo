@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:trippo/features/city/data/models/place_of_city_response_model/place_of_city_model.dart';
 import 'package:trippo/features/city/data/repositories/city_repository_impl.dart';
 import 'package:trippo/features/city/domain/usecases/get_city_use_case.dart';
 import 'package:trippo/features/city/domain/usecases/get_places_of_city_use_case.dart';
 import 'package:trippo/features/home/data/models/cities_response.dart';
+import 'package:trippo/features/home/data/models/places_response.dart';
 
 import '../../../domain/usecases/add_question_use_case.dart';
 

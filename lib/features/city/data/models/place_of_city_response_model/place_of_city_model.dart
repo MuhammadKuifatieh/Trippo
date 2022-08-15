@@ -1,4 +1,0 @@
-class PlaceOfCityModel{
-  const PlaceOfCityModel();
-  
-}
