@@ -78,9 +78,6 @@ class ApiVariables {
         path: "place/place_by_point_map",
         queryParameters: params,
       );
-  ///////////
-  ///City///
-//////////
 
   static Uri getCity({required Map<String, dynamic> params}) {
     return _mainUri(path: "mobile/city/${params["id"]}/show");
@@ -89,4 +86,16 @@ class ApiVariables {
  static Uri getPlacesOfCity({required Map<String, dynamic> params}) {
     return _mainUri(path: "mobile/place/${params["id"]}/show");
   }
+  static Uri questionsAdd({Map<String, dynamic>? params, required int cityId}) => _mobileUri(
+        path: "question/city/$cityId/store",
+        queryParameters: params,
+      );
+  static Uri questionsIndex({Map<String, dynamic>? params, required int cityId}) => _mobileUri(
+        path: "question/city/$cityId/index",
+        queryParameters: params,
+      );
+  static Uri questionsDelete({Map<String, dynamic>? params, required int id}) => _mobileUri(
+        path: "question/$id/delete",
+        queryParameters: params,
+      );
 }
