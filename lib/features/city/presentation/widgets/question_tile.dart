@@ -5,7 +5,7 @@ import 'package:trippo/core/widgets/main_text_field.dart';
 import 'package:trippo/features/city/domain/usecases/add_answer_use_case.dart';
 import 'package:trippo/features/city/presentation/blocs/questions/questions_bloc.dart';
 import 'package:trippo/features/city/presentation/widgets/answer_tile.dart';
-import 'package:trippo/features/city/presentation/widgets/show_question_screen.dart';
+import 'package:trippo/features/city/presentation/screens/show_question_screen.dart';
 import 'package:trippo/features/home/data/models/cities_response.dart';
 
 import '../../../../core/config/app_text_styles.dart';

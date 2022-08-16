@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:trippo/core/unified_api/api_variables.dart';
 import 'package:trippo/core/unified_api/delete_api.dart';
@@ -88,6 +89,7 @@ class PlansDataSource {
       uri: ApiVariables.planContentsStore(planId: planId),
       body: body,
       fromJson: (jsonStr) {
+        log('JSON STR IN PLANS IS $jsonStr');
         final jsonMap = jsonDecode(jsonStr);
         return PlanContentModel.fromJson(jsonMap['data']['planContent']);
       },

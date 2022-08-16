@@ -4,7 +4,7 @@ import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:trippo/core/widgets/main_button.dart';
 import 'package:trippo/features/city/presentation/blocs/city/city_bloc.dart';
 import 'package:trippo/features/city/presentation/widgets/question_tile.dart';
-import 'package:trippo/features/city/presentation/widgets/questions_screen.dart';
+import 'package:trippo/features/city/presentation/screens/questions_screen.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';

@@ -12,9 +12,14 @@ class UserPlansFetched extends PlansEvent {
   const UserPlansFetched({required this.cityId});
 }
 
-
 class PlanAdded extends PlansEvent {
   final AddPlansParams addPlansParams;
 
   const PlanAdded(this.addPlansParams);
+}
+
+class PlanContentAdded extends PlansEvent {
+  final AddPlanContentParams addPlanContentParams;
+
+  const PlanContentAdded({required this.addPlanContentParams});
 }

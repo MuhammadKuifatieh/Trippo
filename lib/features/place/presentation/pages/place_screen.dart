@@ -209,6 +209,7 @@ class _PlaceScreenState extends State<PlaceScreen>
                             return PlansSheet(
                               cityId: state.place!.cityId!,
                               cityName: state.place!.cityName!,
+                              placeId: state.place!.id!,
                             );
                           },
                         );

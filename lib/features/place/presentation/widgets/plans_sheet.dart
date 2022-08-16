@@ -7,6 +7,7 @@ import 'package:trippo/features/place/presentation/bloc/bloc/plans_bloc.dart';
 import 'package:trippo/features/place/presentation/widgets/plan_card.dart';
 
 import '../../../../core/config/app_text_styles.dart';
+import 'add_plan_content.dart';
 import 'add_plan_dialog.dart';
 
 class PlansSheet extends StatefulWidget {
@@ -14,9 +15,11 @@ class PlansSheet extends StatefulWidget {
     Key? key,
     required this.cityId,
     required this.cityName,
+    required this.placeId,
   }) : super(key: key);
   final int cityId;
   final String cityName;
+  final int placeId;
   @override
   State<PlansSheet> createState() => _PlansSheetState();
 }
@@ -113,7 +116,39 @@ class _PlansSheetState extends State<PlansSheet> {
                         const SizedBox(height: 12),
                         ListView.builder(
                           itemBuilder: (context, index) {
-                            return PlanCard(plan: state.plans[index]);
+                            return Row(
+                              children: [
+                                Expanded(
+                                  flex: 5,
+                                  child: PlanCard(plan: state.plans[index]),
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AddPlanContentDialog(
+                                            plansBloc: plansBloc,
+                                            placeId: widget.placeId,
+                                            planModel: state.plans[index],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      'Add To Plan',
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyles.styleWeight600(
+                                        fontSize: 14,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
                           },
                           itemCount: state.plans.length,
                           shrinkWrap: true,

@@ -188,7 +188,9 @@ class PlaceModel {
       closeAt: json["close_at"],
       isOpen: json["is_open"],
       isFavorite: json["is_favourite"],
-      createdAt: DateTime.parse(json["created_at"]),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json["created_at"]),
       images: json["images"] == null
           ? null
           : List<ImageModel>.from(

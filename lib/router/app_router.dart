@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/plans/data/models/plan/plan_model.dart';
+import 'package:trippo/features/plans/presentation/pages/plan_content_screen.dart';
 
 import '../features/authentication/presentation/screens/authentication_screen.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/city/presentation/screens/city_screen.dart';
-import '../features/city/presentation/widgets/questions_screen.dart';
-import '../features/city/presentation/widgets/show_question_screen.dart';
+import '../features/city/presentation/screens/questions_screen.dart';
+import '../features/city/presentation/screens/show_question_screen.dart';
 import '../features/explore/presentation/pages/search_screen.dart';
 import '../features/home/data/models/cities_response.dart';
 import '../features/home/presentation/pages/home_screen.dart';
@@ -85,6 +87,12 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => ShowQuestionScreen(
             params: routeSettings.arguments as ShowQuestionScreenParams,
+          ),
+        );
+      case PlanContentScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => PlanContentScreen(
+            plan: routeSettings.arguments as PlanModel,
           ),
         );
     }

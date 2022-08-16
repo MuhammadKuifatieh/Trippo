@@ -5,7 +5,8 @@ part 'plan_content_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class PlanContentModel {
   final int id;
-  final String fullDate;
+  @JsonKey(name: 'full_date')
+  final String? fullDate;
   final String? comment;
   final PlaceModel place;
 
