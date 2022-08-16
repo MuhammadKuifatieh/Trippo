@@ -9,3 +9,11 @@ class GetFavoritePlacesEvent extends ProfileEvent {
 
   GetFavoritePlacesEvent({this.isReload = false});
 }
+
+class GetAllCities extends ProfileEvent {}
+
+class HostRequestSended extends ProfileEvent {
+  final SendHostParams sendHostParams;
+
+  HostRequestSended(this.sendHostParams);
+}

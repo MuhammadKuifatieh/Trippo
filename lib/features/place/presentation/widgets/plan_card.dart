@@ -33,50 +33,79 @@ class PlanCard extends StatelessWidget {
           horizontal: 8,
         ),
         elevation: 3,
-        child: Row(
-          children: [
-            CacheImage(
-              height: 120,
-              width: size.width * 0.3,
-              imageUrl: plan.image!.url!,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            const SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Plan Name:',
-                      style: AppTextStyles.styleWeight600(),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      plan.name,
-                      style: AppTextStyles.styleWeight400(),
-                    ),
-                  ],
+        child: SizedBox(
+          height: size.width / 2.8,
+          child: Row(
+            children: [
+              if (plan.image != null)
+                Expanded(
+                  flex: 3,
+                  child: CacheImage(
+                    height: double.infinity,
+                    width: size.width * 0.3,
+                    imageUrl: plan.image!.url!,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Plan Details:',
-                      style: AppTextStyles.styleWeight600(),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      plan.description ?? "Description",
-                      style: AppTextStyles.styleWeight400(),
-                    ),
-                  ],
+              const SizedBox(width: 20),
+              Expanded(
+                flex: 7,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                  width: size.width * 0.65,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Plan Name:',
+                              style: AppTextStyles.styleWeight600(),
+                            ),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                plan.name,
+                                style: AppTextStyles.styleWeight400(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Expanded(
+                        flex: 4,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'Plan Details:',
+                                style: AppTextStyles.styleWeight600(),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                plan.description ?? "Description",
+                                style: AppTextStyles.styleWeight400(),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

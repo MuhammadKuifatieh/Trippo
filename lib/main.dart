@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeApp().getTheme(context),
             builder: BotToastInit(),
             navigatorObservers: [BotToastNavigatorObserver()],
-            home: const SplashScreen(),
+            home: const AuthenticationScreen(),
             onGenerateRoute: AppRouter.onGenerateRoute,
           );
         },

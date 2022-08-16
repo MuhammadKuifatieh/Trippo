@@ -7,4 +7,7 @@ abstract class AuthenticationRepository {
       {required Map<String, dynamic> params});
   Future<Either<Failure, RegistrationResponse>> login(
       {required Map<String, dynamic> params});
+
+  Future<Either<Failure, bool>> sendHostRequest(
+      {required Map<String, dynamic> params});
 }

@@ -5,22 +5,24 @@ import 'package:trippo/features/plans/domain/repository/plans_repository.dart';
 
 import '../../../../core/use_case/use_case.dart';
 
-class GetAllPlansUseCase implements UseCase<List<PlanModel>, GetPlansParams> {
+class GetAllPlansUseCase
+    implements UseCase<List<PlanModel>, GetAllPlansParams> {
   final PlansRepository plansRepository;
 
   GetAllPlansUseCase({required this.plansRepository});
   @override
-  Future<Either<Failure, List<PlanModel>>> call(GetPlansParams params) async {
+  Future<Either<Failure, List<PlanModel>>> call(
+      GetAllPlansParams params) async {
     return await plansRepository.getAllPlans(params);
   }
 }
 
-class GetPlansParams {
+class GetAllPlansParams {
   final int cityId;
   final int page;
   final int perPage;
 
-  GetPlansParams({
+  GetAllPlansParams({
     required this.cityId,
     this.page = 1,
     this.perPage = 10,
@@ -30,6 +32,7 @@ class GetPlansParams {
     return {
       'page': page.toString(),
       'perPage': perPage.toString(),
+      'cityId':cityId.toString(),
     };
   }
 }

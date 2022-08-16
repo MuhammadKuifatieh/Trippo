@@ -4,7 +4,7 @@ class ApiVariables {
   ApiVariables._();
 
   static const _scheme = 'http';
-  static const _host = '192.168.1.4';
+  static const _host = '192.168.1.115';
   static const _port = 5000;
 
   static Uri _mainUri({
@@ -135,10 +135,9 @@ class ApiVariables {
       );
 
   static Uri getVisitTypes() => _mobileUri(path: "visitType/index");
-  static Uri plansAllIndex(
-          {required int cityId, required Map<String, dynamic> queryParams}) =>
+  static Uri plansAllIndex({required Map<String, dynamic> queryParams}) =>
       _mobileUri(
-        path: "plan/city/$cityId/index",
+        path: "plan/index",
         queryParameters: queryParams,
       );
   static Uri plansUserIndex({required Map<String, dynamic> queryParams}) =>
@@ -173,6 +172,12 @@ class ApiVariables {
           {required int id, Map<String, dynamic>? queryParams}) =>
       _mobileUri(
         path: "planContent/$id/delete",
+        queryParameters: queryParams,
+      );
+
+  static Uri hostSendRequest( {Map<String, dynamic>? queryParams}) =>
+      _mobileUri(
+        path: "user/requestHost",
         queryParameters: queryParams,
       );
 }

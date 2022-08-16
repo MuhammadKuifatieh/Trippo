@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trippo/features/plans/data/models/plan/plan_model.dart';
 import 'package:trippo/features/plans/presentation/pages/plan_content_screen.dart';
+import 'package:trippo/features/profile/presentation/pages/host_info_screen.dart';
 
 import '../features/authentication/presentation/screens/authentication_screen.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
@@ -94,6 +95,10 @@ class AppRouter {
           builder: (_) => PlanContentScreen(
             plan: routeSettings.arguments as PlanModel,
           ),
+        );
+      case HostInfoScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const HostInfoScreen(),
         );
     }
   }

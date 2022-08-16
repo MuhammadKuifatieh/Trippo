@@ -32,4 +32,17 @@ class AuthenticationDataSource {
 
     return await postApi.callRequest();
   }
+
+  Future<bool> sendHostRequest({required Map<String, dynamic> body}) async {
+    final PostApi<bool> postApi = PostApi(
+      uri: ApiVariables.hostSendRequest(),
+      body: body,
+      fromJson: (rawJson) {
+        final json = jsonDecode(rawJson);
+        return json['success'] as bool;
+      },
+    );
+
+    return await postApi.callRequest();
+  }
 }

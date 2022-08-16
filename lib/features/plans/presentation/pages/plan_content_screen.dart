@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trippo/core/widgets/loading_screen.dart';
+import 'package:trippo/core/widgets/main_error_widget.dart';
 import 'package:trippo/features/plans/data/models/plan/plan_model.dart';
 import 'package:trippo/features/plans/presentation/blocs/plan_content/plan_content_bloc.dart';
 import 'package:trippo/features/plans/presentation/widgets/plan_content_card.dart';
@@ -22,12 +24,19 @@ class PlanContentScreen extends StatefulWidget {
 
 class _PlanContentScreenState extends State<PlanContentScreen> {
   late final PlanContentBloc planContentBloc;
+  late Size size;
 
   @override
   void initState() {
     super.initState();
     planContentBloc = PlanContentBloc();
     planContentBloc.add(PlanContentFetched(widget.plan.id));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    size = MediaQuery.of(context).size;
   }
 
   @override
@@ -95,6 +104,16 @@ class _PlanContentScreenState extends State<PlanContentScreen> {
               const SizedBox(height: 12),
               BlocBuilder<PlanContentBloc, PlanContentState>(
                 builder: (context, state) {
+                  if (state.status == PlanContentStatus.initial) {
+                    return const LoadingScreen();
+                  } else if (state.status == PlanContentStatus.failure) {
+                    return MainErrorWidget(
+                        size: size,
+                        onTapRety: () {
+                          planContentBloc
+                              .add(PlanContentFetched(widget.plan.id));
+                        });
+                  }
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       return PlanContentCard(

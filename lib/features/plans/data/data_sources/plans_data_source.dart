@@ -10,9 +10,9 @@ import 'package:trippo/features/plans/data/models/plan_content/plan_content_mode
 
 class PlansDataSource {
   Future<List<PlanModel>> getAllPlans(
-      {required int cityId, required Map<String, dynamic> queryParams}) async {
+      {required Map<String, dynamic> queryParams}) async {
     final GetApi<List<PlanModel>> getApi = GetApi(
-      uri: ApiVariables.plansAllIndex(cityId: cityId, queryParams: queryParams),
+      uri: ApiVariables.plansAllIndex(queryParams: queryParams),
       fromJson: (jsonStr) {
         final jsonMap = jsonDecode(jsonStr);
         final jsonList = jsonMap['data']['plans'] as List<dynamic>;

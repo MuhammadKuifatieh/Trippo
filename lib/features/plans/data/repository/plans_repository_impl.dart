@@ -52,10 +52,10 @@ class PlansRepositoryImpl
 
   @override
   Future<Either<Failure, List<PlanModel>>> getAllPlans(
-      GetPlansParams params) async {
+      GetAllPlansParams params) async {
     return await wrapHandling<List<PlanModel>>(tryCall: () async {
-      final models = await _plansDataSource.getAllPlans(
-          cityId: params.cityId, queryParams: params.toMap());
+      final models =
+          await _plansDataSource.getAllPlans(queryParams: params.toMap());
       return Right(models);
     });
   }

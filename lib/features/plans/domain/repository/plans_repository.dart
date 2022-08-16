@@ -10,7 +10,8 @@ import 'package:trippo/features/plans/domain/use_cases/get_user_plans_use_case.d
 import '../use_cases/add_plan_use_case.dart';
 
 abstract class PlansRepository {
-  Future<Either<Failure, List<PlanModel>>> getAllPlans(GetPlansParams params);
+  Future<Either<Failure, List<PlanModel>>> getAllPlans(
+      GetAllPlansParams params);
   Future<Either<Failure, List<PlanModel>>> getUserPlans(
       GetUserPlansParams params);
   Future<Either<Failure, List<PlanContentModel>>> getPlanContents(

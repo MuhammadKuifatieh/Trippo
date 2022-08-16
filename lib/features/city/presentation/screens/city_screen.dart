@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trippo/features/city/presentation/widgets/plans_page.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';
@@ -23,7 +24,7 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 5, vsync: this);
     cityBloc = CityBloc();
   }
 
@@ -133,6 +134,9 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                               Text(
                                 'مطاعم',
                               ),
+                              Text(
+                                'خطط سياحية',
+                              ),
                             ],
                           ),
                         ),
@@ -175,6 +179,7 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                       );
                     },
                   ),
+                  PlansPage(cityId: widget.cityId!),
                 ],
               ),
             ),

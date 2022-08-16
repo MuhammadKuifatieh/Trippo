@@ -51,14 +51,13 @@ class _OverviewPageState extends State<OverviewPage> {
         if (state.cityStatus == GetCityStatus.loading ||
             state.cityStatus == GetCityStatus.initial) {
           return const LoadingScreen();
+        } else if (state.cityStatus == GetCityStatus.failure) {
+          return MainErrorWidget(
+              size: size,
+              onTapRety: () {
+                cityBloc.add(GetCityEvent(cityId: widget.cityId));
+              });
         }
-        // else if (state.cityStatus == GetCityStatus.failure) {
-        //   return MainErrorWidget(
-        //       size: size,
-        //       onTapRety: () {
-        //         cityBloc.add(GetCityEvent(cityId: widget.cityId));
-        //       });
-        // }
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

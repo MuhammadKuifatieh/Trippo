@@ -31,4 +31,15 @@ class AuthenticationRepostitoryImp
       },
     );
   }
+
+  @override
+  Future<Either<Failure, bool>> sendHostRequest(
+      {required Map<String, dynamic> params}) async {
+    return wrapHandling<bool>(
+      tryCall: () async {
+        final res = await _authDataSource.sendHostRequest(body: params);
+        return Right(res);
+      },
+    );
+  }
 }

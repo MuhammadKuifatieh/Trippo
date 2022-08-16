@@ -1,11 +1,10 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trippo/injection.dart';
+import 'package:trippo/features/profile/presentation/pages/host_info_screen.dart';
 
 import '../../../../core/bloc/language_manager/language_manager_bloc.dart';
 import '../../../../core/config/global_functions.dart';
