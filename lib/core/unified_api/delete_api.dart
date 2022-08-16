@@ -10,7 +10,7 @@ typedef _FromJson<T> = T Function(String body);
 
 class DeleteApi<T> with HandlingExceptionRequest {
   final Uri uri;
-  final _FromJson fromJson;
+  final _FromJson<T> fromJson;
   DeleteApi({
     required this.uri,
     required this.fromJson,

@@ -1,11 +1,10 @@
 import 'dart:developer';
 
-
 class ApiVariables {
   ApiVariables._();
 
   static const _scheme = 'http';
-  static const _host = '192.168.1.112';
+  static const _host = '192.168.137.1';
   static const _port = 5000;
 
   static Uri _mainUri({
@@ -56,6 +55,13 @@ class ApiVariables {
         path: "city/indexTrending",
         queryParameters: queryParameters,
       );
+  static Uri getAllCities({
+    Map<String, dynamic>? queryParameters,
+  }) =>
+      _mobileUri(
+        path: "city/index",
+        queryParameters: queryParameters,
+      );
   static Uri indexPlaces({
     Map<String, dynamic>? queryParameters,
   }) =>
@@ -85,26 +91,35 @@ class ApiVariables {
     return _mainUri(path: "mobile/city/${params["id"]}/show");
   }
 
- static Uri getPlacesOfCity({required Map<String, dynamic> params}) {
+  static Uri getPlacesOfCity({required Map<String, dynamic> params}) {
     return _mainUri(path: "mobile/place/${params["id"]}/show");
   }
-  static Uri questionsAdd({Map<String, dynamic>? params, required int cityId}) => _mobileUri(
+
+  static Uri questionsAdd(
+          {Map<String, dynamic>? params, required int cityId}) =>
+      _mobileUri(
         path: "question/city/$cityId/store",
         queryParameters: params,
       );
-  static Uri questionsIndex({Map<String, dynamic>? params, required int cityId}) => _mobileUri(
+  static Uri questionsIndex(
+          {Map<String, dynamic>? params, required int cityId}) =>
+      _mobileUri(
         path: "question/city/$cityId/index",
         queryParameters: params,
       );
-  static Uri questionsDelete({Map<String, dynamic>? params, required int id}) => _mobileUri(
+  static Uri questionsDelete({Map<String, dynamic>? params, required int id}) =>
+      _mobileUri(
         path: "question/$id/delete",
         queryParameters: params,
       );
-static Uri answersDelete({Map<String, dynamic>? params, required int id}) => _mobileUri(
+  static Uri answersDelete({Map<String, dynamic>? params, required int id}) =>
+      _mobileUri(
         path: "answer/$id/delete",
         queryParameters: params,
       );
-static Uri answersAdd({Map<String, dynamic>? params, required int questionId}) => _mobileUri(
+  static Uri answersAdd(
+          {Map<String, dynamic>? params, required int questionId}) =>
+      _mobileUri(
         path: "answer/question/$questionId/store",
         queryParameters: params,
       );
@@ -120,4 +135,44 @@ static Uri answersAdd({Map<String, dynamic>? params, required int questionId}) =
       );
 
   static Uri getVisitTypes() => _mobileUri(path: "visitType/index");
+  static Uri plansAllIndex(
+          {required int cityId, required Map<String, dynamic> queryParams}) =>
+      _mobileUri(
+        path: "plan/city/$cityId/index",
+        queryParameters: queryParams,
+      );
+  static Uri plansUserIndex({required Map<String, dynamic> queryParams}) =>
+      _mobileUri(
+        path: "plan/user/index",
+        queryParameters: queryParams,
+      );
+  static Uri plansStore({Map<String, dynamic>? queryParams}) => _mobileUri(
+        path: "plan/store",
+        queryParameters: queryParams,
+      );
+  static Uri plansDelete(
+          {required int id, Map<String, dynamic>? queryParams}) =>
+      _mobileUri(
+        path: "plan/$id/delete",
+        queryParameters: queryParams,
+      );
+
+  static Uri planContentsIndex(
+          {required int planId, required Map<String, dynamic> queryParams}) =>
+      _mobileUri(
+        path: "planContent/plan/$planId/index",
+        queryParameters: queryParams,
+      );
+  static Uri planContentsStore(
+          {required int planId, Map<String, dynamic>? queryParams}) =>
+      _mobileUri(
+        path: "planContent/plan/$planId/store",
+        queryParameters: queryParams,
+      );
+  static Uri planContentDelete(
+          {required int id, Map<String, dynamic>? queryParams}) =>
+      _mobileUri(
+        path: "planContent/$id/delete",
+        queryParameters: queryParams,
+      );
 }

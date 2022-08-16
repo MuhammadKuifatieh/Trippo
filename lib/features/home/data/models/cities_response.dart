@@ -89,8 +89,8 @@ class CityModel {
   final String? name;
   final String? description;
   final int? views;
-  final String? latitude;
-  final String? longitude;
+  final double? latitude;
+  final double? longitude;
   final List<ImageModel>? images;
   final List<QuestionModel>? questions;
 
@@ -99,8 +99,8 @@ class CityModel {
     String? name,
     String? description,
     int? views,
-    String? latitude,
-    String? longitude,
+    double? latitude,
+    double? longitude,
     List<ImageModel>? images,
     List<QuestionModel>? questions,
   }) =>

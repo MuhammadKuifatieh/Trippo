@@ -12,7 +12,7 @@ typedef _FromJson<T> = T Function(String body);
 class GetApi<T> with HandlingExceptionRequest {
   final Uri uri;
   final Map body;
-  final _FromJson fromJson;
+  final _FromJson<T> fromJson;
   final bool getFCMToken;
   GetApi(
       {required this.uri,

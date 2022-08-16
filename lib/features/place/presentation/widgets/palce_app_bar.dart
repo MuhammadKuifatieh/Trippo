@@ -14,6 +14,7 @@ class _PlaceAppBar extends StatelessWidget {
     required this.isFavorite,
     required this.onTapPop,
     required this.onTap,
+    required this.onSavedTap,
   }) : super(key: key);
 
   final Size size;
@@ -27,6 +28,7 @@ class _PlaceAppBar extends StatelessWidget {
   final bool? isFavorite;
   final VoidCallback onTap;
   final VoidCallback onTapPop;
+  final void Function() onSavedTap;
 
   @override
   Widget build(BuildContext context) {
@@ -171,42 +173,43 @@ class _PlaceAppBar extends StatelessWidget {
             ),
             actions: [
               AnimatedBuilder(
-                  animation: animationController,
-                  builder: (context, child) {
-                    return Row(
-                      children: [
-                        MainButton(
-                          onTap: () {},
-                          width: size.width * .1,
-                          height: size.width * .1,
-                          color: Colors.white.withOpacity(
-                            sequenceAnimation['opacity'].value,
-                          ),
-                          child: Icon(
-                            Icons.bookmark_add_sharp,
-                            size: size.width * .065,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                animation: animationController,
+                builder: (context, child) {
+                  return Row(
+                    children: [
+                      MainButton(
+                        onTap: onSavedTap,
+                        width: size.width * .1,
+                        height: size.width * .1,
+                        color: Colors.white.withOpacity(
+                          sequenceAnimation['opacity'].value,
                         ),
-                        SizedBox(width: size.width * .05),
-                        MainButton(
-                          onTap: onTapFavorite,
-                          width: size.width * .1,
-                          height: size.width * .1,
-                          color: Colors.white
-                              .withOpacity(sequenceAnimation['opacity'].value),
-                          child: Icon(
-                            isFavorite ?? false
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            size: size.width * .065,
-                            color: Theme.of(context).errorColor,
-                          ),
+                        child: Icon(
+                          Icons.bookmark_add_sharp,
+                          size: size.width * .065,
+                          color: Theme.of(context).primaryColor,
                         ),
-                        SizedBox(width: size.width * .05),
-                      ],
-                    );
-                  }),
+                      ),
+                      SizedBox(width: size.width * .05),
+                      MainButton(
+                        onTap: onTapFavorite,
+                        width: size.width * .1,
+                        height: size.width * .1,
+                        color: Colors.white
+                            .withOpacity(sequenceAnimation['opacity'].value),
+                        child: Icon(
+                          isFavorite ?? false
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          size: size.width * .065,
+                          color: Theme.of(context).errorColor,
+                        ),
+                      ),
+                      SizedBox(width: size.width * .05),
+                    ],
+                  );
+                },
+              ),
             ],
           );
   }

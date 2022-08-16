@@ -94,6 +94,7 @@ class PlaceModel {
     this.images,
     this.awards,
     this.isFavorite = false,
+    this.cityId,
   });
 
   int? id;
@@ -117,6 +118,7 @@ class PlaceModel {
   bool? isFavorite;
   List<ImageModel>? images;
   List<AwardModel>? awards;
+  int? cityId;
 
   PlaceModel copyWith({
     int? id,
@@ -140,6 +142,7 @@ class PlaceModel {
     DateTime? createdAt,
     List<ImageModel>? images,
     List<AwardModel>? awards,
+    int? cityId,
   }) =>
       PlaceModel(
         id: id ?? this.id,
@@ -163,37 +166,38 @@ class PlaceModel {
         cityName: cityName ?? this.cityName,
         isFavorite: isFavorite ?? this.isFavorite,
         typeName: typeName ?? this.typeName,
+        cityId: cityId ?? this.cityId,
       );
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) => PlaceModel(
-        id: json["id"],
-        name: json["name"],
-        about: json["about"],
-        address: json["address"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        ratting: json["ratting"],
-        rattingCount: json["ratting_count"],
-        typeName: json["type"],
-        cityName: json["city"],
-        views: json["views"],
-        webSite: json["web_site"],
-        phoneNumber: json["phone_number"],
-        email: json["email"],
-        openAt: json["open_at"],
-        closeAt: json["close_at"],
-        isOpen: json["is_open"],
-        isFavorite: json["is_favourite"],
-        createdAt: DateTime.parse(json["created_at"]),
-        images: json["images"] == null
-            ? null
-            : List<ImageModel>.from(
-                json["images"].map((x) => ImageModel.fromJson(x))),
-        awards: json["awards"] == null
-            ? null
-            : List<AwardModel>.from(
-                json["awards"].map((x) => AwardModel.fromJson(x))),
-      );
+      id: json["id"],
+      name: json["name"],
+      about: json["about"],
+      address: json["address"],
+      latitude: json["latitude"],
+      longitude: json["longitude"],
+      ratting: json["ratting"],
+      rattingCount: json["ratting_count"],
+      typeName: json["type"],
+      cityName: json["city"],
+      views: json["views"],
+      webSite: json["web_site"],
+      phoneNumber: json["phone_number"],
+      email: json["email"],
+      openAt: json["open_at"],
+      closeAt: json["close_at"],
+      isOpen: json["is_open"],
+      isFavorite: json["is_favourite"],
+      createdAt: DateTime.parse(json["created_at"]),
+      images: json["images"] == null
+          ? null
+          : List<ImageModel>.from(
+              json["images"].map((x) => ImageModel.fromJson(x))),
+      awards: json["awards"] == null
+          ? null
+          : List<AwardModel>.from(
+              json["awards"].map((x) => AwardModel.fromJson(x))),
+      cityId: json['city_id']);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -220,7 +224,8 @@ class PlaceModel {
             : List<dynamic>.from(images!.map((x) => x.toJson())),
         "awards": awards == null
             ? null
-            : List<dynamic>.from(awards!.map((x) => x.toJson()))
+            : List<dynamic>.from(awards!.map((x) => x.toJson())),
+        'city_id': cityId,
       };
 }
 
