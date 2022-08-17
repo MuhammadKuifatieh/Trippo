@@ -54,6 +54,20 @@ class _SupportWidget extends StatelessWidget {
             color: Colors.grey.shade300,
           ),
         ),
+        TextButtonProfile(
+          size: size,
+          onPressed: () {
+            Navigator.pushNamed(context, HostInfoScreen.routeName);
+          },
+          title: 'Transform to Host',
+          child: Icon(
+            GlobalFunctions().isRTLDirectionality(context)
+                ? Icons.keyboard_arrow_left_rounded
+                : Icons.keyboard_arrow_right_rounded,
+            size: size.width * .075,
+            color: Colors.grey.shade300,
+          ),
+        ),
       ],
     );
   }

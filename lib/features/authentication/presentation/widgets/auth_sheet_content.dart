@@ -56,7 +56,7 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
             const SizedBox(height: 65),
             Container(
               height: 400,
-              padding: EdgeInsets.only(
+              margin: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: PageView(
                 controller: _pageController,

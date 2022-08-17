@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:trippo/features/authentication/presentation/screens/authentication_screen.dart';
+import 'package:trippo/features/splash/presentation/blocs/splash/splash_bloc.dart';
 
 import 'core/bloc/language_manager/language_manager_bloc.dart';
 import 'core/theme_app.dart';
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeApp().getTheme(context),
             builder: BotToastInit(),
             navigatorObservers: [BotToastNavigatorObserver()],
-            home: const SplashScreen(),
+            home: const AuthenticationScreen(),
             onGenerateRoute: AppRouter.onGenerateRoute,
           );
         },

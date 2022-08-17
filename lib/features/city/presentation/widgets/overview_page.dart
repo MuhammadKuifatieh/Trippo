@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:trippo/core/widgets/main_button.dart';
 import 'package:trippo/features/city/presentation/blocs/city/city_bloc.dart';
-import 'package:trippo/features/city/presentation/widgets/questions_screen.dart';
+import 'package:trippo/features/city/presentation/widgets/question_tile.dart';
+import 'package:trippo/features/city/presentation/screens/questions_screen.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';
@@ -50,14 +51,13 @@ class _OverviewPageState extends State<OverviewPage> {
         if (state.cityStatus == GetCityStatus.loading ||
             state.cityStatus == GetCityStatus.initial) {
           return const LoadingScreen();
+        } else if (state.cityStatus == GetCityStatus.failure) {
+          return MainErrorWidget(
+              size: size,
+              onTapRety: () {
+                cityBloc.add(GetCityEvent(cityId: widget.cityId));
+              });
         }
-        // else if (state.cityStatus == GetCityStatus.failure) {
-        //   return MainErrorWidget(
-        //       size: size,
-        //       onTapRety: () {
-        //         cityBloc.add(GetCityEvent(cityId: widget.cityId));
-        //       });
-        // }
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,21 +280,36 @@ class _OverviewPageState extends State<OverviewPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    MainButton(
-                      child: Text('Show All Questions'),
-                      height: 50,
-                      width: 120,
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          QuestionsScreen.routeName,
-                          arguments: CityModel(
-                            id: 2,
-                            name: 'Aleppo',
+                    for (int i = 0;
+                        i < 2 && i < state.city.questions!.length;
+                        i++)
+                      QuestionTile(question: state.city.questions![i]),
+                    const SizedBox(height: 12),
+                    if (state.city.questions!.length > 2)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            QuestionsScreen.routeName,
+                            arguments: state.city,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                        );
-                      },
-                    ),
+                          child: Text(
+                            'Show All Questions',
+                            style: AppTextStyles.styleWeight500(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),

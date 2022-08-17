@@ -31,3 +31,9 @@ class QuestionDeleted extends CityEvent {
 
   QuestionDeleted(this.id);
 }
+
+class PublicPlansFetched extends CityEvent {
+  final int cityId;
+
+  PublicPlansFetched(this.cityId);
+}

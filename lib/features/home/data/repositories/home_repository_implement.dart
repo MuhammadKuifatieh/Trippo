@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:trippo/features/home/data/datasources/all_cities_data_source.dart';
 import 'package:trippo/features/home/data/datasources/remote_get_top_attraction_places_data_source.dart';
 import 'package:trippo/features/home/data/datasources/remote_get_might_like_places_data_source.dart';
 import 'package:trippo/features/home/data/datasources/remote_get_small_batch_places_data_source.dart';
@@ -19,6 +20,7 @@ class HomeRepositoryImplement
   final _getTopAttraction = RemoteGetTopAttractionPlacesDataSource();
   final _getMightLikePlaces = RemoteGetMightLikePlacesDataSource();
   final _getSmallBatchPlaces = RemoteGetSmallBatchPlacesDataSource();
+  final _allCitiesDataSource = AllCitiesDataSource();
 
   @override
   Future<Either<Failure, CitiesResponse>> getTrendingCities(
@@ -62,6 +64,15 @@ class HomeRepositoryImplement
       Map<String, dynamic> params) async {
     return wrapHandling(tryCall: () async {
       final result = await _getTopAttraction.getTopAttractionPlaces(params);
+      return Right(result);
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<CityModel>>> getAllCities(
+      Map<String, dynamic> parmas) {
+    return wrapHandling<List<CityModel>>(tryCall: () async {
+      final result = await _allCitiesDataSource.getAllCities(parmas);
       return Right(result);
     });
   }

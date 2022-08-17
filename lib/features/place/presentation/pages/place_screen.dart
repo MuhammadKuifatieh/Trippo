@@ -16,6 +16,7 @@ import '../../../../core/widgets/main_rating_bar.dart';
 import '../../../home/data/models/cities_response.dart';
 import '../../../home/data/models/places_response.dart';
 import '../bloc/place/place_bloc.dart';
+import '../widgets/plans_sheet.dart';
 import '../widgets/review_bottom_sheet.dart';
 import '../widgets/review_card.dart';
 import '../widgets/review_result_card.dart';
@@ -195,6 +196,23 @@ class _PlaceScreenState extends State<PlaceScreen>
                       },
                       onTapPop: () {
                         Navigator.of(context).pop(state.place!.isFavorite);
+                      },
+                      onSavedTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          constraints: BoxConstraints(
+                            maxHeight: size.height * 0.9,
+                          ),
+                          builder: (context) {
+                            return PlansSheet(
+                              cityId: state.place!.cityId!,
+                              cityName: state.place!.cityName!,
+                              placeId: state.place!.id!,
+                            );
+                          },
+                        );
                       },
                     ),
                   ];
