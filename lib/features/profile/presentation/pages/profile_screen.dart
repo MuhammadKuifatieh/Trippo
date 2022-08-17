@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 1, vsync: this);
     //
   }
 
@@ -138,8 +138,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                       controller: tabController,
                       children: [
                         // _PhotoProfileWidget(state: state),
-                        Container(),
-                        _TripsProfileWidget(),
+                        // Container(),
+                        // _TripsProfileWidget(),
                         _SavedProfileWidget(
                           state: state,
                           profileBloc: profileBloc,

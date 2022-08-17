@@ -1,14 +1,14 @@
 part of '../pages/setting_screen.dart';
 
 class _SupportWidget extends StatelessWidget {
-   _SupportWidget({
+  _SupportWidget({
     Key? key,
     required this.size,
   }) : super(key: key);
   final Size size;
-  User? user ;
+  User? user;
   final pref = serviceLocator<SharedPreferences>();
-    
+
   @override
   Widget build(BuildContext context) {
     String getUser = pref.getString(PrefsKeys.userInfo) ?? "";
@@ -62,10 +62,11 @@ class _SupportWidget extends StatelessWidget {
         TextButtonProfile(
           size: size,
           onPressed: () {
-            if(!user!.isHost!) {
+            if (!user!.isHost!) {
               Navigator.pushNamed(context, HostInfoScreen.routeName);
+            } else {
+              Navigator.pushNamed(context, AddExperinceSrceen.routeName);
             }
-Navigator.pushNamed(context,AddExperinceSrceen.routeName);
           },
           title: 'Transform to Host',
           child: Icon(

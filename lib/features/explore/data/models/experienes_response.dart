@@ -153,7 +153,7 @@ class ExperienceModel {
         user: json["user"] == null ? null : User.fromJson(json["user"]),
         places: json["places"] == null
             ? null
-            : List<PlaceModel>.from(json["places"].map((x) => x)),
+            : List<PlaceModel>.from(json["places"].map((x) => PlaceModel.fromJson(x))),
         bookings: json["bookings"] == null
             ? null
             : List<BookingModel>.from(

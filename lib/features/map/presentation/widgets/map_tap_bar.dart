@@ -65,14 +65,14 @@ class _MapTapBar extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CacheImage(
-                            width: size.width * .1,
-                            height: size.width * .1,
-                            imageUrl: mapState.types[index].image!.url!,
-                            hash: mapState.types[index].image!.hash,
-                            shape: BoxShape.circle,
-                          ),
-                          SizedBox(width: size.width * .01),
+                          // CacheImage(
+                          //   width: size.width * .1,
+                          //   height: size.width * .1,
+                          //   imageUrl: mapState.types[index].image!.url!,
+                          //   hash: mapState.types[index].image!.hash,
+                          //   shape: BoxShape.circle,
+                          // ),
+                          // SizedBox(width: size.width * .01),
                           Text(
                             mapState.types[index].name!,
                             style: AppTextStyles.styleWeight500(),

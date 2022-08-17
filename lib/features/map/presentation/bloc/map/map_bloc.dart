@@ -94,7 +94,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       northeastLng: state.latLngBounds!.northeast.longitude,
       southwastLng: state.latLngBounds!.southwest.longitude,
       southwastLat: state.latLngBounds!.southwest.latitude,
-      typeId: state.types[state.typeIndex].id.toString(),
+      typeId:state.types.isEmpty?"1": state.types[state.typeIndex].id.toString(),
       page: 1,
       perPage: 100,
     ));

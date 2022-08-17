@@ -192,7 +192,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(trendingCitiesStatus: TrendingCitiesStatus.loading));
     final result = await _getTrendingCities(GetTrendingCitiesParams(
       page: 1,
-      perPage: 10,
+      perPage: 100,
     ));
     result.fold(
       (l) => emit(state.copyWith(

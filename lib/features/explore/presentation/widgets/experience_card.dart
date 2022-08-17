@@ -16,7 +16,8 @@ class _ExperienceCardState extends State<_ExperienceCard> {
   ValueNotifier<int> index = ValueNotifier(0);
   changeIndex() {
     Timer.periodic(const Duration(milliseconds: 2000), (timer) {
-      index.value = (index.value != 2) ? index.value + 1 : 0;
+      index.value =
+          (index.value < widget.experience.images!.length-1) ? index.value + 1 : 0;
     });
   }
 
