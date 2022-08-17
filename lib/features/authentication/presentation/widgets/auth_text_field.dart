@@ -8,7 +8,7 @@ class AuthTextField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.hintText,
-    this.obscureText = false, this.onTap, this.readOnly = true,
+    this.obscureText = false, this.onTap, this.readOnly = false,
   }) : super(key: key);
 
   final Widget? suffixIcon;

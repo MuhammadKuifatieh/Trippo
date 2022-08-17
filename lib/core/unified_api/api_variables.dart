@@ -4,7 +4,7 @@ class ApiVariables {
   ApiVariables._();
 
   static const _scheme = 'http';
-  static const _host = '192.168.1.113';
+  static const _host = '192.168.43.19';
   static const _port = 5000;
 
   static Uri _mainUri({
@@ -42,9 +42,11 @@ class ApiVariables {
   static Uri loginUri({Map<String, dynamic>? queryParameters}) {
     return _mainUri(path: 'auth/user/login', queryParameters: queryParameters);
   }
-static Uri updateProfile({String? id}) {
+
+  static Uri updateProfile({String? id}) {
     return _mainUri(path: 'auth/user/update/$id');
   }
+
   static Uri getTypes() => _mobileUri(path: "type/index");
 
   //////////
@@ -81,9 +83,10 @@ static Uri updateProfile({String? id}) {
       );
   static Uri indexNearByPlaces({
     Map<String, dynamic>? queryParameters,
+    required String id,
   }) =>
       _mobileUri(
-        path: "place/indexNearBy",
+        path: "place/$id/indexNearByPlace",
         queryParameters: queryParameters,
       );
   static Uri indexRecentlyViewed({

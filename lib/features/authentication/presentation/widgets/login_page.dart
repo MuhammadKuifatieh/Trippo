@@ -13,7 +13,6 @@ import 'package:trippo/features/authentication/presentation/widgets/password_tex
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 import 'auth_text_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,12 +38,12 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
       child: Column(
         children: [
-          EmailTextFeild(emailController: widget.emailController),
+          EmailTextFeild(emailController: widget.emailController,),
           const SizedBox(height: 20),
           PasswordTextField(passwordController: widget.passwordController),
           const SizedBox(height: 35),
-          Text(appLocalizations.openwith
-            ,
+          Text(
+            appLocalizations.openWith,
             style: AppTextStyles.styleWeight400(
               color: const Color(0xFF09051C),
               fontSize: 12,

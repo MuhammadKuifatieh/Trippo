@@ -12,14 +12,15 @@ import 'package:collection/collection.dart';
 import 'package:trippo/features/explore/presentation/blocs/add_experince/add_experince_bloc.dart';
 import 'package:trippo/features/explore/presentation/widgets/select_places_dialog.dart';
 
-class AddExperinceSceen extends StatefulWidget {
-  const AddExperinceSceen({Key? key}) : super(key: key);
+class AddExperinceSrceen extends StatefulWidget {
+  const AddExperinceSrceen({Key? key}) : super(key: key);
+  static const routeName= "add_experince_srceen";
 
   @override
-  State<AddExperinceSceen> createState() => _AddExperinceSceenState();
+  State<AddExperinceSrceen> createState() => _AddExperinceSrceenState();
 }
 
-class _AddExperinceSceenState extends State<AddExperinceSceen> {
+class _AddExperinceSrceenState extends State<AddExperinceSrceen> {
   late TextEditingController nameController;
   late TextEditingController aboutController;
   late TextEditingController addressController;

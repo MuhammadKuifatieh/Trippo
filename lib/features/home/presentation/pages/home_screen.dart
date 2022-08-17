@@ -209,21 +209,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             favoriteValue: value,
                           ));
                         }),
-                    SizedBox(height: size.width * .075),
-                    Text(
-                      appLocalizations.descoverSomeExperince,
-                      style: AppTextStyles.styleWeight600(
-                        fontSize: size.width * .06,
-                      ),
-                    ),
-                    Text(
-                      appLocalizations.thingToDoOnYourTrip,
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    _HomeTrips(size: size),
+                    // SizedBox(height: size.width * .075),
+                    // Text(
+                    //   appLocalizations.descoverSomeExperince,
+                    //   style: AppTextStyles.styleWeight600(
+                    //     fontSize: size.width * .06,
+                    //   ),
+                    // ),
+                    // Text(
+                    //   appLocalizations.thingToDoOnYourTrip,
+                    //   style: AppTextStyles.styleWeight400(
+                    //     fontSize: size.width * .04,
+                    //   ),
+                    // ),
+                    // SizedBox(height: size.width * .025),
+                    // _HomeTrips(size: size),
                     SizedBox(height: size.width * .075),
                     SizedBox(height: size.width * .025),
                     HomePlaces(

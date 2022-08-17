@@ -134,7 +134,7 @@ class _OverviewPageState extends State<OverviewPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                     appLocalizations,showMore,
+                     appLocalizations.showMore,
                       style: AppTextStyles.styleWeight500(fontSize: 16)
                           .copyWith(decoration: TextDecoration.underline),
                     ),

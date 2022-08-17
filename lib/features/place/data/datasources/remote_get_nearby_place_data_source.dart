@@ -5,7 +5,7 @@ import '../../../home/data/models/places_response.dart';
 class RemoteGetNearbyPlacesDataSource {
   Future<PlacesResponse> getNearbyPlaces(String id) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexNearByPlaces(),
+      uri: ApiVariables.indexNearByPlaces(id: id),
       fromJson: placesResponseFromJson,
     );
     final result = await getApi.callRequest();

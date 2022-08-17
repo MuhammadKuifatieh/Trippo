@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/explore/presentation/pages/add_experince_screen.dart';
 import '../features/plans/data/models/plan/plan_model.dart';
 import '../features/plans/presentation/pages/plan_content_screen.dart';
 import '../features/profile/presentation/pages/host_info_screen.dart';
@@ -88,13 +89,13 @@ class AppRouter {
           ),
           settings: routeSettings,
         );
-        case EditProfileScreen.routeName:
+      case EditProfileScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) =>const EditProfileScreen(),
+          builder: (_) => const EditProfileScreen(),
         );
-        case SplashScreen.routeName:
+      case SplashScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) =>const SplashScreen(),
+          builder: (_) => const SplashScreen(),
         );
       case PlaceImagesScreen.routeName:
         return MaterialPageRoute(
@@ -137,6 +138,10 @@ class AppRouter {
       case HostInfoScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const HostInfoScreen(),
+        );
+      case AddExperinceSrceen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const AddExperinceSrceen(),
         );
     }
   }
