@@ -4,7 +4,7 @@ class ApiVariables {
   ApiVariables._();
 
   static const _scheme = 'http';
-  static const _host = '192.168.43.19';
+  static const _host = '192.168.1.113';
   static const _port = 5000;
 
   static Uri _mainUri({

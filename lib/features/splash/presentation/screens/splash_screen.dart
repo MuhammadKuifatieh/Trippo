@@ -10,6 +10,8 @@ class SplashScreen extends StatelessWidget {
 static const routeName = "splash-screen";
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return BlocProvider(
       create: (context) => SplashBloc()..add(SplashEntered()),
       child: BlocListener<SplashBloc, SplashState>(
@@ -34,13 +36,29 @@ static const routeName = "splash-screen";
         },
         child: Scaffold(
           body: Center(
-            child: Text(
-              'Trippo',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.styleWeight900(
-                color: Theme.of(context).primaryColor,
-                fontSize: 30,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                      width: screenWidth * 0.35,
+                      height: screenWidth * 0.35,
+                      child: Card(elevation: 2,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        child: Image.asset("assets/TripGo-Logo.png",
+                           width: screenWidth * 0.35,
+                      height: screenWidth * 0.35,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8,),
+                Text(
+                  'Trippo',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.styleWeight900(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 30,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

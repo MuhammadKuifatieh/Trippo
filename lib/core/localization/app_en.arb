@@ -100,5 +100,6 @@
   "about": "About",
   "price": "Price",
   "views": "Views",
-  "sp": "SP"
+  "sp": "SP",
+  "allques":"Show all questions"
 }

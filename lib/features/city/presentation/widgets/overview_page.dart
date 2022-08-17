@@ -306,7 +306,7 @@ class _OverviewPageState extends State<OverviewPage> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
-                            'Show All Questions',
+                            appLocalizations.allques,
                             style: AppTextStyles.styleWeight500(
                               color: Colors.white,
                               fontSize: 16,
