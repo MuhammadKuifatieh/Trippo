@@ -41,7 +41,7 @@ class ReviewCard extends StatelessWidget {
                       Navigator.of(context).pushNamed(ProfileScreen.routeName);
                     },
                     child: CacheImage(
-                      imageUrl: review.user?.firstName ??
+                      imageUrl: review.user?.image?.url ??
                           'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg',
                       height: size.width * .15,
                       width: size.width * .15,
@@ -55,14 +55,21 @@ class ReviewCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        review.user!.username!,
-                        style: AppTextStyles.styleWeight600(
-                          fontSize: size.width * .04,
+                      SizedBox(
+                        width: size.width * .7,
+                        child: Text(
+                          review.user!.firstName! +
+                              " " +
+                              review.user!.lastName!,
+                          style: AppTextStyles.styleWeight600(
+                            fontSize: size.width * .04,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
-                        '2 contribution',
+                        review.user!.username!,
                         style: AppTextStyles.styleWeight400(
                           fontSize: size.width * .04,
                         ),

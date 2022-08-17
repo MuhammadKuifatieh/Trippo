@@ -43,6 +43,7 @@ class _MapTapBar extends StatelessWidget {
                     this.selectedIndex.value = index;
                     mapBloc.add(ChangeFitterValueEvent(
                       index: index,
+                      context: context,
                     ));
                   },
                   child: Container(

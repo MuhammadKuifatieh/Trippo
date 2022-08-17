@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:trippo/features/home/data/models/places_response.dart';
 import 'package:trippo/features/home/presentation/bloc/home/home_bloc.dart';
 import 'package:trippo/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:trippo/features/profile/presentation/widgets/small_place_card.dart';
 
 import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/config/global_functions.dart';
 import '../../../../core/constants/hero_tag.dart';
 import '../../../../core/widgets/cache_image.dart';
 import '../../../../core/widgets/main_indicator.dart';

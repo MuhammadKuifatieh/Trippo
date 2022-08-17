@@ -51,19 +51,25 @@ class ReviewsResponse {
 class ReviewsDataModel {
   ReviewsDataModel({
     this.comments,
+    this.ratting,
   });
 
   List<ReviewModel>? comments;
+  List<RattingModel>? ratting;
 
-  ReviewsDataModel copyWith({
-    List<ReviewModel>? comments,
-  }) =>
+  ReviewsDataModel copyWith(
+          {List<ReviewModel>? comments, List<RattingModel>? ratting}) =>
       ReviewsDataModel(
         comments: comments ?? this.comments,
+        ratting: ratting ?? this.ratting,
       );
 
   factory ReviewsDataModel.fromJson(Map<String, dynamic> json) =>
       ReviewsDataModel(
+        ratting: json["ratting"] == null
+            ? null
+            : List<RattingModel>.from(
+                json["ratting"].map((x) => RattingModel.fromJson(x))),
         comments: json["comments"] == null
             ? null
             : List<ReviewModel>.from(
@@ -74,6 +80,9 @@ class ReviewsDataModel {
         "comments": comments == null
             ? null
             : List<dynamic>.from(comments!.map((x) => x.toJson())),
+        "ratting": ratting == null
+            ? null
+            : List<dynamic>.from(ratting!.map((x) => x.toJson())),
       };
 }
 
@@ -151,5 +160,34 @@ class ReviewModel {
         "images": images == null
             ? null
             : List<dynamic>.from(images!.map((x) => x.toJson())),
+      };
+}
+
+class RattingModel {
+  RattingModel({
+    this.name,
+    this.count,
+  });
+
+  String? name;
+  int? count;
+
+  RattingModel copyWith({
+    String? name,
+    int? count,
+  }) =>
+      RattingModel(
+        name: name ?? this.name,
+        count: count ?? this.count,
+      );
+
+  factory RattingModel.fromJson(Map<String, dynamic> json) => RattingModel(
+        name: json["name"],
+        count: json["count"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "count": count,
       };
 }

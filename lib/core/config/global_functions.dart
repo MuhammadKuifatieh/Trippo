@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trippo/core/data/models/user/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../injection.dart';
@@ -20,6 +23,11 @@ class GlobalFunctions {
   static String? getToken() {
     final prefs = serviceLocator<SharedPreferences>();
     return prefs.getString(PrefsKeys.accessToken);
+  }
+
+  static User? getUserInfo() {
+    final prefs = serviceLocator<SharedPreferences>();
+    return User.fromJson(jsonDecode(prefs.getString(PrefsKeys.userInfo)!));
   }
 
   launchWeb(String url) {

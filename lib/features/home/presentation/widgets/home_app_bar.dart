@@ -41,7 +41,7 @@ class _HomeAppBar extends StatelessWidget {
                     width: size.width,
                     height: size.width * .7,
                     fit: BoxFit.cover,
-                    imageUrl:
+                    imageUrl: GlobalFunctions.getUserInfo()!.image?.url ??
                         'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
                   ),
                   AnimatedContainer(
@@ -61,8 +61,8 @@ class _HomeAppBar extends StatelessWidget {
                             .pushNamed(ProfileScreen.routeName);
                       },
                       child: CacheImage(
-                        imageUrl:
-                            'https://media-exp1.licdn.com/dms/image/C4E03AQEIZ8ds-8dtrw/profile-displayphoto-shrink_200_200/0/1623533074857?e=2147483647&v=beta&t=eFYm5aiC21gAVTXcQL-ZAxdhoo1AHFBt8IBUvnbmiUo',
+                        imageUrl: GlobalFunctions.getUserInfo()!.image?.url ??
+                            'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg',
                         height: size.width * .1,
                         width: size.width * .1,
                         shape: BoxShape.circle,

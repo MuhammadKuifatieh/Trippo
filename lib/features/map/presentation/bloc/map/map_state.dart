@@ -14,6 +14,7 @@ class MapState {
   final LatLngBounds? latLngBounds;
   final double? latitude;
   final double? longitude;
+  final Set<Marker> markers;
   const MapState({
     this.latitude,
     this.longitude,
@@ -24,12 +25,14 @@ class MapState {
     this.placeToMapStatus = PlaceToMapStatus.init,
     this.types = const [],
     this.typesToMapStatus = TypesToMapStatus.init,
+    this.markers = const {},
   });
   MapState copyWith({
     InitLocationStatus? initLocationStatus,
     List<PlaceModel>? palces,
     PlaceToMapStatus? placeToMapStatus,
     List<TypeModel>? types,
+    Set<Marker>? markers,
     TypesToMapStatus? typesToMapStatus,
     double? latitude,
     double? longitude,
@@ -46,6 +49,7 @@ class MapState {
       typesToMapStatus: typesToMapStatus ?? this.typesToMapStatus,
       latLngBounds: latLngBounds ?? this.latLngBounds,
       typeIndex: typeIndex ?? this.typeIndex,
+      markers: markers ?? this.markers,
     );
   }
 }

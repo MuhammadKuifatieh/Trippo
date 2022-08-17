@@ -11,7 +11,7 @@ part 'reviews_state.dart';
 
 class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
   final int perPage = 10;
-  final _getReviews = GetReviews(placeRepository: PlaceRepositoryImplement());
+  final _getReviews = GetReviewsToPlace(placeRepository: PlaceRepositoryImplement());
   ReviewsBloc() : super(const ReviewsState()) {
     on<GetReviewsEvent>(_mapGetReviewsState);
   }
@@ -19,10 +19,10 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
       GetReviewsEvent event, Emitter<ReviewsState> emit) async {
     if (state.reviewsStatus == ReviewsStatus.init || event.isReload) {
       emit(state.copyWith(reviewsStatus: ReviewsStatus.loading));
-      final result = await _getReviews(GetReviewsParams(
+      final result = await _getReviews(GetReviewsToPlaceParams(
         page: 1,
         perPage: perPage,
-        placeId: event.placeId,
+        placeId: event.placeId!,
       ));
       result.fold(
         (l) => emit(state.copyWith(
@@ -31,15 +31,16 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
         (r) => emit(state.copyWith(
           isEndPage: r.data!.comments!.length < perPage,
           reviews: r.data!.comments,
+          ratting: r.data!.ratting,
           reviewsStatus: ReviewsStatus.succ,
         )),
       );
     } else if (!state.isEndPage) {
       emit(state.copyWith(reviewsStatus: ReviewsStatus.loading));
-      final result = await _getReviews(GetReviewsParams(
+      final result = await _getReviews(GetReviewsToPlaceParams(
         page: state.reviews.length ~/ perPage,
         perPage: perPage,
-        placeId: event.placeId,
+        placeId: event.placeId!,
       ));
       result.fold(
         (l) => emit(state.copyWith(

@@ -6,7 +6,7 @@ class RemoteGetRecentlyViewedPlacesDataSource {
   Future<PlacesResponse> getRecentlyViewedPlaces(
       Map<String, dynamic> params) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexPlaces(queryParameters: params),
+      uri: ApiVariables.indexRecentlyViewed(queryParameters: params),
       fromJson: placesResponseFromJson,
     );
     final result = await getApi.callRequest();

@@ -3,9 +3,10 @@ import '../../../../core/unified_api/get_api.dart';
 import '../models/reviews_response.dart';
 
 class RemoteGetReviewsDataSource {
-  Future<ReviewsResponse> getReviews(Map<String, dynamic> params) async {
+  Future<ReviewsResponse> getReviews(
+      String id, Map<String, dynamic> params) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.getReviews(params),
+      uri: ApiVariables.getReviewsToPlace(id, params),
       fromJson: reviewsResponseFromJson,
     );
     final result = await getApi.callRequest();

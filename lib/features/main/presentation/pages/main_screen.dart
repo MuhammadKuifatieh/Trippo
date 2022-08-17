@@ -7,7 +7,7 @@ import 'package:trippo/features/map/presentation/pages/map_screen.dart';
 
 import '../../../../core/constants/icons/trippo_icons.dart';
 import '../../../../injection.dart';
-import '../../../explore/presentation/pages/search_screen.dart';
+import '../../../search/presentation/pages/search_screen.dart';
 import '../../../home/presentation/pages/home_screen.dart';
 import '../../../plan/presentation/pages/plan_screen.dart';
 import '../../../profile/presentation/pages/setting_screen.dart';

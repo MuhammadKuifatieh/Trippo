@@ -71,6 +71,42 @@ static Uri updateProfile({String? id}) {
         path: "place/index",
         queryParameters: queryParameters,
       );
+
+  static Uri indexTopAttraction({
+    Map<String, dynamic>? queryParameters,
+  }) =>
+      _mobileUri(
+        path: "place/indexTopAttraction",
+        queryParameters: queryParameters,
+      );
+  static Uri indexNearByPlaces({
+    Map<String, dynamic>? queryParameters,
+  }) =>
+      _mobileUri(
+        path: "place/indexNearBy",
+        queryParameters: queryParameters,
+      );
+  static Uri indexRecentlyViewed({
+    Map<String, dynamic>? queryParameters,
+  }) =>
+      _mobileUri(
+        path: "place/indexRecentlyViewed",
+        queryParameters: queryParameters,
+      );
+  static Uri indexTrending({
+    Map<String, dynamic>? queryParameters,
+  }) =>
+      _mobileUri(
+        path: "place/indexTrending",
+        queryParameters: queryParameters,
+      );
+  static Uri indexMostFavorite({
+    Map<String, dynamic>? queryParameters,
+  }) =>
+      _mobileUri(
+        path: "place/indexMostFavorite",
+        queryParameters: queryParameters,
+      );
   ///////////
   ///place///
   //////////
@@ -131,8 +167,9 @@ static Uri updateProfile({String? id}) {
       );
   static Uri addReviewToPlace(String id) =>
       _mobileUri(path: "comment/place/$id/store");
-  static Uri getReviews(Map<String, dynamic> params) => _mobileUri(
-        path: "comment/index",
+  static Uri getReviewsToPlace(String id, Map<String, dynamic> params) =>
+      _mobileUri(
+        path: "comment/place/$id/index",
         queryParameters: params,
       );
 
@@ -177,9 +214,24 @@ static Uri updateProfile({String? id}) {
         queryParameters: queryParams,
       );
 
-  static Uri hostSendRequest( {Map<String, dynamic>? queryParams}) =>
-      _mobileUri(
+  static Uri hostSendRequest({Map<String, dynamic>? queryParams}) => _mobileUri(
         path: "user/requestHost",
         queryParameters: queryParams,
+      );
+  static Uri getFeatureTitle() => _mobileUri(path: "featureTitle/index");
+
+  static Uri getPlacesBySearch(Map<String, dynamic> params) => _mobileUri(
+        path: "place/indexwithSearch",
+        queryParameters: params,
+      );
+  static Uri getExperiences(Map<String, dynamic> params) => _mobileUri(
+        path: "experience/index",
+        queryParameters: params,
+      );
+  static Uri getExperinceDetailes(String id) => _mobileUri(
+        path: "experience/$id/show",
+      );
+  static Uri addExperince() => _mobileUri(
+        path: "experience/store",
       );
 }

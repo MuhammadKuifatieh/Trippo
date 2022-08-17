@@ -1,7 +1,16 @@
-part of '../pages/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/constants/icons/trippo_icons.dart';
+import '../../../../core/widgets/cache_image.dart';
+import '../../../../core/widgets/main_error_widget.dart';
+import '../../../../core/widgets/main_rating_bar.dart';
+import '../../data/models/places_response.dart';
 
-class _HomePlaces extends StatelessWidget {
-  const _HomePlaces({
+import '../../../place/presentation/pages/place_screen.dart';
+
+class HomePlaces extends StatelessWidget {
+  const HomePlaces({
     Key? key,
     required this.size,
     required this.title,

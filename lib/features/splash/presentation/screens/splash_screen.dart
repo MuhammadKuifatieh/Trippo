@@ -38,6 +38,7 @@ static const routeName = "splash-screen";
               'Trippo',
               textAlign: TextAlign.center,
               style: AppTextStyles.styleWeight900(
+                color: Theme.of(context).primaryColor,
                 fontSize: 30,
               ),
             ),

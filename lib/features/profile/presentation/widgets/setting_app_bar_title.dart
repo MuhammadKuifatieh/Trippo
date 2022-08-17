@@ -27,27 +27,32 @@ class _SettingAppBarTitle extends StatelessWidget {
                 width: size.width * .25,
                 height: size.width * .25,
                 shape: BoxShape.circle,
-                imageUrl:
-                    "https://media-exp1.licdn.com/dms/image/C4E03AQEIZ8ds-8dtrw/profile-displayphoto-shrink_200_200/0/1623533074857?e=2147483647&v=beta&t=eFYm5aiC21gAVTXcQL-ZAxdhoo1AHFBt8IBUvnbmiUo",
+                imageUrl: GlobalFunctions.getUserInfo()!.image?.url ??
+                    'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg',
               ),
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Muahammad',
-                style: AppTextStyles.styleWeight600(
-                  fontSize: size.width * .06,
+          SizedBox(
+            width: size.width * .44,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  GlobalFunctions.getUserInfo()!.firstName! +
+                      " " +
+                      GlobalFunctions.getUserInfo()!.lastName!,
+                  style: AppTextStyles.styleWeight600(
+                    fontSize: size.width * .06,
+                  ),
                 ),
-              ),
-              Text(
-                'muhammad@gmail.co',
-                style: AppTextStyles.styleWeight400(
-                  fontSize: size.width * 0.04,
+                Text(
+                  GlobalFunctions.getUserInfo()!.email!,
+                  style: AppTextStyles.styleWeight400(
+                    fontSize: size.width * 0.04,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(width: size.width * .075),
           Icon(

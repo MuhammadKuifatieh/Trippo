@@ -8,18 +8,21 @@ class MainTextField extends StatelessWidget {
     this.hintText,
     this.onTap,
     this.readOnly = false,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
   final int maxLines;
   final TextEditingController controller;
   final String? hintText;
   final void Function()? onTap;
   final bool readOnly;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
         fillColor: Colors.white,

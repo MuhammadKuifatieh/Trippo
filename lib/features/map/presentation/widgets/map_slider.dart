@@ -54,12 +54,12 @@ class _MapSlider extends StatelessWidget {
                             zoom: 16,
                           ),
                           zoomControlsEnabled: false,
+                          markers: mapState.markers,
                           onCameraIdle: () {
                             mapController.future.then((value) {
                               value.getVisibleRegion().then((value) {
                                 mapBloc.add(ChangeFitterValueEvent(
-                                  latLngBounds: value,
-                                ));
+                                    latLngBounds: value, context: context));
                               });
                             });
                           },
@@ -108,7 +108,10 @@ class _MapSlider extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          '+300 Resturant to visit',
+                                          mapState.typesToMapStatus ==
+                                                  TypesToMapStatus.succ
+                                              ? '${mapState.palces.length} ${mapState.types[mapState.typeIndex].name} ${AppLocalizations.of(context)!.toVisit}'
+                                              : "",
                                           style: AppTextStyles.styleWeight500(
                                             fontSize: size.width * .04,
                                           ),
@@ -127,16 +130,81 @@ class _MapSlider extends StatelessWidget {
                                   ),
                                   child: SizedBox(
                                     height: size.height * .8,
-                                    child: ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      itemCount: mapState.palces.length,
-                                      itemBuilder: (context, index) {
-                                        return MapListImage(
-                                          place: mapState.palces[index],
-                                        );
-                                      },
-                                    ),
+                                    child: mapState.placeToMapStatus ==
+                                                PlaceToMapStatus.loading ||
+                                            mapState.placeToMapStatus ==
+                                                PlaceToMapStatus.init
+                                        ? Center(
+                                            child: LoadingAnimationWidget
+                                                .threeArchedCircle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              size: size.width * .1,
+                                            ),
+                                          )
+                                        : mapState.placeToMapStatus ==
+                                                PlaceToMapStatus.falied
+                                            ? MainErrorWidget(
+                                                size: size,
+                                                onTapRety: () {
+                                                  mapBloc.add(
+                                                      GetPlacesToMapEvent(
+                                                          context));
+                                                },
+                                              )
+                                            : mapState.palces.isEmpty
+                                                ? Center(
+                                                    child: Text(
+                                                      'No Data',
+                                                      style: AppTextStyles
+                                                          .styleWeight600(
+                                                        fontSize:
+                                                            size.width * .04,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : ListView.builder(
+                                                    padding: EdgeInsets.zero,
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        mapState.palces.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.of(context)
+                                                              .pushNamed(
+                                                            PlaceScreen
+                                                                .routeName,
+                                                            arguments:
+                                                                PlaceScreenParams(
+                                                              id: mapState
+                                                                  .palces[index]
+                                                                  .id
+                                                                  .toString(),
+                                                            ),
+                                                          )
+                                                              .then((value) {
+                                                            if (value != null) {
+                                                              bool newValue =
+                                                                  value as bool;
+                                                              mapBloc.add(
+                                                                UpdatePlaceFavoriteInMapEvent(
+                                                                  index: index,
+                                                                  isFavorite:
+                                                                      newValue,
+                                                                ),
+                                                              );
+                                                            }
+                                                          });
+                                                        },
+                                                        child: MapListImage(
+                                                          place: mapState
+                                                              .palces[index],
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
                                   ),
                                 ),
                               ],

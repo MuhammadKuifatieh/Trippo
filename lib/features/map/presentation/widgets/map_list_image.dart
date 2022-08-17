@@ -18,117 +18,109 @@ class MapListImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          PlaceScreen.routeName,
-          arguments: PlaceScreenParams(id: place.id.toString()),
-        );
-      },
-      child: Padding(
-        padding: EdgeInsets.all(size.width * .05),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                ScrollingListImage(
-                  size: size,
-                  height: size.width * .6,
-                  width: size.width * .9,
-                  images: place.images!,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.width * .025),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: size.width * .25,
-                        height: size.width * .075,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.circular(5),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade300,
-                              blurRadius: 1.5,
-                            )
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            place.typeName!,
-                            style: AppTextStyles.styleWeight400(
-                              fontSize: size.width * .035,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: EdgeInsets.all(size.width * .05),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              ScrollingListImage(
+                size: size,
+                height: size.width * .6,
+                width: size.width * .9,
+                images: place.images!,
+              ),
+              Padding(
+                padding: EdgeInsets.all(size.width * .025),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: size.width * .25,
+                      height: size.width * .075,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            blurRadius: 1.5,
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          place.typeName!,
+                          style: AppTextStyles.styleWeight400(
+                            fontSize: size.width * .035,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Container(
-                        width: size.width * .1,
-                        height: size.width * .1,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black.withOpacity(.6),
-                        ),
-                        child: Icon(
-                          place.isFavorite!
-                              ? TrippoIcons.favorite
-                              : TrippoIcons.favorite_border,
-                          color: Theme.of(context).errorColor,
+                    ),
+                    Container(
+                      width: size.width * .1,
+                      height: size.width * .1,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withOpacity(.6),
+                      ),
+                      child: Icon(
+                        place.isFavorite!
+                            ? TrippoIcons.favorite
+                            : TrippoIcons.favorite_border,
+                        color: Theme.of(context).errorColor,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: size.width * .025),
+          Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      MainRatingBar(
+                        isFiter: true,
+                        filterRating: double.parse(place.ratting.toString()),
+                      ),
+                      SizedBox(width: size.width * .02),
+                      Text(
+                        place.rattingCount.toString(),
+                        style: AppTextStyles.styleWeight600(
+                          color: Colors.grey,
+                          fontSize: size.width * .03,
                         ),
                       )
                     ],
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * .025),
-            Row(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        MainRatingBar(
-                          isFiter: true,
-                          filterRating: double.parse(place.ratting.toString()),
-                        ),
-                        SizedBox(width: size.width * .02),
-                        Text(
-                          place.rattingCount.toString(),
-                          style: AppTextStyles.styleWeight600(
-                            color: Colors.grey,
-                            fontSize: size.width * .03,
-                          ),
-                        )
-                      ],
+                  SizedBox(height: size.width * .01),
+                  Text(
+                    place.cityName!,
+                    style: AppTextStyles.styleWeight500(
+                      fontSize: size.width * .04,
                     ),
-                    SizedBox(height: size.width * .01),
-                    Text(
-                      place.cityName!,
-                      style: AppTextStyles.styleWeight500(
-                        fontSize: size.width * .04,
-                      ),
+                  ),
+                  SizedBox(height: size.width * .01),
+                  Text(
+                    place.name!,
+                    style: AppTextStyles.styleWeight300(
+                      fontSize: size.width * .04,
                     ),
-                    SizedBox(height: size.width * .01),
-                    Text(
-                      place.name!,
-                      style: AppTextStyles.styleWeight300(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

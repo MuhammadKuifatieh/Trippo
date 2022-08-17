@@ -34,7 +34,7 @@ class NoResponse {
   factory NoResponse.fromMap(Map<String, dynamic> json) => NoResponse(
         success: json["success"],
         message: json["message"],
-        data: json["data"],
+        data: null,
       );
 
   Map<String, dynamic> toMap() => {

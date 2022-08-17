@@ -34,7 +34,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       GetPlaceImages(placeRepository: PlaceRepositoryImplement());
   final _addReviewToPlace =
       AddReviewToPlace(placeRepository: PlaceRepositoryImplement());
-  final _getReviews = GetReviews(placeRepository: PlaceRepositoryImplement());
+  final _getReviews = GetReviewsToPlace(placeRepository: PlaceRepositoryImplement());
 
   PlaceBloc() : super(const PlaceState()) {
     on<GetPlaceEvent>(_mapGetPlaceState);
@@ -57,7 +57,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
   Future<void> _mapGetFirstReviews(
       GetFirstReviewsEvent event, Emitter<PlaceState> emit) async {
     emit(state.copyWith(reviewsStatus: ReviewsStatus.loading));
-    final result = await _getReviews(GetReviewsParams(
+    final result = await _getReviews(GetReviewsToPlaceParams(
       page: 1,
       perPage: 5,
       placeId: event.placeId,
@@ -69,6 +69,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       (r) => emit(state.copyWith(
         reviewsStatus: ReviewsStatus.succ,
         reviews: r.data!.comments,
+        ratting: r.data!.ratting,
       )),
     );
   }

@@ -29,6 +29,6 @@ abstract class PlaceRepository {
 
   Future<Either<Failure, VisitTypesResponse>> getVisitTypes();
 
-  Future<Either<Failure, ReviewsResponse>> getReviews(
+  Future<Either<Failure, ReviewsResponse>> getReviewsToPlace(String id,
       Map<String, dynamic> params);
 }

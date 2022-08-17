@@ -69,18 +69,6 @@ class _HomeTitleImages extends StatelessWidget {
               //   ),
               // ),
               Container(),
-              Container(
-                width: size.width * .1,
-                height: size.width * .1,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.black.withOpacity(.6),
-                ),
-                child: Icon(
-                  TrippoIcons.favorite,
-                  color: Theme.of(context).errorColor,
-                ),
-              )
             ],
           ),
         ),

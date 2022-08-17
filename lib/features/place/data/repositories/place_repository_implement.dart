@@ -96,10 +96,10 @@ class PlaceRepositoryImplement
   }
 
   @override
-  Future<Either<Failure, ReviewsResponse>> getReviews(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, ReviewsResponse>> getReviewsToPlace(
+      String id, Map<String, dynamic> params) async {
     return wrapHandling(tryCall: () async {
-      final result = await _getReviews.getReviews(params);
+      final result = await _getReviews.getReviews(id ,params);
       return Right(result);
     });
   }

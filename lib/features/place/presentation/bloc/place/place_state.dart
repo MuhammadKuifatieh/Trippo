@@ -21,6 +21,7 @@ class PlaceState {
   final List<VisitTypeModel> visitTypes;
   final ReviewsStatus reviewsStatus;
   final List<ReviewModel> reviews;
+  final List<RattingModel> ratting;
   const PlaceState({
     this.place,
     this.images = const [],
@@ -28,6 +29,7 @@ class PlaceState {
     this.placeStatus = PlaceStatus.init,
     this.nearbyPlaces = const [],
     this.reviews = const [],
+    this.ratting = const [],
     this.reviewsStatus = ReviewsStatus.init,
     this.visitTypesStatus = VisitTypesStatus.init,
     this.placeImagesStatus = PlaceImagesStatus.init,
@@ -39,6 +41,7 @@ class PlaceState {
     PlaceModel? place,
     PlaceStatus? placeStatus,
     List<ReviewModel>? reviews,
+    List<RattingModel>? ratting,
     List<ImageModel>? images,
     ReviewsStatus? reviewsStatus,
     List<PlaceModel>? nearbyPlaces,
@@ -53,6 +56,7 @@ class PlaceState {
       place: place ?? this.place,
       images: images ?? this.images,
       reviews: reviews ?? this.reviews,
+      ratting: ratting ?? this.ratting,
       visitTypes: visitTypes ?? this.visitTypes,
       placeStatus: placeStatus ?? this.placeStatus,
       nearbyPlaces: nearbyPlaces ?? this.nearbyPlaces,

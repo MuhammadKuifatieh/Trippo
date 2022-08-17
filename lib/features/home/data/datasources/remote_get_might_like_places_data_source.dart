@@ -6,7 +6,7 @@ class RemoteGetMightLikePlacesDataSource {
   Future<PlacesResponse> getMightLikePlaces(
       Map<String, dynamic> params) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexPlaces(queryParameters: params),
+      uri: ApiVariables.indexMostFavorite(queryParameters: params),
       fromJson: placesResponseFromJson,
     );
     final result = await getApi.callRequest();

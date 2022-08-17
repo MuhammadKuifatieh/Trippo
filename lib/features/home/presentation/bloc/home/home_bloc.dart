@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
@@ -122,7 +121,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> _mapUpdateTopAttractionPlaceFavoriteSatet(
       UpdateTopAttractionPlaceFavoriteEvent event, Emitter<HomeState> emit) {
-    log("message", name: "message");
     emit(
       state.copyWith(
         topAttractionPlaces: state.topAttractionPlaces

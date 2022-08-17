@@ -6,7 +6,7 @@ class RemoteGetTopAttractionPlacesDataSource {
   Future<PlacesResponse> getTopAttractionPlaces(
       Map<String, dynamic> params) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexPlaces(queryParameters: params),
+      uri: ApiVariables.indexTopAttraction(queryParameters: params),
       fromJson: placesResponseFromJson,
     );
     final result = await getApi.callRequest();
