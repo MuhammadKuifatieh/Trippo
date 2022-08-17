@@ -3,7 +3,7 @@ import 'package:trippo/features/home/data/models/cities_response.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class User {
   @JsonKey()
   final int id;

@@ -7,6 +7,9 @@ part of 'user.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
+      image: json['image'] == null
+          ? null
+          : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
       id: json['id'] as int,
       firstName: json['first_name'] as String?,
       lastName: json['last_name'] as String?,
@@ -18,7 +21,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       phoneNumber: json['phone_number'] as String?,
       latitude: json['latitude'] as String?,
       longitude: json['longitude'] as String?,
-      image: json['image'] as ImageModel?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -33,5 +35,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'phone_number': instance.phoneNumber,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'image':instance.image
+      'image': instance.image?.toJson(),
     };
