@@ -8,7 +8,7 @@ class AuthTextField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.hintText,
-    this.obscureText = false,
+    this.obscureText = false, this.onTap, this.readOnly = true,
   }) : super(key: key);
 
   final Widget? suffixIcon;
@@ -16,9 +16,13 @@ class AuthTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;
   final bool obscureText;
+  final Function()? onTap;
+  final bool readOnly;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      readOnly:readOnly ,
+      onTap: onTap??(){},
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(

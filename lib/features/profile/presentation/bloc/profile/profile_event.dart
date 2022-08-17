@@ -17,3 +17,8 @@ class HostRequestSended extends ProfileEvent {
 
   HostRequestSended(this.sendHostParams);
 }
+class UpdateProfileEvent  extends ProfileEvent{
+  final UpdateProfileParams updateProfileParams ;
+
+  UpdateProfileEvent({required this.updateProfileParams}); 
+}

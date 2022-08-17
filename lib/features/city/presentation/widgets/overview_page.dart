@@ -14,6 +14,8 @@ import '../../../../core/widgets/loading_screen.dart';
 import '../../../../core/widgets/main_error_widget.dart';
 import '../../../../core/widgets/place_tile.dart';
 import '../../../home/data/models/cities_response.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'add_question_sheet.dart';
 import 'list_header.dart';
 
@@ -45,6 +47,8 @@ class _OverviewPageState extends State<OverviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     final size = MediaQuery.of(context).size;
     return BlocBuilder<CityBloc, CityState>(
       builder: (context, state) {
@@ -130,7 +134,7 @@ class _OverviewPageState extends State<OverviewPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'عرض المزيد',
+                     appLocalizations,showMore,
                       style: AppTextStyles.styleWeight500(fontSize: 16)
                           .copyWith(decoration: TextDecoration.underline),
                     ),
@@ -160,7 +164,7 @@ class _OverviewPageState extends State<OverviewPage> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'عرض على الخريطة',
+                      appLocalizations.showOnMap,
                       style: AppTextStyles.styleWeight500(
                         color: Colors.white,
                         fontSize: 16,
@@ -171,7 +175,7 @@ class _OverviewPageState extends State<OverviewPage> {
               ),
               const SizedBox(height: 25),
               ListHeader(
-                title: 'أماكن للاقامة',
+                title: appLocalizations.hotels,
                 description: lorem(paragraphs: 1, words: 15),
                 seeAllHandler: () {
                   widget.tabController.animateTo(1);
@@ -193,7 +197,7 @@ class _OverviewPageState extends State<OverviewPage> {
               ),
               const SizedBox(height: 50),
               ListHeader(
-                title: 'انشطة للقيام بها',
+                title: appLocalizations.thingsToDo,
                 description: lorem(paragraphs: 1, words: 15),
                 seeAllHandler: () {
                   widget.tabController.animateTo(2);
@@ -215,7 +219,7 @@ class _OverviewPageState extends State<OverviewPage> {
               ),
               const SizedBox(height: 50),
               ListHeader(
-                title: 'مطاعم',
+                title: appLocalizations.restaurants,
                 description: lorem(paragraphs: 1, words: 15),
                 seeAllHandler: () {
                   widget.tabController.animateTo(3);
@@ -243,7 +247,7 @@ class _OverviewPageState extends State<OverviewPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'اسئلة واجوبة',
+                      appLocalizations.questionsAndAns,
                       style: AppTextStyles.styleWeight600(
                         fontSize: 26,
                       ),
@@ -271,7 +275,7 @@ class _OverviewPageState extends State<OverviewPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
-                          'إضافة سؤال',
+                         appLocalizations.addques,
                           style: AppTextStyles.styleWeight500(
                             color: Colors.white,
                             fontSize: 16,

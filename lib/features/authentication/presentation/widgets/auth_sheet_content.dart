@@ -24,6 +24,9 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController nameController;
+  late TextEditingController fNameController;
+  late TextEditingController lNameController;
+  
 
   @override
   void initState() {
@@ -32,6 +35,8 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     nameController = TextEditingController();
+    fNameController= TextEditingController();
+    lNameController= TextEditingController();
   }
 
   @override
@@ -61,7 +66,8 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
               child: PageView(
                 controller: _pageController,
                 children: [
-                  SignupPage(
+                  SignupPage(fNameController: fNameController,
+                  lNameController: lNameController,
                     emailController: emailController,
                     nameController: nameController,
                     passwordController: passwordController,

@@ -6,17 +6,18 @@ class RoundedExpandedButton extends StatelessWidget {
     this.color,
     this.elevation = 0,
     this.child,
-    this.onTap,
+    this.onTap, this.width = double.infinity,
   }) : super(key: key);
 
   final Color? color;
   final double elevation;
   final Widget? child;
   final void Function()? onTap;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: width,
       child: InkWell(
         onTap: onTap,
         child: Card(

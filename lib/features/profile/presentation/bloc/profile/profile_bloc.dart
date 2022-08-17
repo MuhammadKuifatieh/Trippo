@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -8,6 +9,12 @@ import 'package:trippo/features/home/data/models/cities_response.dart';
 import 'package:trippo/features/home/data/repositories/home_repository_implement.dart';
 import 'package:trippo/features/home/domin/usecases/get_all_cities_use_case.dart';
 
+import 'package:trippo/core/config/global_functions.dart';
+import 'package:trippo/core/constants/prefs_keys.dart';
+import 'package:trippo/features/authentication/data/repository/authentication_repository_impl.dart';
+import 'package:trippo/features/authentication/domain/use_cases/update_profile_use_case.dart';
+import 'package:trippo/injection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../home/data/models/places_response.dart';
 import '../../../data/repositories/profile_repository_implement.dart';
 import '../../../domin/usecases/get_favorite_place.dart';
@@ -21,6 +28,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final _getAllCities = GetAllCitiesUseCase(HomeRepositoryImplement());
   final _sendHostUseCase =
       SendHostUseCase(authenticationRepository: AuthenticationRepostitoryImp());
+  final _updateProfile = UpdateProfileUseCase(
+      authenticationRepository: AuthenticationRepostitoryImp());
   final perPage = 10;
   ProfileBloc() : super(const ProfileState()) {
     on<GetFavoritePlacesEvent>(
@@ -29,7 +38,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
     on<GetAllCities>(_mapGetAllCities);
     on<HostRequestSended>(_mapHostRequestSended);
+    on<UpdateProfileEvent>(_mapUpdateProfileEvent);
   }
+  final prefs = serviceLocator<SharedPreferences>();
+
+  _mapUpdateProfileEvent(
+      UpdateProfileEvent event, Emitter<ProfileState> emit) async {
+    if (state.updateProfileStatus == UpdateProfileStatus.init) {
+      emit(state.copyWith(updateProfileStatus: UpdateProfileStatus.loading));
+    }
+    final result = await _updateProfile(event.updateProfileParams);
+    result.fold(
+        (l) => emit(
+            state.copyWith(updateProfileStatus: UpdateProfileStatus.falied)),
+        (user) {
+      prefs.setString(PrefsKeys.userInfo, jsonEncode(user.toJson()));
+      emit(state.copyWith(updateProfileStatus: UpdateProfileStatus.succ));
+    });
+  }
+
   FutureOr<void> _mapGetFavoritePlaces(
       GetFavoritePlacesEvent event, Emitter<ProfileState> emit) async {
     if (state.favoritePlacesStatus == FavoritePlacesStatus.init ||

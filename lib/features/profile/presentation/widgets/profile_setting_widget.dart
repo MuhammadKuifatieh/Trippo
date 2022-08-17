@@ -8,6 +8,7 @@ class _ProfileSettingsWidget extends StatelessWidget {
   final Size size;
   final ValueNotifier<bool> notification = ValueNotifier(true);
   final ValueNotifier<bool> refresh = ValueNotifier(false);
+  final pref = serviceLocator<SharedPreferences>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +23,9 @@ class _ProfileSettingsWidget extends StatelessWidget {
         ),
         TextButtonProfile(
           size: size,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, EditProfileScreen.routeName);
+          },
           title: AppLocalizations.of(context)!.editProfile,
         ),
         TextButtonProfile(
@@ -47,23 +50,99 @@ class _ProfileSettingsWidget extends StatelessWidget {
                 ),
               );
             }),
-        ValueListenableBuilder<bool>(
-            valueListenable: refresh,
-            builder: (context, value, _) {
-              return TextButtonProfile(
+            TextButtonProfile(
                 size: size,
-                title: AppLocalizations.of(context)!.refreshAutomatically,
+                title: 'Logout',
                 onPressed: () {
-                  refresh.value = !value;
-                },
-                child: CupertinoSwitch(
-                  value: value,
-                  onChanged: (value) {
-                    refresh.value = value;
-                  },
+                     showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                constraints: BoxConstraints(maxHeight: size.width * .50,),
+                builder: (context) => Container(width: size.width,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.width * .025,
+                          bottom: size.width * .05,
+                        ),
+                        child: Container(
+                          width: size.width * .225,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Logout",
+                        style: AppTextStyles.styleWeight400(
+                          fontSize: size.width * .05,
+                        ),
+                      ),
+                      SizedBox(height: 18,),
+                      Expanded(
+                        child:Text("Are you Sure ?", style: AppTextStyles.styleWeight400(
+                          fontSize: size.width * .07,
+                        ),)
+                        ),
+                        
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal : 8.0,vertical: 24),
+                          child: Row(
+                            children: [
+                          Expanded(
+                          child: RoundedExpandedButton(width: 0,
+                              child: Text(
+                          "Cancel",
+                          style: AppTextStyles.styleWeight400(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                                              ),
+                                              color: Theme.of(context).primaryColor,
+                                              onTap: (){
+                                                Navigator.of(context).pop();
+                                              },
+                          ),
+                          ),
+                          Expanded(
+                          child: RoundedExpandedButton(
+                            onTap: ()async{
+                              await pref.remove(PrefsKeys.accessToken);
+                              await pref.remove(PrefsKeys.userInfo);
+                              Navigator.of(context).pushNamedAndRemoveUntil(SplashScreen.routeName, (route) => false);
+                            }
+                            ,width: 0,
+                              child: Text(
+                          "OK",
+                          style: AppTextStyles.styleWeight400(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                                              ),
+                                              color: Theme.of(context).primaryColor,
+                          ),
+                          )
+                            ],
+                          ),
+                        ),
+                       
+                    
+                    ],
+                  ),
                 ),
               );
-            })
+         
+                },
+                child:const Icon(Icons.logout,size: 28,)
+              ),
+            
       ],
     );
   }

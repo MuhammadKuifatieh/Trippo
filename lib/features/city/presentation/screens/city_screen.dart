@@ -9,6 +9,7 @@ import '../../../../core/widgets/asset_svg.dart';
 import '../../../../core/widgets/main_indicator.dart';
 import '../blocs/city/city_bloc.dart';
 import '../widgets/overview_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CityScreen extends StatefulWidget {
   static const String routeName = 'city_screen';
@@ -30,6 +31,8 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     final size = MediaQuery.of(context).size;
     return BlocProvider(
       create: (context) => cityBloc,
@@ -41,148 +44,151 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
             } else if (state.questionAddingStatus ==
                 QuestionAddingStatus.failure) {
               BotToast.closeAllLoading();
-              BotToast.showText(
-                  text:
-                      'Add Question Failed Please Check Your Internet Connection');
+              BotToast.showText(text: appLocalizations.questionFail);
             } else if (state.questionAddingStatus ==
                 QuestionAddingStatus.success) {
               BotToast.closeAllLoading();
-              BotToast.showText(text: "Question Added Successfully");
+              BotToast.showText(text: appLocalizations.questionSucc);
             }
           },
-          child: SafeArea(
-            child: NestedScrollView(
-              headerSliverBuilder: (context, _) {
-                return [
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    sliver: SliverSafeArea(
-                      sliver: Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: SliverAppBar(
-                          pinned: true,
-                          floating: true,
-                          snap: true,
-                          foregroundColor: Theme.of(context).primaryColor,
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          elevation: 0,
-                          leading: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: AssetSvg(
-                              SvgImages.arrowBackward,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          flexibleSpace: FlexibleSpaceBar(
-                            titlePadding:
-                                EdgeInsets.only(bottom: size.width * .15),
-                            centerTitle: true,
-                            title: Text(
-                              'حلب',
-                              style: AppTextStyles.styleWeight600(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 18,
-                              ).copyWith(height: 1),
-                            ),
-                          ),
-                          actions: const [
-                            Padding(
-                              padding: EdgeInsetsDirectional.only(end: 8),
-                              child: Icon(Icons.search),
-                            )
-                          ],
-                          bottom: TabBar(
-                            controller: tabController,
-                            isScrollable: true,
-                            indicator: MainIndicator(
-                              indicatorHeight: size.width * .007,
-                              indicatorColor: Theme.of(context).primaryColor,
-                              indicatorSize: MainIndicatorSize.normal,
-                            ),
-                            indicatorPadding: EdgeInsetsDirectional.only(
-                              end: size.width * .05,
-                              bottom: 4,
-                            ),
-                            labelPadding: EdgeInsetsDirectional.only(
-                              top: size.width * .025,
-                              bottom: size.width * .035,
-                              end: size.width * .06,
-                            ),
-                            labelStyle: AppTextStyles.styleWeight600(
-                              fontSize: 16,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            unselectedLabelStyle:
-                                AppTextStyles.styleWeight400(fontSize: 16),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * .05),
-                            unselectedLabelColor:
-                                Theme.of(context).primaryColor,
-                            labelColor: Theme.of(context).primaryColor,
-                            tabs: const [
-                              Text(
-                                'نظرة عامة',
+          child: BlocBuilder<CityBloc, CityState>(
+            builder: (context, state) {
+              return SafeArea(
+                child: NestedScrollView(
+                  headerSliverBuilder: (context, _) {
+                    return [
+                      SliverOverlapAbsorber(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
+                        sliver: SliverSafeArea(
+                          sliver: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: SliverAppBar(
+                              pinned: true,
+                              floating: true,
+                              snap: true,
+                              foregroundColor: Theme.of(context).primaryColor,
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              elevation: 0,
+                              leading: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: AssetSvg(
+                                  SvgImages.arrowBackward,
+                                  color: Theme.of(context).primaryColor,
+                                ),
                               ),
-                              Text(
-                                'اماكن للزيارة',
+                              flexibleSpace: FlexibleSpaceBar(
+                                titlePadding:
+                                    EdgeInsets.only(bottom: size.width * .15),
+                                centerTitle: true,
+                                title: Text(
+                                 state.city.name??"City Name",
+                                  style: AppTextStyles.styleWeight600(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 18,
+                                  ).copyWith(height: 1),
+                                ),
                               ),
-                              Text(
-                                'أنشطة للقيام بها',
+                              actions: const [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.only(end: 8),
+                                  child: Icon(Icons.search),
+                                )
+                              ],
+                              bottom: TabBar(
+                                controller: tabController,
+                                isScrollable: true,
+                                indicator: MainIndicator(
+                                  indicatorHeight: size.width * .007,
+                                  indicatorColor:
+                                      Theme.of(context).primaryColor,
+                                  indicatorSize: MainIndicatorSize.normal,
+                                ),
+                                indicatorPadding: EdgeInsetsDirectional.only(
+                                  end: size.width * .05,
+                                  bottom: 4,
+                                ),
+                                labelPadding: EdgeInsetsDirectional.only(
+                                  top: size.width * .025,
+                                  bottom: size.width * .035,
+                                  end: size.width * .06,
+                                ),
+                                labelStyle: AppTextStyles.styleWeight600(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                unselectedLabelStyle:
+                                    AppTextStyles.styleWeight400(fontSize: 16),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: size.width * .05),
+                                unselectedLabelColor:
+                                    Theme.of(context).primaryColor,
+                                labelColor: Theme.of(context).primaryColor,
+                                tabs:  [
+                                  Text(
+                                    appLocalizations.overview,
+                                  ),
+                                  Text(
+                                    appLocalizations.placesToVisit,
+                                  ),
+                                  Text(
+                                    appLocalizations.thingsToDo,
+                                  ),
+                                  Text(
+                                    appLocalizations.restaurants,
+                                  ),
+                                  Text(
+                                    appLocalizations.plans,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'مطاعم',
-                              ),
-                              Text(
-                                'خطط سياحية',
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ];
+                  },
+                  body: TabBarView(
+                    controller: tabController,
+                    children: [
+                      OverviewPage(
+                        tabController: tabController,
+                        cityId: widget.cityId!,
+                      ),
+                      ListView.builder(
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: size.width * .6,
+                            width: size.width * .9,
+                          );
+                        },
+                      ),
+                      ListView.builder(
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: size.width * .6,
+                            width: size.width * .9,
+                          );
+                        },
+                      ),
+                      ListView.builder(
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: size.width * .6,
+                            width: size.width * .9,
+                          );
+                        },
+                      ),
+                      PlansPage(cityId: widget.cityId!),
+                    ],
                   ),
-                ];
-              },
-              body: TabBarView(
-                controller: tabController,
-                children: [
-                  OverviewPage(
-                    tabController: tabController,
-                    cityId: widget.cityId!,
-                  ),
-                  ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: size.width * .6,
-                        width: size.width * .9,
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: size.width * .6,
-                        width: size.width * .9,
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: size.width * .6,
-                        width: size.width * .9,
-                      );
-                    },
-                  ),
-                  PlansPage(cityId: widget.cityId!),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trippo/features/plans/data/models/plan/plan_model.dart';
 import 'package:trippo/features/plans/presentation/pages/plan_content_screen.dart';
 import 'package:trippo/features/profile/presentation/pages/host_info_screen.dart';
+import 'package:trippo/features/profile/presentation/pages/edit_profile_screen.dart';
+import 'package:trippo/features/splash/presentation/screens/splash_screen.dart';
 
 import '../features/authentication/presentation/screens/authentication_screen.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
@@ -70,6 +72,14 @@ class AppRouter {
           builder: (_) => ReviewsScreen(
             arg: routeSettings.arguments as ReviewsScreenParams,
           ),
+        );
+        case EditProfileScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) =>const EditProfileScreen(),
+        );
+        case SplashScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) =>const SplashScreen(),
         );
       case PlaceImagesScreen.routeName:
         return MaterialPageRoute(

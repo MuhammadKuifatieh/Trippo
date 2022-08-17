@@ -11,6 +11,7 @@ import 'package:trippo/features/authentication/presentation/widgets/auth_sheet_c
 import 'package:trippo/features/authentication/presentation/widgets/facebook_auth_button.dart';
 import 'package:trippo/features/authentication/presentation/widgets/google_auth_button.dart';
 import 'package:trippo/features/main/presentation/pages/main_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
@@ -32,6 +33,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return BlocProvider(
@@ -47,10 +50,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               (route) => false,
             );
           } else if (state.status == AuthenticationStatus.failed) {
-            BotToast.showText(text: 'There was something wrong');
+            BotToast.showText(text: appLocalizations.somethingWrong);
           }
         },
         child: Scaffold(
+       
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(
@@ -60,14 +64,10 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 child: Column(
                   children: [
                     Row(
-                      children: [
+                      children:const [
                         Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: AssetSvg(
-                              SvgImages.arrowBackward,
-                              height: 30,
-                              color: Theme.of(context).primaryColor,
-                            )),
+                            padding:  EdgeInsets.only(bottom: 15),
+                            child: SizedBox(height: 30,)),
                       ],
                     ),
                     SizedBox(
@@ -81,7 +81,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     SizedBox(
                       width: screenWidth * 0.51,
                       child: Text(
-                        'Discover new places and find new adventures.',
+                        appLocalizations.loginText1,
                         style: AppTextStyles.styleWeight500(
                           color: const Color(0xff666666),
                         ),
@@ -90,7 +90,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     ),
                     SizedBox(height: screenHeight * 0.08),
                     Text(
-                      'Login To Your Account',
+                      appLocalizations.loginText2,
+                      
                       style: AppTextStyles.styleWeight300(
                         fontSize: 28,
                         color: const Color(0xff09051C),
@@ -101,7 +102,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     SizedBox(
                       width: screenWidth * 0.67,
                       child: Text(
-                        'Before enjoying Trippo services Please register first',
+                      appLocalizations.loginText3,
                         textAlign: TextAlign.center,
                         style: AppTextStyles.styleWeight400(
                           fontSize: 15,
@@ -123,7 +124,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                             context: context, initialPageIndex: 1);
                       },
                       child: Text(
-                        'Login',
+                        appLocalizations.login,
                         style: AppTextStyles.styleWeight400(
                           fontSize: 14,
                           color: Colors.white,
@@ -138,7 +139,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       },
                       color: const Color(0xffE0F4E8),
                       child: Text(
-                        'Create Account',
+                        appLocalizations.login,
                         style: AppTextStyles.styleWeight400(
                           fontSize: 14,
                           color: Theme.of(context).primaryColor,

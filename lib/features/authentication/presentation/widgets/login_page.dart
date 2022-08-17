@@ -11,6 +11,8 @@ import 'package:trippo/features/authentication/presentation/widgets/facebook_aut
 import 'package:trippo/features/authentication/presentation/widgets/google_auth_button.dart';
 import 'package:trippo/features/authentication/presentation/widgets/password_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import 'auth_text_field.dart';
 
@@ -31,6 +33,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
       child: Column(
@@ -39,8 +43,8 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 20),
           PasswordTextField(passwordController: widget.passwordController),
           const SizedBox(height: 35),
-          Text(
-            'Or continue with',
+          Text(appLocalizations.openwith
+            ,
             style: AppTextStyles.styleWeight400(
               color: const Color(0xFF09051C),
               fontSize: 12,
@@ -60,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushNamed(context, ForgotPasswordScreen.routeName);
             },
             child: Text(
-              'Forgot your password?',
+              appLocalizations.forgetPass,
               style: AppTextStyles.styleWeight400(
                       color: Theme.of(context).primaryColor, fontSize: 12)
                   .copyWith(
@@ -86,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white,
                       )
                     : Text(
-                        'Login',
+                        appLocalizations.login,
                         style: AppTextStyles.styleWeight400(
                           fontSize: 14,
                           color: Colors.white,

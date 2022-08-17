@@ -7,7 +7,7 @@ import 'package:trippo/features/splash/presentation/blocs/splash/splash_bloc.dar
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
-
+static const routeName = "splash-screen";
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -9,6 +9,7 @@ import 'package:trippo/features/authentication/domain/use_cases/registration_use
 import 'package:trippo/features/authentication/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:trippo/features/authentication/presentation/widgets/password_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'auth_text_field.dart';
 import 'check_text_row.dart';
@@ -20,21 +21,55 @@ class SignupPage extends StatelessWidget {
     required this.emailController,
     required this.nameController,
     required this.passwordController,
+    required this.fNameController,
+    required this.lNameController,
   }) : super(key: key);
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController nameController;
+  final TextEditingController fNameController;
+  final TextEditingController lNameController;
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
       child: Column(
         children: [
+          Row(
+            children: [
+              Expanded(
+                child: AuthTextField(
+                  controller: fNameController,
+                  hintText: appLocalizations.fName,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: AssetSvg(
+                      SvgImages.person,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: AuthTextField(
+                  controller: lNameController,
+                  hintText: appLocalizations.lName,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: AssetSvg(
+                      SvgImages.person,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           AuthTextField(
             controller: nameController,
-            hintText: 'Your name',
+            hintText: appLocalizations.userName,
             prefixIcon: const Padding(
               padding: EdgeInsets.all(10.0),
               child: AssetSvg(
@@ -52,7 +87,7 @@ class SignupPage extends StatelessWidget {
             child: CheckTextRow(
               value: true,
               onChanged: (p0) {},
-              text: 'Keep me signed in',
+              text: appLocalizations.keepSignedIn,
             ),
           ),
           Align(
@@ -60,7 +95,7 @@ class SignupPage extends StatelessWidget {
             child: CheckTextRow(
               value: true,
               onChanged: (p0) {},
-              text: 'Email me about special pricing',
+              text: appLocalizations.emailMe,
             ),
           ),
           const Spacer(),
@@ -71,8 +106,8 @@ class SignupPage extends StatelessWidget {
                   context.read<AuthenticationBloc>().add(RegistrationSubmitted(
                         RegistrationParams(
                           email: emailController.text,
-                          firstName: nameController.text,
-                          lastName: nameController.text,
+                          firstName: fNameController.text,
+                          lastName: lNameController.text,
                           password: passwordController.text,
                           passwordConfirmation: passwordController.text,
                           username: nameController.text,
@@ -85,7 +120,7 @@ class SignupPage extends StatelessWidget {
                         color: Colors.white,
                       )
                     : Text(
-                        'Create account',
+                       appLocalizations.sginUp,
                         style: AppTextStyles.styleWeight400(
                           fontSize: 14,
                           color: Colors.white,
