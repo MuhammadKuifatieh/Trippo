@@ -18,6 +18,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       phoneNumber: json['phone_number'] as String?,
       latitude: json['latitude'] as String?,
       longitude: json['longitude'] as String?,
+      image: json['image'] as ImageModel?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -32,4 +33,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'phone_number': instance.phoneNumber,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
+      'image':instance.image
     };

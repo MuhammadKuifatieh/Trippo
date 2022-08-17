@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:trippo/features/home/data/models/cities_response.dart';
 
 part 'user.g.dart';
 
@@ -26,8 +27,10 @@ class User {
   final String? latitude;
   @JsonKey()
   final String? longitude;
+  @JsonKey()
+  final ImageModel? image;
 
-  User({
+  User( {this.image,
     required this.id,
     this.firstName,
     this.lastName,
