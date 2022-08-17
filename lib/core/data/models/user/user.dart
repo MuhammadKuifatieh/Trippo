@@ -29,8 +29,12 @@ class User {
   final String? longitude;
   @JsonKey()
   final ImageModel? image;
+  @JsonKey(name: 'is_host')
+  final bool? isHost;
 
-  User( {this.image,
+  User({
+    this.isHost,
+    this.image,
     required this.id,
     this.firstName,
     this.lastName,

@@ -1,9 +1,13 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trippo/core/data/models/user/user.dart';
+import 'package:trippo/features/explore/presentation/pages/add_experince_screen.dart';
 import 'package:trippo/features/profile/presentation/pages/host_info_screen.dart';
 import 'package:trippo/core/constants/prefs_keys.dart';
 import 'package:trippo/core/widgets/rounded_expanded_button.dart';

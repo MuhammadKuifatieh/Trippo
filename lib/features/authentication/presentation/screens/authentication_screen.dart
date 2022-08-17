@@ -71,10 +71,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       ],
                     ),
                     SizedBox(
-                      width: screenWidth * 0.36,
-                      height: screenWidth * 0.36,
-                      child: Placeholder(
-                        color: Theme.of(context).primaryColor,
+                      width: screenWidth * 0.45,
+                      height: screenWidth * 0.45,
+                      child:Card(elevation: 2,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        child: Image.asset("assets/TripGo-Logo.png",
+                           width: screenWidth * 0.35,
+                      height: screenWidth * 0.35,
+                        ),
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.08),
@@ -139,7 +142,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       },
                       color: const Color(0xffE0F4E8),
                       child: Text(
-                        appLocalizations.login,
+                        appLocalizations.sginUp,
                         style: AppTextStyles.styleWeight400(
                           fontSize: 14,
                           color: Theme.of(context).primaryColor,

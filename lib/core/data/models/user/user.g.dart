@@ -7,6 +7,7 @@ part of 'user.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
+      isHost: json['is_host'] as bool?,
       image: json['image'] == null
           ? null
           : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
@@ -36,4 +37,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'image': instance.image?.toJson(),
+      'is_host': instance.isHost,
     };

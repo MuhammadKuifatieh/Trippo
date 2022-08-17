@@ -53,6 +53,7 @@ class SignupPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(width: 8,),
               Expanded(
                 child: AuthTextField(
                   controller: lNameController,
@@ -67,6 +68,8 @@ class SignupPage extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 20),
+
           AuthTextField(
             controller: nameController,
             hintText: appLocalizations.userName,

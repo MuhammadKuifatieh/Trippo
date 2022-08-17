@@ -60,7 +60,7 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
             PageSwitcher(pageController: _pageController),
             const SizedBox(height: 65),
             Container(
-              height: 400,
+              height: 500,
               margin: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: PageView(
