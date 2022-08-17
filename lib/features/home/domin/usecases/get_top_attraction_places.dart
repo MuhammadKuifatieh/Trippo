@@ -20,13 +20,19 @@ class GetTopAttractionPlaces
 class GetTopAttractionPlacesParams {
   final int page;
   final int perPage;
+  final int? typeId;
+  final int? cityId;
 
   GetTopAttractionPlacesParams({
     required this.page,
     required this.perPage,
+    this.cityId,
+    this.typeId,
   });
   Map<String, dynamic> getParams() => {
         "page": page.toString(),
         "perPage": perPage.toString(),
+        'filter[city_id]': cityId.toString(),
+        'filter[type_id]': typeId.toString(),
       };
 }

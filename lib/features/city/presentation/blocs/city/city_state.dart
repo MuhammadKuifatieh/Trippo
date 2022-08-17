@@ -7,7 +7,7 @@ enum QuestionAddingStatus { initial, loading, success, failure }
 
 class CityState {
   const CityState({
-    this.placesOfCity = const [],
+    this.hotels,
     this.placesOfCityStatus = GetPlacesOfCityStatus.initial,
     this.city = const CityModel(),
     this.cityStatus = GetCityStatus.initial,
@@ -15,9 +15,15 @@ class CityState {
     this.hasReachedMax = false,
     this.fetchingStatus = FetchingStatus.initial,
     this.plans = const [],
+    this.resturants,
+    this.thingsToDo,
+    this.places = const [],
   });
   final CityModel city;
-  final List<PlaceModel> placesOfCity;
+  final List<PlaceModel>? hotels;
+  final List<PlaceModel>? thingsToDo;
+  final List<PlaceModel>? resturants;
+  final List<PlaceModel> places;
   final GetCityStatus cityStatus;
   final GetPlacesOfCityStatus placesOfCityStatus;
   final QuestionAddingStatus questionAddingStatus;
@@ -28,22 +34,28 @@ class CityState {
   CityState copyWith({
     CityModel? city,
     GetCityStatus? cityStatus,
-    List<PlaceModel>? placesOfCity,
+    List<PlaceModel>? hotels,
     GetPlacesOfCityStatus? placesOfCityStatus,
     QuestionAddingStatus? questionAddingStatus,
     List<PlanModel>? plans,
     bool? hasReachedMax,
     FetchingStatus? fetchingStatus,
+    List<PlaceModel>? thingsToDo,
+    List<PlaceModel>? resturants,
+    List<PlaceModel>? places,
   }) {
     return CityState(
       city: city ?? this.city,
       cityStatus: cityStatus ?? this.cityStatus,
-      placesOfCity: placesOfCity ?? this.placesOfCity,
+      hotels: hotels ?? this.hotels,
       placesOfCityStatus: placesOfCityStatus ?? this.placesOfCityStatus,
       questionAddingStatus: questionAddingStatus ?? this.questionAddingStatus,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       plans: plans ?? this.plans,
       fetchingStatus: fetchingStatus ?? this.fetchingStatus,
+      resturants: resturants ?? this.resturants,
+      thingsToDo: thingsToDo ?? this.thingsToDo,
+      places: places ?? this.places,
     );
   }
 }

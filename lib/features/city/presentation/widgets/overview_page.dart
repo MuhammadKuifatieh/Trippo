@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
-import 'package:trippo/core/widgets/main_button.dart';
 import 'package:trippo/features/city/presentation/blocs/city/city_bloc.dart';
 import 'package:trippo/features/city/presentation/widgets/question_tile.dart';
 import 'package:trippo/features/city/presentation/screens/questions_screen.dart';
@@ -13,7 +12,6 @@ import '../../../../core/widgets/cache_image.dart';
 import '../../../../core/widgets/loading_screen.dart';
 import '../../../../core/widgets/main_error_widget.dart';
 import '../../../../core/widgets/place_tile.dart';
-import '../../../home/data/models/cities_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'add_question_sheet.dart';
@@ -43,6 +41,9 @@ class _OverviewPageState extends State<OverviewPage> {
     currentPageIndex = ValueNotifier(0);
     cityBloc = context.read<CityBloc>();
     cityBloc.add(GetCityEvent(cityId: widget.cityId));
+    cityBloc.add(ThingsToDoFetched(cityId: widget.cityId));
+    cityBloc.add(ResturantsFetched(cityId: widget.cityId));
+    cityBloc.add(HotelsFetched(cityId: widget.cityId));
   }
 
   @override
@@ -134,7 +135,7 @@ class _OverviewPageState extends State<OverviewPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                     appLocalizations.showMore,
+                      appLocalizations.showMore,
                       style: AppTextStyles.styleWeight500(fontSize: 16)
                           .copyWith(decoration: TextDecoration.underline),
                     ),
@@ -174,71 +175,93 @@ class _OverviewPageState extends State<OverviewPage> {
                 ),
               ),
               const SizedBox(height: 25),
-              ListHeader(
-                title: appLocalizations.hotels,
-                description: lorem(paragraphs: 1, words: 15),
-                seeAllHandler: () {
-                  widget.tabController.animateTo(1);
-                },
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 10),
-                      child: PlaceTile(size: size, imageUrl: testImageUrl),
-                    );
+              if (state.hotels != null && state.hotels!.isNotEmpty)
+                ListHeader(
+                  title: appLocalizations.hotels,
+                  description: lorem(paragraphs: 1, words: 15),
+                  seeAllHandler: () {
+                    widget.tabController.animateTo(1);
                   },
-                  itemCount: 10,
                 ),
-              ),
-              const SizedBox(height: 50),
-              ListHeader(
-                title: appLocalizations.thingsToDo,
-                description: lorem(paragraphs: 1, words: 15),
-                seeAllHandler: () {
-                  widget.tabController.animateTo(2);
-                },
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 10),
-                      child: PlaceTile(size: size, imageUrl: testImageUrl),
-                    );
+              if (state.hotels != null && state.hotels!.isNotEmpty)
+                const SizedBox(height: 12),
+              if (state.hotels != null && state.hotels!.isNotEmpty)
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 10),
+                        child: PlaceTile(
+                            size: size,
+                            imageUrl:
+                                state.hotels![index].images!.first.url ?? ''),
+                      );
+                    },
+                    itemCount: state.hotels!.length,
+                  ),
+                ),
+              if (state.thingsToDo != null && state.thingsToDo!.isNotEmpty)
+                const SizedBox(height: 50),
+              if (state.thingsToDo != null && state.thingsToDo!.isNotEmpty)
+                ListHeader(
+                  title: appLocalizations.thingsToDo,
+                  description: lorem(paragraphs: 1, words: 15),
+                  seeAllHandler: () {
+                    widget.tabController.animateTo(2);
                   },
-                  itemCount: 10,
                 ),
-              ),
-              const SizedBox(height: 50),
-              ListHeader(
-                title: appLocalizations.restaurants,
-                description: lorem(paragraphs: 1, words: 15),
-                seeAllHandler: () {
-                  widget.tabController.animateTo(3);
-                },
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 10),
-                      child: PlaceTile(size: size, imageUrl: testImageUrl),
-                    );
+              if (state.thingsToDo != null && state.thingsToDo!.isNotEmpty)
+                const SizedBox(height: 12),
+              if (state.thingsToDo != null && state.thingsToDo!.isNotEmpty)
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 10),
+                        child: PlaceTile(
+                            size: size,
+                            imageUrl:
+                                state.thingsToDo![index].images!.first.url ??
+                                    ''),
+                      );
+                    },
+                    itemCount: state.thingsToDo!.length,
+                  ),
+                ),
+              if (state.resturants != null && state.resturants!.isNotEmpty)
+                const SizedBox(height: 50),
+              if (state.resturants != null && state.resturants!.isNotEmpty)
+                ListHeader(
+                  title: appLocalizations.restaurants,
+                  description: lorem(paragraphs: 1, words: 15),
+                  seeAllHandler: () {
+                    widget.tabController.animateTo(3);
                   },
-                  itemCount: 10,
                 ),
-              ),
+              if (state.resturants != null && state.resturants!.isNotEmpty)
+                const SizedBox(height: 12),
+              if (state.resturants != null && state.resturants!.isNotEmpty)
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 10),
+                        child: PlaceTile(
+                            size: size,
+                            imageUrl:
+                                state.resturants![index].images!.first.url ??
+                                    ''),
+                      );
+                    },
+                    itemCount: state.resturants!.length,
+                  ),
+                ),
               const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsetsDirectional.only(start: 16, end: 8),
@@ -275,7 +298,7 @@ class _OverviewPageState extends State<OverviewPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
-                         appLocalizations.addques,
+                          appLocalizations.addques,
                           style: AppTextStyles.styleWeight500(
                             color: Colors.white,
                             fontSize: 16,
@@ -306,7 +329,7 @@ class _OverviewPageState extends State<OverviewPage> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
-                            'Show All Questions',
+                            appLocalizations.allques,
                             style: AppTextStyles.styleWeight500(
                               color: Colors.white,
                               fontSize: 16,

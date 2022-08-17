@@ -37,3 +37,37 @@ class PublicPlansFetched extends CityEvent {
 
   PublicPlansFetched(this.cityId);
 }
+
+class HotelsFetched extends CityEvent {
+  final int cityId;
+
+  HotelsFetched({
+    required this.cityId,
+  });
+}
+
+class ThingsToDoFetched extends CityEvent {
+  final int cityId;
+
+  ThingsToDoFetched({
+    required this.cityId,
+  });
+}
+
+class ResturantsFetched extends CityEvent {
+  final int cityId;
+
+  ResturantsFetched({
+    required this.cityId,
+  });
+}
+
+class AnyPlacesFetched extends CityEvent {
+  final int cityId;
+  final int typeId;
+
+  AnyPlacesFetched({
+    required this.cityId,
+    required this.typeId,
+  });
+}

@@ -1,7 +1,9 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trippo/features/city/presentation/widgets/hotels_page.dart';
 import 'package:trippo/features/city/presentation/widgets/plans_page.dart';
+import 'package:trippo/features/city/presentation/widgets/things_page.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/images/svg_images.dart';
@@ -10,6 +12,8 @@ import '../../../../core/widgets/main_indicator.dart';
 import '../blocs/city/city_bloc.dart';
 import '../widgets/overview_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../widgets/resturants_page.dart';
 
 class CityScreen extends StatefulWidget {
   static const String routeName = 'city_screen';
@@ -83,7 +87,7 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                                     EdgeInsets.only(bottom: size.width * .15),
                                 centerTitle: true,
                                 title: Text(
-                                 state.city.name??"City Name",
+                                  state.city.name ?? "City Name",
                                   style: AppTextStyles.styleWeight600(
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 18,
@@ -125,7 +129,7 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                                 unselectedLabelColor:
                                     Theme.of(context).primaryColor,
                                 labelColor: Theme.of(context).primaryColor,
-                                tabs:  [
+                                tabs: [
                                   Text(
                                     appLocalizations.overview,
                                   ),
@@ -156,33 +160,9 @@ class _CityScreenState extends State<CityScreen> with TickerProviderStateMixin {
                         tabController: tabController,
                         cityId: widget.cityId!,
                       ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: size.width * .6,
-                            width: size.width * .9,
-                          );
-                        },
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: size.width * .6,
-                            width: size.width * .9,
-                          );
-                        },
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: size.width * .6,
-                            width: size.width * .9,
-                          );
-                        },
-                      ),
+                      HotelsPage(cityId: widget.cityId!),
+                      ThingsPage(cityId: widget.cityId!),
+                      ResturantsPage(cityId: widget.cityId!),
                       PlansPage(cityId: widget.cityId!),
                     ],
                   ),
