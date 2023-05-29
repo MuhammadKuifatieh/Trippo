@@ -4,91 +4,124 @@ class _HomeCities extends StatelessWidget {
   const _HomeCities({
     Key? key,
     required this.size,
-    required this.imageUrl,
+    required this.title,
+    required this.cities,
+    required this.onTapRety,
+    required this.isFalied,
+    required this.isLoading,
+    required this.descreption,
   }) : super(key: key);
 
   final Size size;
-  final String imageUrl;
+  final String title;
+  final bool isFalied;
+  final bool isLoading;
+  final String descreption;
+  final VoidCallback onTapRety;
+  final List<CityModel> cities;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size.width * .6,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (contex, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(CityScreen.routeName);
-            },
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(end: 8.0),
-              child: SizedBox(
-                width: size.width * .46,
-                child: Stack(
-                  children: [
-                    CacheImage(
-                      width: size.width * .46,
-                      height: size.width * .7,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade400,
-                          blurRadius: 1.5,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                      imageUrl: imageUrl,
-                    ),
-                    PositionedDirectional(
-                      start: size.width * .025,
-                      top: size.width * .025,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: size.width * .015,
-                          vertical: size.width * .005,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(.5),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              radius: size.width * .015,
-                            ),
-                            SizedBox(width: size.width * .01),
-                            Text(
-                              '4.1',
-                              style: AppTextStyles.styleWeight400(
-                                color: Colors.white,
-                                fontSize: size.width * 0.03,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    PositionedDirectional(
-                      bottom: size.width * .075,
-                      start: size.width * .025,
-                      child: Text(
-                        'Damascus',
-                        style: AppTextStyles.styleWeight900(
-                          color: Colors.white,
-                          fontSize: size.width * .055,
-                        ),
-                      ),
-                    )
-                  ],
+    return (!isLoading && !isFalied && cities.isEmpty)
+        ? Container()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppTextStyles.styleWeight600(
+                  fontSize: size.width * .06,
                 ),
               ),
-            ),
+              Text(
+                descreption,
+                style: AppTextStyles.styleWeight400(
+                  fontSize: size.width * .04,
+                ),
+              ),
+              SizedBox(height: size.width * .025),
+              SizedBox(
+                height: size.width * .625,
+                child: isLoading
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade400,
+                          child: Container(
+                            margin: const EdgeInsetsDirectional.only(end: 8.0),
+                            width: size.width * .6,
+                            height: size.width * .6,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      )
+                    : isFalied
+                        ? MainErrorWidget(
+                            onTapRety: onTapRety,
+                            size: size,
+                          )
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: cities.length,
+                            itemBuilder: (contex, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(CityScreen.routeName,arguments: cities[index].id);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                      end: 8.0),
+                                  child: SizedBox(
+                                    width: size.width * .6,
+                                    child: Stack(
+                                      children: [
+                                        CacheImage(
+                                          width: size.width * .6,
+                                          height: size.width * .6,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade400,
+                                              blurRadius: 1.5,
+                                              offset: const Offset(0, 5),
+                                            ),
+                                          ],
+                                          imageUrl:
+                                              cities[index].images![0].url!,
+                                          hash: cities[index].images![0].hash!,
+                                        ),
+                                        PositionedDirectional(
+                                          bottom: size.width * .075,
+                                          start: size.width * .025,
+                                          child: SizedBox(
+                                            width: size.width * .435,
+                                            child: Text(
+                                              cities[index].name!,
+                                              style:
+                                                  AppTextStyles.styleWeight900(
+                                                color: Colors.white,
+                                                fontSize: size.width * .045,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+              ),
+            ],
           );
-        },
-      ),
-    );
   }
 }

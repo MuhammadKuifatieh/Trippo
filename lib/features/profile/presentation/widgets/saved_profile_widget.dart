@@ -1,111 +1,61 @@
 part of '../pages/profile_screen.dart';
 
-class _SavedProfileWidget extends StatelessWidget {
-  const _SavedProfileWidget({Key? key}) : super(key: key);
+class _SavedProfileWidget extends StatefulWidget {
+  const _SavedProfileWidget({
+    Key? key,
+    required this.state,
+    required this.profileBloc,
+  }) : super(key: key);
+  final ProfileState state;
+  final ProfileBloc profileBloc;
+
+  @override
+  State<_SavedProfileWidget> createState() => _SavedProfileWidgetState();
+}
+
+class _SavedProfileWidgetState extends State<_SavedProfileWidget> {
+  late final ScrollController scrollController;
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(_onScroll);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ListView.builder(
-      itemCount: 5,
-      padding: EdgeInsets.zero,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.all(size.width * .025),
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade300,
-                blurRadius: 1,
-                offset: const Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              CacheImage(
-                imageUrl:
-                    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dHJpcHxlbnwwfHwwfHw%3D&w=1000&q=80',
-                width: size.width * .4,
-                height: size.width * .4,
-                borderRadius: BorderRadiusDirectional.horizontal(
-                  start: const Radius.elliptical(15, 15),
-                ),
-              ),
-              SizedBox(
-                width: size.width * .025,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'The Skeletons of Olmos: ',
-                    style: AppTextStyles.styleWeight600(
-                      fontSize: size.width * .04,
-                    ),
-                  ),
-                  Text(
-                    'Uncovering a Mystery ',
-                    style: AppTextStyles.styleWeight600(
-                      fontSize: size.width * .04,
-                    ),
-                  ),
-                  SizedBox(height: size.width * .05),
-                  Row(
-                    children: [
-                      const MainRatingBar(),
-                      SizedBox(width: size.width * .02),
-                      Text(
-                        '56,645',
-                        style: AppTextStyles.styleWeight600(
-                          color: Colors.grey,
-                          fontSize: size.width * .0275,
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Syria, Aleppo',
-                        style: AppTextStyles.styleWeight400(
-                          fontSize: size.width * .035,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(width: size.width * .075),
-                      Container(
-                        width: size.width * .2,
-                        height: size.width * .06,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade300,
-                              blurRadius: 1.5,
-                            )
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Resturant',
-                            style: AppTextStyles.styleWeight600(
-                              fontSize: size.width * .025,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        widget.profileBloc.add(
+          GetFavoritePlacesEvent(
+            isReload: true,
           ),
         );
       },
+      child: ListView.builder(
+        itemCount: widget.state.favoritePlaces.length,
+        padding: EdgeInsets.zero,
+        itemBuilder: (context, index) {
+          return SmallPlaceCard(
+            place: widget.state.favoritePlaces[index],
+            size: size,
+          );
+        },
+      ),
     );
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      widget.profileBloc.add(GetFavoritePlacesEvent());
+    }
+  }
+
+  bool get _isBottom {
+    if (!scrollController.hasClients) return false;
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }

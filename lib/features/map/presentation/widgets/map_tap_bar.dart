@@ -4,11 +4,15 @@ class _MapTapBar extends StatelessWidget {
   const _MapTapBar({
     Key? key,
     required this.size,
+    required this.mapBloc,
+    required this.mapState,
     required this.selectedIndex,
     required this.scrollController,
   }) : super(key: key);
 
   final Size size;
+  final MapBloc mapBloc;
+  final MapState mapState;
   final ValueNotifier<int> selectedIndex;
   final AutoScrollController scrollController;
 
@@ -24,7 +28,7 @@ class _MapTapBar extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: size.width * .05),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: 10,
+            itemCount: mapState.types.length,
             itemBuilder: (context, index) {
               return AutoScrollTag(
                 key: ValueKey(index),
@@ -37,6 +41,10 @@ class _MapTapBar extends StatelessWidget {
                       preferPosition: AutoScrollPosition.middle,
                     );
                     this.selectedIndex.value = index;
+                    mapBloc.add(ChangeFitterValueEvent(
+                      index: index,
+                      context: context,
+                    ));
                   },
                   child: Container(
                     padding:
@@ -44,7 +52,7 @@ class _MapTapBar extends StatelessWidget {
                     margin: EdgeInsets.all(size.width * .025),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: selectedIndex == index
+                        color: mapState.typeIndex == index
                             ? Theme.of(context).primaryColor
                             : Colors.grey.shade200,
                         width: 2,
@@ -57,10 +65,16 @@ class _MapTapBar extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.home_outlined),
-                          SizedBox(width: size.width * .01),
+                          // CacheImage(
+                          //   width: size.width * .1,
+                          //   height: size.width * .1,
+                          //   imageUrl: mapState.types[index].image!.url!,
+                          //   hash: mapState.types[index].image!.hash,
+                          //   shape: BoxShape.circle,
+                          // ),
+                          // SizedBox(width: size.width * .01),
                           Text(
-                            "Hotel",
+                            mapState.types[index].name!,
                             style: AppTextStyles.styleWeight500(),
                           ),
                         ],

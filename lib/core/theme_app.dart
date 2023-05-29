@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'config/global_functions.dart';
+
 class ThemeApp {
-  ThemeData getTheme() {
+  ThemeData getTheme(BuildContext context) {
     return ThemeData(
-      fontFamily: 'Sf-Pro-Display',
+      fontFamily: 'Tajawal',
       primaryColor: const Color(0xff32B768),
       colorScheme: ColorScheme.fromSwatch(
           primarySwatch: const MaterialColor(0xff32B768, {

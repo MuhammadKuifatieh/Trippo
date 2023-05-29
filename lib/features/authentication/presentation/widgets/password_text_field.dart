@@ -2,29 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:trippo/core/constants/images/svg_images.dart';
 import 'package:trippo/core/widgets/asset_svg.dart';
 import 'package:trippo/features/authentication/presentation/widgets/auth_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordTextField extends StatelessWidget {
   PasswordTextField({
     Key? key,
     required this.passwordController,
     this.hasLeadingIcon = true,
-    this.hintText = 'Password'
+    this.hintText ,
   }) : super(key: key);
 
   final TextEditingController passwordController;
   final bool hasLeadingIcon;
   final ValueNotifier<bool> isVisible = ValueNotifier(false);
-  final String hintText;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     return ValueListenableBuilder<bool>(
       valueListenable: isVisible,
       builder: (BuildContext context, bool value, _) {
         return AuthTextField(
           controller: passwordController,
           obscureText: !value,
-          hintText: hintText,
+          hintText: appLocalizations.password,
           prefixIcon: hasLeadingIcon
               ? const Padding(
                   padding: EdgeInsets.all(11.0),

@@ -1,6 +1,6 @@
 .fvm
 .vscode/settings.json
-
+pubspec.lock
 # Miscellaneous
 *.class
 *.log

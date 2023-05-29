@@ -41,7 +41,7 @@ class _HomeAppBar extends StatelessWidget {
                     width: size.width,
                     height: size.width * .7,
                     fit: BoxFit.cover,
-                    imageUrl:
+                    imageUrl: GlobalFunctions.getUserInfo()!.image?.url ??
                         'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
                   ),
                   AnimatedContainer(
@@ -61,8 +61,8 @@ class _HomeAppBar extends StatelessWidget {
                             .pushNamed(ProfileScreen.routeName);
                       },
                       child: CacheImage(
-                        imageUrl:
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuWlKVGJeILLo6n3_-9GgvdvWyz7MJbC1o7g&usqp=CAU',
+                        imageUrl: GlobalFunctions.getUserInfo()!.image?.url ??
+                            'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg',
                         height: size.width * .1,
                         width: size.width * .1,
                         shape: BoxShape.circle,
@@ -80,62 +80,64 @@ class _HomeAppBar extends StatelessWidget {
                               : Theme.of(context).primaryColor,
                           fontSize: size.width * .06),
                       child: Text(
-                        'Home',
+                        AppLocalizations.of(context)!.home,
                       ),
                     ),
                   ),
                   AnimatedPositionedDirectional(
                     duration: const Duration(milliseconds: 125),
                     bottom: size.width * .02,
-                    // top: sequenceAnimation['isOpen'].value != 1
-                    //     ? size.width * .03
-                    //     : 0,
                     end: sequenceAnimation['startPosition'].value,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 150),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: sequenceAnimation['isOpen'].value == 1
-                              ? Colors.white
-                              : Theme.of(context).primaryColor,
-                          width: .5,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(SearchScreen.routeName);
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 150),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: sequenceAnimation['isOpen'].value == 1
+                                ? Colors.white
+                                : Theme.of(context).primaryColor,
+                            width: .5,
+                          ),
+                          borderRadius: sequenceAnimation['isOpen'].value > .5
+                              ? BorderRadius.circular(25)
+                              : BorderRadius.circular(100000000),
+                          color: Colors.white,
                         ),
-                        borderRadius: sequenceAnimation['isOpen'].value > .5
-                            ? BorderRadius.circular(25)
-                            : BorderRadius.circular(100000000),
-                        color: Colors.white,
-                      ),
-                      width: sequenceAnimation['width'].value,
-                      height: sequenceAnimation['isOpen'].value == 1
-                          ? size.width * .12
-                          : size.width * .1,
-                      padding: sequenceAnimation['isOpen'].value == 1
-                          ? EdgeInsets.all(size.width * .025)
-                          : EdgeInsets.zero,
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (sequenceAnimation['isOpen'].value == 1)
-                              const Spacer(flex: 1),
-                            Icon(
-                              TrippoIcons.search,
-                              color: Theme.of(context).primaryColor,
-                              size: size.width * .055,
-                            ),
-                            if (sequenceAnimation['isOpen'].value == 1) ...[
-                              const Spacer(flex: 1),
-                              Text(
-                                'Where are you going?',
-                                style: AppTextStyles.styleWeight500(
-                                  fontSize: size.width * .035,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
+                        width: sequenceAnimation['width'].value,
+                        height: sequenceAnimation['isOpen'].value == 1
+                            ? size.width * .12
+                            : size.width * .1,
+                        padding: sequenceAnimation['isOpen'].value == 1
+                            ? EdgeInsets.all(size.width * .025)
+                            : EdgeInsets.zero,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (sequenceAnimation['isOpen'].value == 1)
+                                const Spacer(flex: 1),
+                              Icon(
+                                TrippoIcons.search,
+                                color: Theme.of(context).primaryColor,
+                                size: size.width * .055,
                               ),
-                              const Spacer(flex: 8),
-                            ]
-                          ],
+                              if (sequenceAnimation['isOpen'].value == 1) ...[
+                                const Spacer(flex: 1),
+                                Text(
+                                  AppLocalizations.of(context)!.whereGoing,
+                                  style: AppTextStyles.styleWeight500(
+                                    fontSize: size.width * .035,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                                const Spacer(flex: 8),
+                              ]
+                            ],
+                          ),
                         ),
                       ),
                     ),

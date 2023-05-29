@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
+import 'package:trippo/features/explore/presentation/pages/experiences_screen.dart';
 import 'package:trippo/features/map/presentation/pages/map_screen.dart';
 
 import '../../../../core/constants/icons/trippo_icons.dart';
 import '../../../../injection.dart';
-import '../../../explore/presentation/pages/explore_screen.dart';
+import '../../../search/presentation/pages/search_screen.dart';
 import '../../../home/presentation/pages/home_screen.dart';
 import '../../../plan/presentation/pages/plan_screen.dart';
 import '../../../profile/presentation/pages/setting_screen.dart';
@@ -28,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> page = [
     const HomeScreen(),
-    const ExploreScreen(),
+    const ExperinecesScreen(),
     const MapScreen(),
     // const PlanScreen(),
     const SettingScreen(),
@@ -60,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
                   icon: TrippoIcons.home,
                 ),
                 BarItem(
-                  title: AppLocalizations.of(context)!.explore,
+                  title: AppLocalizations.of(context)!.search,
                   icon: TrippoIcons.interface_essential_compass,
                 ),
                 BarItem(

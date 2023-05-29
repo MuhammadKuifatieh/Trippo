@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:trippo/core/widgets/main_rating_bar.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/icons/trippo_icons.dart';
+import '../../../../core/widgets/main_rating_bar.dart';
 import '../../../../core/widgets/scrolling_list_image.dart';
+import '../../../home/data/models/places_response.dart';
+import '../../../place/presentation/pages/place_screen.dart';
 
 class MapListImage extends StatelessWidget {
   MapListImage({
     Key? key,
+    required this.place,
   }) : super(key: key);
-
+  final PlaceModel place;
   final PageController pageController = PageController();
 
   @override
@@ -25,10 +28,7 @@ class MapListImage extends StatelessWidget {
                 size: size,
                 height: size.width * .6,
                 width: size.width * .9,
-                imageUrls: const [
-                  'https://media.istockphoto.com/photos/two-empty-wine-glasses-sitting-in-a-restaurant-on-a-warm-sunny-picture-id1018141890?k=20&m=1018141890&s=612x612&w=0&h=uMDP00MMIhlwQE77EEcoelc2oSKBT_B6avaXqtxgiow=',
-                  'https://huawei.ru/upload/iblock/31e/31eaec11dd323da24382d6b16397b968.jpg'
-                ],
+                images: place.images!,
               ),
               Padding(
                 padding: EdgeInsets.all(size.width * .025),
@@ -38,6 +38,7 @@ class MapListImage extends StatelessWidget {
                     Container(
                       width: size.width * .25,
                       height: size.width * .075,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       decoration: BoxDecoration(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(5),
@@ -50,10 +51,12 @@ class MapListImage extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          'Resturant',
+                          place.typeName!,
                           style: AppTextStyles.styleWeight400(
                             fontSize: size.width * .035,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
@@ -65,7 +68,9 @@ class MapListImage extends StatelessWidget {
                         color: Colors.black.withOpacity(.6),
                       ),
                       child: Icon(
-                        TrippoIcons.favorite,
+                        place.isFavorite!
+                            ? TrippoIcons.favorite
+                            : TrippoIcons.favorite_border,
                         color: Theme.of(context).errorColor,
                       ),
                     )
@@ -83,10 +88,13 @@ class MapListImage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const MainRatingBar(),
+                      MainRatingBar(
+                        isFiter: true,
+                        filterRating: double.parse(place.ratting.toString()),
+                      ),
                       SizedBox(width: size.width * .02),
                       Text(
-                        '56,645',
+                        place.rattingCount.toString(),
                         style: AppTextStyles.styleWeight600(
                           color: Colors.grey,
                           fontSize: size.width * .03,
@@ -96,14 +104,14 @@ class MapListImage extends StatelessWidget {
                   ),
                   SizedBox(height: size.width * .01),
                   Text(
-                    'Syria, Aleppo',
+                    place.cityName!,
                     style: AppTextStyles.styleWeight500(
                       fontSize: size.width * .04,
                     ),
                   ),
                   SizedBox(height: size.width * .01),
                   Text(
-                    'Crown plaza antalya, an IHD hotel room',
+                    place.name!,
                     style: AppTextStyles.styleWeight300(
                       fontSize: size.width * .04,
                     ),

@@ -37,8 +37,8 @@ class _ProfileSliverAppBar extends StatelessWidget {
                   Hero(
                     tag: HeroTag.imageProfile,
                     child: CachedNetworkImage(
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuWlKVGJeILLo6n3_-9GgvdvWyz7MJbC1o7g&usqp=CAU',
+                      imageUrl: GlobalFunctions.getUserInfo()!.image?.url ??
+                          'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg',
                       imageBuilder: (context, imageProvider) =>
                           AnimatedContainer(
                         duration: const Duration(milliseconds: 50),
@@ -87,14 +87,16 @@ class _ProfileSliverAppBar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Tiana Rosser',
+                            GlobalFunctions.getUserInfo()!.firstName! +
+                                " " +
+                                GlobalFunctions.getUserInfo()!.lastName!,
                             style: AppTextStyles.styleWeight500(
                               color: Colors.black,
                               fontSize: size.width * .04,
                             ),
                           ),
                           Text(
-                            'I was part of something special. \nEventually, you do',
+                            GlobalFunctions.getUserInfo()!.about ?? "",
                             style: AppTextStyles.styleWeight400(
                               color: Colors.grey.shade400,
                             ).copyWith(

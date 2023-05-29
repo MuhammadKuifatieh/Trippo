@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trippo/features/authentication/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:trippo/features/authentication/presentation/widgets/page_switcher.dart';
 import 'package:trippo/features/authentication/presentation/widgets/signup_page.dart';
 
@@ -8,9 +10,11 @@ class AuthSheetContent extends StatefulWidget {
   const AuthSheetContent({
     Key? key,
     required this.initialPageIndex,
+    required this.authenticationBloc,
   }) : super(key: key);
 
   final int initialPageIndex;
+  final AuthenticationBloc authenticationBloc;
   @override
   State<AuthSheetContent> createState() => _AuthSheetContentState();
 }
@@ -20,6 +24,9 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController nameController;
+  late TextEditingController fNameController;
+  late TextEditingController lNameController;
+  
 
   @override
   void initState() {
@@ -28,44 +35,52 @@ class _AuthSheetContentState extends State<AuthSheetContent> {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     nameController = TextEditingController();
+    fNameController= TextEditingController();
+    lNameController= TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 40),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(30),
+    return BlocProvider.value(
+      value: widget.authenticationBloc,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 40),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              margin: const EdgeInsets.only(top: 6),
+              width: 60,
+              height: 5,
             ),
-            margin: const EdgeInsets.only(top: 6),
-            width: 60,
-            height: 5,
-          ),
-          const SizedBox(height: 25),
-          PageSwitcher(pageController: _pageController),
-          const SizedBox(height: 65),
-          SizedBox(
-            height: 400,
-            child: PageView(
-              controller: _pageController,
-              children: [
-                SignupPage(
-                  emailController: emailController,
-                  nameController: nameController,
-                  passwordController: passwordController,
-                ),
-                LoginPage(
-                  emailController: emailController,
-                  passwordController: passwordController,
-                ),
-              ],
+            const SizedBox(height: 25),
+            PageSwitcher(pageController: _pageController),
+            const SizedBox(height: 65),
+            Container(
+              height: 500,
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: PageView(
+                controller: _pageController,
+                children: [
+                  SignupPage(fNameController: fNameController,
+                  lNameController: lNameController,
+                    emailController: emailController,
+                    nameController: nameController,
+                    passwordController: passwordController,
+                  ),
+                  LoginPage(
+                    emailController: emailController,
+                    passwordController: passwordController,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,11 +1,22 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
-import '../../../../core/common/global_function.dart';
 import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/config/global_functions.dart';
 import '../../../../core/widgets/cache_image.dart';
+import '../../../../core/widgets/main_button.dart';
+import '../../../../core/widgets/main_error_widget.dart';
 import '../../../../core/widgets/main_rating_bar.dart';
+import '../../../home/data/models/cities_response.dart';
+import '../../../home/data/models/places_response.dart';
+import '../bloc/place/place_bloc.dart';
+import '../widgets/plans_sheet.dart';
 import '../widgets/review_bottom_sheet.dart';
 import '../widgets/review_card.dart';
 import '../widgets/review_result_card.dart';
@@ -13,11 +24,17 @@ import '../widgets/upload_image_bottom_sheet.dart';
 import 'images_screen.dart';
 import 'review_screen.dart';
 
+part '../widgets/awards_widget.dart';
+part '../widgets/nearby_places_list.dart';
 part '../widgets/palce_app_bar.dart';
 
 class PlaceScreen extends StatefulWidget {
   static const String routeName = 'place_screen';
-  const PlaceScreen({Key? key}) : super(key: key);
+  const PlaceScreen({
+    Key? key,
+    required this.arg,
+  }) : super(key: key);
+  final PlaceScreenParams arg;
 
   @override
   State<PlaceScreen> createState() => _PlaceScreenState();
@@ -31,17 +48,16 @@ class _PlaceScreenState extends State<PlaceScreen>
   late ValueNotifier<int> indexValue;
   late ValueNotifier<String?> selectedTypeRatting;
   late Size size;
-  List<String> typeRatting = [
-    "Business",
-    "Couples",
-    "Family",
-    "Frinds",
-    "Solo",
-  ];
+  late AppLocalizations appLocalizations;
+  late final PlaceBloc placeBloc;
+  late List<String> typeRatting;
 
   @override
   void initState() {
     super.initState();
+    placeBloc = PlaceBloc()
+      ..add(GetPlaceEvent(id: widget.arg.id))
+      ..add(GetFirstReviewsEvent(placeId: widget.arg.id));
     pageController = PageController();
     indexValue = ValueNotifier(1);
     selectedTypeRatting = ValueNotifier(null);
@@ -79,636 +95,650 @@ class _PlaceScreenState extends State<PlaceScreen>
   @override
   void didChangeDependencies() {
     size = MediaQuery.of(context).size;
-
-    size = MediaQuery.of(context).size;
+    appLocalizations = AppLocalizations.of(context)!;
+    typeRatting = [
+      appLocalizations.business,
+      appLocalizations.family,
+      appLocalizations.frinds,
+      appLocalizations.solo,
+    ];
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            _PlaceAppBar(
-              size: size,
-              animationController: animationController,
-              sequenceAnimation: sequenceAnimation,
-              pageController: pageController,
-              indexValue: indexValue,
-            ),
-          ];
+    return BlocProvider(
+      create: (context) => placeBloc,
+      child: BlocConsumer<PlaceBloc, PlaceState>(
+        listener: (context, state) {
+          if (state.uploadImagePlaceStatus == UploadImagePlaceStatus.loading) {
+            BotToast.showLoading();
+          } else if (state.uploadImagePlaceStatus ==
+              UploadImagePlaceStatus.failed) {
+            BotToast.closeAllLoading();
+            BotToast.showText(text: appLocalizations.somethingWrong);
+          } else if (state.uploadImagePlaceStatus ==
+              UploadImagePlaceStatus.succ) {
+            BotToast.closeAllLoading();
+            BotToast.showText(text: appLocalizations.uploadDone);
+            Navigator.of(context).pop();
+          }
+          if (state.addReviewToPlaceStatus == AddReviewToPlaceStatus.loading) {
+            BotToast.showLoading();
+          } else if (state.addReviewToPlaceStatus ==
+              AddReviewToPlaceStatus.failed) {
+            BotToast.closeAllLoading();
+            BotToast.showText(text: appLocalizations.somethingWrong);
+          } else if (state.addReviewToPlaceStatus ==
+              AddReviewToPlaceStatus.succ) {
+            BotToast.closeAllLoading();
+            BotToast.showText(text: appLocalizations.reviewDone);
+            Navigator.of(context).pop();
+          }
+          if (state.visitTypesStatus == VisitTypesStatus.loading) {
+            BotToast.showLoading();
+          } else if (state.visitTypesStatus == VisitTypesStatus.failed) {
+            BotToast.closeAllLoading();
+            BotToast.showText(text: appLocalizations.somethingWrong);
+          } else if (state.visitTypesStatus == VisitTypesStatus.succ) {
+            BotToast.closeAllLoading();
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+              constraints: BoxConstraints(
+                maxHeight: size.height * .9,
+                minHeight: size.height * .8,
+              ),
+              builder: (_) => ReviewBottomSheet(
+                size: size,
+                selectedTypeRatting: selectedTypeRatting,
+                typeRatting: typeRatting,
+                placeBloc: placeBloc,
+                placeState: state,
+              ),
+            );
+          }
         },
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(size.width * .04),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Very Beutiful Home',
-                      style: AppTextStyles.styleWeight900(
-                        color: Colors.black,
-                        fontSize: size.width * .065,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .015),
-                    Row(
-                      children: [
-                        MainRatingBar(
-                          circleSize: size.width * .045,
-                        ),
-                        Text(
-                          '56,645',
-                          style: AppTextStyles.styleWeight300(
-                            color: Colors.black,
-                            fontSize: size.width * .045,
+        builder: (context, state) {
+          return WillPopScope(
+            onWillPop: () async {
+              Navigator.pop(context, state.place!.isFavorite);
+              return false;
+            },
+            child: Scaffold(
+              body: NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    _PlaceAppBar(
+                      size: size,
+                      animationController: animationController,
+                      sequenceAnimation: sequenceAnimation,
+                      pageController: pageController,
+                      indexValue: indexValue,
+                      images: state.place?.images ?? [],
+                      title: state.place?.name ?? "",
+                      isFavorite: state.place?.isFavorite ?? false,
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          PlaceImagesScreen.routeName,
+                          arguments: PlaceImagesScreenParams(
+                            placeBloc: placeBloc,
+                            id: widget.arg.id,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: size.width * .015),
-                    Text(
-                      ' This place is very beautiful, comfortable and very attractive. It contains a lot of entertaining places This place is very beautiful, comfortable and very attractive. It contains a lot of entertaining places',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .03),
-                    Row(
-                      children: [
-                        MainButton(
-                          onTap: () {},
-                          width: size.width * .4,
-                          height: size.width * .1,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Visit webset',
-                                style: AppTextStyles.styleWeight400(
-                                  color: Colors.white,
-                                  fontSize: size.width * .035,
-                                ),
-                              ),
-                              SizedBox(width: size.width * .01),
-                              Icon(
-                                Icons.travel_explore_sharp,
-                                color: Colors.white,
-                                size: size.width * .05,
-                              )
-                            ],
+                        );
+                      },
+                      onTapFavorite: () {
+                        placeBloc.add(
+                          ChangeFavoriteStateEvent(id: widget.arg.id),
+                        );
+                      },
+                      onTapPop: () {
+                        Navigator.of(context).pop(state.place!.isFavorite);
+                      },
+                      onSavedTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          constraints: BoxConstraints(
+                            maxHeight: size.height * 0.9,
                           ),
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            MainButton(
-                              onTap: () {},
-                              width: size.width * .15,
-                              height: size.width * .1,
-                              child: Icon(
-                                Icons.call,
-                                color: Colors.white,
-                                size: size.width * .05,
-                              ),
+                          builder: (context) {
+                            return PlansSheet(
+                              cityId: state.place!.cityId!,
+                              cityName: state.place!.cityName!,
+                              placeId: state.place!.id!,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ];
+                },
+                body: SingleChildScrollView(
+                  child: (state.placeStatus == PlaceStatus.loading ||
+                          state.placeStatus == PlaceStatus.init)
+                      ? SizedBox(
+                          height: size.height * .6,
+                          child: Center(
+                            child: LoadingAnimationWidget.threeArchedCircle(
+                              color: Theme.of(context).primaryColor,
+                              size: size.width * .1,
                             ),
-                            SizedBox(width: size.width * .025),
-                            MainButton(
-                              onTap: () {},
-                              width: size.width * .15,
-                              height: size.width * .1,
-                              child: Icon(
-                                Icons.email_outlined,
-                                color: Colors.white,
-                                size: size.width * .05,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: size.width * .03),
-              Divider(
-                thickness: .5,
-                color: Theme.of(context).primaryColor,
-              ),
-              Padding(
-                padding: EdgeInsets.all(size.width * .04),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Admission tickets',
-                          style: AppTextStyles.styleWeight600(
-                            fontSize: size.width * .045,
                           ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          'from \$46.16',
-                          style: AppTextStyles.styleWeight600(
-                            fontSize: size.width * .045,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'All you need to step foot in the door',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Center(
-                      child: MainButton(
-                        width: size.width * .8,
-                        height: size.width * .1,
-                        onTap: () {},
-                        child: Text(
-                          'See tickets',
-                          style: AppTextStyles.styleWeight400(
-                            color: Colors.white,
-                            fontSize: size.width * .045,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.width * .1),
-                    Row(
-                      children: [
-                        Text(
-                          'Tour & expperinces',
-                          style: AppTextStyles.styleWeight600(
-                            fontSize: size.width * .045,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          'from \$3.22',
-                          style: AppTextStyles.styleWeight600(
-                            fontSize: size.width * .045,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Explore defferent ways to experience this place',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Center(
-                      child: MainButton(
-                        width: size.width * .8,
-                        height: size.width * .1,
-                        onTap: () {},
-                        color: Colors.white,
-                        border: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        child: Text(
-                          'See options',
-                          style: AppTextStyles.styleWeight400(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: size.width * .045,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: .5,
-                color: Theme.of(context).primaryColor,
-              ),
-              Padding(
-                padding: EdgeInsets.all(size.width * .04),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Closed Now',
-                          style: AppTextStyles.styleWeight600(
-                            fontSize: size.width * .04,
-                          ),
-                        ),
-                        Text(
-                          '8:00 AM-6:00 PM',
-                          style: AppTextStyles.styleWeight400(
-                            fontSize: size.width * .04,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Icon(
-                      GlobalFunction().isRTLDirectionality(context)
-                          ? Icons.keyboard_arrow_left_rounded
-                          : Icons.keyboard_arrow_right_rounded,
-                      size: size.width * .1,
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: .5,
-                color: Theme.of(context).primaryColor,
-              ),
-              // SizedBox(height: size.width * .025),
-              Padding(
-                padding: EdgeInsets.all(size.width * .04),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'About',
-                      style: AppTextStyles.styleWeight700(
-                        fontSize: size.width * .05,
-                      ),
-                    ),
-                    Text(
-                      'pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla ',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .04),
-                    Text(
-                      'Aoards',
-                      style: AppTextStyles.styleWeight700(
-                        fontSize: size.width * .05,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        CacheImage(
-                          width: size.width * 0.15,
-                          height: size.width * 0.15,
-                          imageUrl:
-                              'https://static.vecteezy.com/packs/media/components/global/search-explore-nav/img/vectors/term-bg-1-666de2d941529c25aa511dc18d727160.jpg',
-                          shape: BoxShape.circle,
-                        ),
-                        SizedBox(width: size.width * .025),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Travelers Choice',
-                              style: AppTextStyles.styleWeight500(
-                                fontSize: size.width * .04,
-                              ),
-                            ),
-                            SizedBox(height: size.width * .01),
-                            Text(
-                              '2021',
-                              style: AppTextStyles.styleWeight400(
-                                fontSize: size.width * .04,
-                              ),
-                            ),
-                          ],
                         )
-                      ],
-                    ),
-                    SizedBox(height: size.width * .04),
-                    Text(
-                      'Suggested duration',
-                      style: AppTextStyles.styleWeight500(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    Text(
-                      '2-3 hours',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .1),
-                    Text(
-                      'The area',
-                      style: AppTextStyles.styleWeight700(
-                        fontSize: size.width * .05,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Text(
-                      'Address',
-                      style: AppTextStyles.styleWeight600(
-                        fontSize: size.width * .0425,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .01),
-                    Text(
-                      'Carrer de Mallorca, 401, 08013 Barcelona Spain',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Text(
-                      'How to get there',
-                      style: AppTextStyles.styleWeight600(
-                        fontSize: size.width * .0425,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .01),
-                    Text(
-                      'Passeig de Gracia . 4 min walk',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    Text(
-                      'Provence . 8 min walk',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Text(
-                      'Neighborhood:',
-                      style: AppTextStyles.styleWeight600(
-                        fontSize: size.width * .0425,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .01),
-                    Text(
-                      'pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla',
-                      style: AppTextStyles.styleWeight400(
-                        fontSize: size.width * .04,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    SizedBox(
-                      width: size.width,
-                      height: size.width * .5,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: GoogleMap(
-                          zoomGesturesEnabled: false,
-                          onMapCreated: (controller) async {
-                            String mapStyle =
-                                await DefaultAssetBundle.of(context)
-                                    .loadString("assets/map_style.json");
-                            controller.setMapStyle(mapStyle);
-                          },
-                          markers: {
-                            Marker(
-                                markerId: MarkerId(
-                                  LatLng(47.693436, -122.275953).toString(),
+                      : state.placeStatus == PlaceStatus.failed
+                          ? SizedBox(
+                              height: size.height * .45,
+                              child: Center(
+                                child: MainErrorWidget(
+                                  size: size,
+                                  onTapRety: () {
+                                    placeBloc
+                                        .add(GetPlaceEvent(id: widget.arg.id));
+                                  },
                                 ),
-                                position: LatLng(47.693436, -122.275953),
-                                infoWindow: InfoWindow(
-                                  title: "very beutiful home",
-                                  snippet: 'is so nice',
-                                ))
-                          },
-                          initialCameraPosition: const CameraPosition(
-                            target: LatLng(47.693436, -122.275953),
-                            zoom: 12,
-                          ),
-                          zoomControlsEnabled: false,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Text(
-                      'Resturant nearby',
-                      style: AppTextStyles.styleWeight700(
-                        fontSize: size.width * .05,
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.width * .65,
-                      child: GridView.builder(
-                        itemCount: 10,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: .5,
-                          mainAxisSpacing: size.width * .05,
-                          crossAxisSpacing: size.width * .05,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => Row(
-                          children: [
-                            CacheImage(
-                              width: size.width * .3,
-                              height: size.width * .3,
-                              borderRadius: BorderRadius.circular(15),
-                              imageUrl:
-                                  'https://avatars.mds.yandex.net/i?id=84dbd50839c3d640ebfc0de20994c30d-4473719-images-taas-consumers&n=27&h=480&w=480',
-                            ),
-                            SizedBox(width: size.width * .02),
-                            SizedBox(
-                              width: size.width * .275,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: size.width * .025),
-                                  Text(
-                                    'Kimchi Mama',
-                                    style: AppTextStyles.styleWeight400(
-                                      fontSize: size.width * .04,
-                                    ),
-                                  ),
-                                  SizedBox(height: size.width * .025),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
+                              ))
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(size.width * .04),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const MainRatingBar(),
                                       Text(
-                                        '555',
-                                        style: AppTextStyles.styleWeight400(
-                                          fontSize: size.width * .035,
-                                          color: Colors.grey,
+                                        state.place!.name!,
+                                        style: AppTextStyles.styleWeight900(
+                                          color: Colors.black,
+                                          fontSize: size.width * .065,
                                         ),
-                                      )
+                                      ),
+                                      SizedBox(height: size.width * .015),
+                                      Row(
+                                        children: [
+                                          MainRatingBar(
+                                            isFiter: true,
+                                            filterRating: double.parse(
+                                              state.place!.ratting.toString(),
+                                            ),
+                                            circleSize: size.width * .045,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            state.place!.rattingCount
+                                                .toString(),
+                                            style: AppTextStyles.styleWeight300(
+                                              color: Colors.black,
+                                              fontSize: size.width * .045,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: size.width * .015),
+                                      Text(
+                                        state.place!.about!,
+                                        style: AppTextStyles.styleWeight400(
+                                          fontSize: size.width * .04,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .03),
+                                      Row(
+                                        children: [
+                                          MainButton(
+                                            onTap: () {
+                                              GlobalFunctions().launchWeb(
+                                                  state.place!.webSite!);
+                                            },
+                                            width: size.width * .4,
+                                            height: size.width * .1,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  appLocalizations.visitWebsite,
+                                                  style: AppTextStyles
+                                                      .styleWeight400(
+                                                    color: Colors.white,
+                                                    fontSize: size.width * .035,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    width: size.width * .01),
+                                                Icon(
+                                                  Icons.travel_explore_sharp,
+                                                  color: Colors.white,
+                                                  size: size.width * .05,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Row(
+                                            children: [
+                                              MainButton(
+                                                onTap: () {
+                                                  GlobalFunctions()
+                                                      .launchPhoneNumber(state
+                                                          .place!.phoneNumber!);
+                                                },
+                                                width: size.width * .15,
+                                                height: size.width * .1,
+                                                child: Icon(
+                                                  Icons.call,
+                                                  color: Colors.white,
+                                                  size: size.width * .05,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  width: size.width * .025),
+                                              MainButton(
+                                                onTap: () {
+                                                  GlobalFunctions().launchEmail(
+                                                    state.place!.email!,
+                                                  );
+                                                },
+                                                width: size.width * .15,
+                                                height: size.width * .1,
+                                                child: Icon(
+                                                  Icons.email_outlined,
+                                                  color: Colors.white,
+                                                  size: size.width * .05,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                  SizedBox(height: size.width * .025),
-                                  Flexible(
-                                    child: Text(
-                                      'data data data data data data data data data data data data ',
-                                      style: AppTextStyles.styleWeight400(
-                                        fontSize: size.width * .035,
+                                ),
+                                SizedBox(height: size.width * .03),
+                                Divider(
+                                  thickness: .5,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+
+                                Padding(
+                                  padding: EdgeInsets.all(size.width * .04),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            state.place!.isOpen!
+                                                ? appLocalizations.openNow
+                                                : appLocalizations.closeNow,
+                                            style: AppTextStyles.styleWeight600(
+                                              fontSize: size.width * .04,
+                                              color: state.place!.isOpen!
+                                                  ? Theme.of(context)
+                                                      .primaryColor
+                                                  : Colors.red,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${state.place!.openAt!.substring(0, 5)} - ${state.place!.closeAt!.substring(0, 5)}',
+                                            style: AppTextStyles.styleWeight400(
+                                              fontSize: size.width * .04,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: true,
+                                      const Spacer(),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  thickness: .5,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                // SizedBox(height: size.width * .025),
+                                Padding(
+                                  padding: EdgeInsets.all(size.width * .04),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _AwardsWidget(
+                                        appLocalizations: appLocalizations,
+                                        size: size,
+                                        awards: state.place!.awards!,
+                                      ),
+                                      SizedBox(height: size.width * .04),
+                                      Text(
+                                        'الأوقات المقترحة للزيارة',
+                                        style: AppTextStyles.styleWeight500(
+                                          fontSize: size.width * .04,
+                                        ),
+                                      ),
+                                      Text(
+                                        '2-3 hours',
+                                        style: AppTextStyles.styleWeight400(
+                                          fontSize: size.width * .04,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .1),
+                                      Text(
+                                        appLocalizations.location,
+                                        style: AppTextStyles.styleWeight700(
+                                          fontSize: size.width * .05,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .025),
+                                      Text(
+                                        appLocalizations.address,
+                                        style: AppTextStyles.styleWeight600(
+                                          fontSize: size.width * .0425,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .01),
+                                      Text(
+                                        state.place!.address!,
+                                        style: AppTextStyles.styleWeight400(
+                                          fontSize: size.width * .04,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .025),
+                                      SizedBox(
+                                        width: size.width,
+                                        height: size.width * .5,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: GoogleMap(
+                                            zoomGesturesEnabled: false,
+                                            onMapCreated: (controller) async {
+                                              String mapStyle =
+                                                  await DefaultAssetBundle.of(
+                                                          context)
+                                                      .loadString(
+                                                          "assets/map_style.json");
+                                              controller.setMapStyle(mapStyle);
+                                            },
+                                            markers: {
+                                              Marker(
+                                                  markerId: MarkerId(
+                                                    LatLng(
+                                                      state.place!.latitude!,
+                                                      state.place!.longitude!,
+                                                    ).toString(),
+                                                  ),
+                                                  position: LatLng(
+                                                    state.place!.latitude!,
+                                                    state.place!.longitude!,
+                                                  ),
+                                                  infoWindow: InfoWindow(
+                                                    title: state.place!.name,
+                                                    snippet: '',
+                                                  ))
+                                            },
+                                            initialCameraPosition:
+                                                CameraPosition(
+                                              target: LatLng(
+                                                state.place!.latitude!,
+                                                state.place!.longitude!,
+                                              ),
+                                              zoom: 12,
+                                            ),
+                                            zoomControlsEnabled: false,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .075),
+                                      Text(
+                                        appLocalizations.nearbyPlaces,
+                                        style: AppTextStyles.styleWeight700(
+                                          fontSize: size.width * .05,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .025),
+                                      _NearbyPlacesList(
+                                        size: size,
+                                        placeState: state,
+                                        placeBloc: placeBloc,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  thickness: .5,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: size.width * .04,
+                                      vertical: size.width * .015),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        appLocalizations.contribute,
+                                        style: AppTextStyles.styleWeight700(
+                                          fontSize: size.width * .05,
+                                        ),
+                                      ),
+                                      SizedBox(height: size.width * .015),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          MainButton(
+                                            onTap: () {
+                                              placeBloc
+                                                  .add(GetVisitTypesEvent());
+                                            },
+                                            color: Colors.white,
+                                            border: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                            width: size.width * .35,
+                                            height: size.width * .1,
+                                            child: Text(
+                                              appLocalizations.writeReview,
+                                              style:
+                                                  AppTextStyles.styleWeight500(
+                                                fontSize: size.width * .0425,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                          MainButton(
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                constraints: BoxConstraints(
+                                                    maxHeight: size.width),
+                                                builder: (_) =>
+                                                    UploadImageBottomSheet(
+                                                  size: size,
+                                                  onTapUpload: (imageName) {
+                                                    placeBloc.add(
+                                                      UploadImagePlaceEvent(
+                                                        id: widget.arg.id,
+                                                        imageName: imageName,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                            color: Colors.white,
+                                            border: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                            width: size.width * .35,
+                                            height: size.width * .1,
+                                            child: Text(
+                                              appLocalizations.uploadImage,
+                                              style:
+                                                  AppTextStyles.styleWeight500(
+                                                fontSize: size.width * .0425,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  thickness: .5,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                SizedBox(height: size.width * .025),
+                                state.reviewsStatus == ReviewsStatus.loading ||
+                                        state.reviewsStatus ==
+                                            ReviewsStatus.init
+                                    ? SizedBox(
+                                        height: size.height * .4,
+                                        child: Center(
+                                          child: LoadingAnimationWidget
+                                              .threeArchedCircle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            size: size.width * .1,
+                                          ),
+                                        ),
+                                      )
+                                    : state.reviewsStatus ==
+                                            ReviewsStatus.failed
+                                        ? SizedBox(
+                                            height: size.height * .4,
+                                            child: Center(
+                                              child: MainErrorWidget(
+                                                size: size,
+                                                onTapRety: () {
+                                                  placeBloc.add(
+                                                    GetFirstReviewsEvent(
+                                                      placeId: widget.arg.id,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: size.width * .04,
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  appLocalizations.review,
+                                                  style: AppTextStyles
+                                                      .styleWeight700(
+                                                    fontSize: size.width * .05,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    height: size.width * .025),
+                                                Row(
+                                                  children: [
+                                                    MainRatingBar(
+                                                      isFiter: true,
+                                                      circleSize:
+                                                          size.width * .045,
+                                                      filterRating:
+                                                          double.parse(
+                                                        state.place!.ratting
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        width:
+                                                            size.width * .025),
+                                                    Text(
+                                                      state.place!.rattingCount
+                                                          .toString(),
+                                                      style: AppTextStyles
+                                                          .styleWeight400(
+                                                        color: Colors.grey,
+                                                        fontSize:
+                                                            size.width * .04,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                    height: size.width * .025),
+                                                ReviewResultCard(
+                                                  size: size,
+                                                  ratting: state.ratting,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                if (state.reviewsStatus ==
+                                    ReviewsStatus.succ) ...[
+                                  SizedBox(height: size.height * .025),
+                                  Column(
+                                    children: List.generate(
+                                      state.reviews.length,
+                                      (index) => ReviewCard(
+                                        size: size,
+                                        review: state.reviews[index],
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: .5,
-                color: Theme.of(context).primaryColor,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: size.width * .04, vertical: size.width * .015),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Contribute',
-                      style: AppTextStyles.styleWeight700(
-                        fontSize: size.width * .05,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .015),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        MainButton(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              backgroundColor: Colors.transparent,
-                              isScrollControlled: true,
-                              constraints: BoxConstraints(
-                                maxHeight: size.height * .9,
-                                minHeight: size.height * .8,
-                              ),
-                              builder: (_) => ReviewBottomSheet(
-                                size: size,
-                                selectedTypeRatting: selectedTypeRatting,
-                                typeRatting: typeRatting,
-                              ),
-                            );
-                          },
-                          color: Colors.white,
-                          border:
-                              BorderSide(color: Theme.of(context).primaryColor),
-                          width: size.width * .35,
-                          height: size.width * .1,
-                          child: Text(
-                            "Write a reiview",
-                            style: AppTextStyles.styleWeight500(
-                              fontSize: size.width * .0425,
-                              color: Theme.of(context).primaryColor,
+                                  ),
+                                  SizedBox(height: size.width * .05),
+                                  Center(
+                                    child: MainButton(
+                                      child: Text(
+                                        'View All Review',
+                                        style: AppTextStyles.styleWeight600(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: size.width * .04),
+                                      ),
+                                      color: Colors.white,
+                                      border: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      height: size.width * .1,
+                                      width: size.width * .4,
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                          ReviewsScreen.routeName,
+                                          arguments: ReviewsScreenParams(
+                                              placeId: widget.arg.id,
+                                              name: state.place!.name!,
+                                              ratting: double.parse(
+                                                state.place!.ratting.toString(),
+                                              )),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(height: size.width * .05),
+                                ]
+                              ],
                             ),
-                          ),
-                        ),
-                        MainButton(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              backgroundColor: Colors.transparent,
-                              constraints:
-                                  BoxConstraints(maxHeight: size.width * .75),
-                              builder: (_) =>
-                                  UploadImageBottomSheet(size: size),
-                            );
-                          },
-                          color: Colors.white,
-                          border:
-                              BorderSide(color: Theme.of(context).primaryColor),
-                          width: size.width * .35,
-                          height: size.width * .1,
-                          child: Text(
-                            'Upload a photo',
-                            style: AppTextStyles.styleWeight500(
-                              fontSize: size.width * .0425,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
                 ),
               ),
-              Divider(
-                thickness: .5,
-                color: Theme.of(context).primaryColor,
-              ),
-              SizedBox(height: size.width * .025),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * .04,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Review',
-                      style: AppTextStyles.styleWeight700(
-                        fontSize: size.width * .05,
-                      ),
-                    ),
-                    SizedBox(height: size.width * .025),
-                    Row(
-                      children: [
-                        MainRatingBar(
-                          circleSize: size.width * .045,
-                        ),
-                        SizedBox(width: size.width * .025),
-                        Text(
-                          '${654} Reiview',
-                          style: AppTextStyles.styleWeight400(
-                            color: Colors.grey,
-                            fontSize: size.width * .04,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: size.width * .025),
-                    ReviewResultCard(size: size),
-                  ],
-                ),
-              ),
-              SizedBox(height: size.height * .025),
-              Column(
-                children: List.generate(
-                  5,
-                  (index) => ReviewCard(size: size),
-                ),
-              ),
-              SizedBox(height: size.width * .05),
-              Center(
-                child: MainButton(
-                  child: Text(
-                    'View All Review',
-                    style: AppTextStyles.styleWeight600(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: size.width * .04),
-                  ),
-                  color: Colors.white,
-                  border: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  height: size.width * .1,
-                  width: size.width * .4,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(ReviewsScreen.routeName);
-                  },
-                ),
-              ),
-              SizedBox(height: size.width * .05),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
+}
+
+class PlaceScreenParams {
+  final String id;
+
+  PlaceScreenParams({required this.id});
 }

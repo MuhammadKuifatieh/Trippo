@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
-import 'package:trippo/core/widgets/place_tile.dart';
-import 'package:trippo/core/constants/hero_tag.dart';
-import 'package:trippo/features/city/presentation/screens/city_screen.dart';
-import 'package:trippo/features/place/presentation/pages/place_screen.dart';
-import 'package:trippo/features/profile/presentation/pages/profile_screen.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:trippo/core/config/global_functions.dart';
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/constants/icons/trippo_icons.dart';
 import '../../../../core/widgets/cache_image.dart';
+import '../../../../core/widgets/main_error_widget.dart';
 import '../../../../core/widgets/main_rating_bar.dart';
 import '../../../../core/widgets/scrolling_list_image.dart';
+import '../../../city/presentation/screens/city_screen.dart';
+import '../../../profile/presentation/pages/profile_screen.dart';
+import '../../../search/presentation/pages/search_screen.dart';
+import '../../data/models/cities_response.dart';
+import '../bloc/home/home_bloc.dart';
+import '../widgets/home_places.dart';
 
 part '../widgets/home_app_bar.dart';
 part '../widgets/home_cities.dart';
-part '../widgets/home_places.dart';
 part '../widgets/home_title_images.dart';
 part '../widgets/home_trips.dart';
 
@@ -27,13 +32,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final AnimationController animationController;
-  late final SequenceAnimation sequenceAnimation;
-  late final Size size;
+  late SequenceAnimation sequenceAnimation;
+  late Size size;
   final PageController pageController = PageController();
+  late final HomeBloc homeBloc;
+  late AppLocalizations appLocalizations;
 
   @override
   void initState() {
     super.initState();
+    homeBloc = HomeBloc()..add(const GetHomeInfoEvent());
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -44,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     size = MediaQuery.of(context).size;
+    appLocalizations = AppLocalizations.of(context)!;
     sequenceAnimation = SequenceAnimationBuilder()
         .addAnimatable(
           animatable: Tween<double>(
@@ -111,130 +120,160 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            _HomeAppBar(
-              size: size,
-              animationController: animationController,
-              sequenceAnimation: sequenceAnimation,
+    return BlocProvider(
+      create: (context) => homeBloc,
+      child: BlocConsumer<HomeBloc, HomeState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  _HomeAppBar(
+                    size: size,
+                    animationController: animationController,
+                    sequenceAnimation: sequenceAnimation,
+                  ),
+                ];
+              },
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  homeBloc.add(const GetHomeInfoEvent());
+                },
+                child: ListView(
+                  padding: EdgeInsetsDirectional.only(
+                    start: size.width * .05,
+                    top: size.width * .075,
+                    bottom: size.width * .1,
+                  ),
+                  children: [
+                    _HomeTitleImages(size: size),
+                    SizedBox(height: size.width * .075),
+                    HomePlaces(
+                      size: size,
+                      places: state.recentlyViewedPalces,
+                      title: appLocalizations.recently_viewed,
+                      isFailed: state.recentlyViewedPlacesStatus ==
+                          RecentlyViewedPlacesStatus.falied,
+                      isLoading: (state.recentlyViewedPlacesStatus ==
+                              RecentlyViewedPlacesStatus.loading ||
+                          state.recentlyViewedPlacesStatus ==
+                              RecentlyViewedPlacesStatus.init),
+                      onTapRety: () {
+                        homeBloc.add(const GetRecentlyViewedPlacesEvent());
+                      },
+                      onPop: (value, index) {
+                        homeBloc.add(
+                          UpdateRecentlyViewedPlaceFavoriteEvent(
+                            index: index,
+                            favoriteValue: value,
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: size.width * .075),
+                    _HomeCities(
+                      title: appLocalizations.trendingCitiesTitle,
+                      descreption: appLocalizations.trendingCitiesDescreption,
+                      size: size,
+                      cities: state.trendingCities,
+                      isLoading: (state.trendingCitiesStatus ==
+                              TrendingCitiesStatus.loading ||
+                          state.trendingCitiesStatus ==
+                              TrendingCitiesStatus.init),
+                      isFalied: state.trendingCitiesStatus ==
+                          TrendingCitiesStatus.falied,
+                      onTapRety: () {
+                        homeBloc.add(const GetTrendingCitiesEvent());
+                      },
+                    ),
+                    SizedBox(height: size.width * .075),
+                    HomePlaces(
+                        size: size,
+                        places: state.topAttractionPlaces,
+                        title: appLocalizations.topAttraction,
+                        description: appLocalizations.mostPopularPlaceToVisit,
+                        isFailed: state.topAttractionPlacesStatus ==
+                            TopAttractionPlacesStatus.falied,
+                        isLoading: (state.topAttractionPlacesStatus ==
+                                TopAttractionPlacesStatus.loading ||
+                            state.topAttractionPlacesStatus ==
+                                TopAttractionPlacesStatus.init),
+                        onTapRety: () {
+                          homeBloc.add(const GetTopAttractionPlacesEvent());
+                        },
+                        onPop: (value, index) {
+                          homeBloc.add(UpdateTopAttractionPlaceFavoriteEvent(
+                            index: index,
+                            favoriteValue: value,
+                          ));
+                        }),
+                    // SizedBox(height: size.width * .075),
+                    // Text(
+                    //   appLocalizations.descoverSomeExperince,
+                    //   style: AppTextStyles.styleWeight600(
+                    //     fontSize: size.width * .06,
+                    //   ),
+                    // ),
+                    // Text(
+                    //   appLocalizations.thingToDoOnYourTrip,
+                    //   style: AppTextStyles.styleWeight400(
+                    //     fontSize: size.width * .04,
+                    //   ),
+                    // ),
+                    // SizedBox(height: size.width * .025),
+                    // _HomeTrips(size: size),
+                    SizedBox(height: size.width * .075),
+                    SizedBox(height: size.width * .025),
+                    HomePlaces(
+                        title: appLocalizations.smallBatchStays,
+                        description: appLocalizations.coolCities,
+                        size: size,
+                        places: state.smallBatchPlaces,
+                        isFailed: state.smallBatchPlacesStatus ==
+                            SmallBatchPlacesStatus.falied,
+                        isLoading: (state.smallBatchPlacesStatus ==
+                                SmallBatchPlacesStatus.loading ||
+                            state.smallBatchPlacesStatus ==
+                                SmallBatchPlacesStatus.init),
+                        onTapRety: () {
+                          homeBloc.add(const GetSmallBatchPlacesEvent());
+                        },
+                        onPop: (value, index) {
+                          homeBloc.add(UpdateSmallBatchPlaceFavoriteEvent(
+                            index: index,
+                            favoriteValue: value,
+                          ));
+                        }),
+                    SizedBox(height: size.width * .075),
+                    HomePlaces(
+                      title: appLocalizations.youMightLikeThis,
+                      description: appLocalizations.mostPopularPlaceToVisit,
+                      size: size,
+                      places: state.mightLikePlaces,
+                      isFailed: state.mightLikePlacesStatus ==
+                          MightLikePlacesStatus.falied,
+                      isLoading: (state.mightLikePlacesStatus ==
+                              MightLikePlacesStatus.loading ||
+                          state.mightLikePlacesStatus ==
+                              MightLikePlacesStatus.init),
+                      onTapRety: () {
+                        homeBloc.add(const GetMightLikePlacesEvent());
+                      },
+                      onPop: (value, index) {
+                        homeBloc.add(UpdateMightLikePlaceFavoriteEvent(
+                          index: index,
+                          favoriteValue: value,
+                        ));
+                      },
+                    )
+                  ],
+                ),
+              ),
             ),
-          ];
+          );
         },
-        body: ListView(
-          padding: EdgeInsetsDirectional.only(
-            start: size.width * .05,
-            top: size.width * .075,
-            bottom: size.width * .1,
-          ),
-          children: [
-            _HomeTitleImages(size: size),
-            SizedBox(height: size.width * .075),
-            Text(
-              'Recently viewed',
-              style: AppTextStyles.styleWeight600(
-                fontSize: size.width * .06,
-              ),
-            ),
-            SizedBox(height: size.width * .025),
-            _HomePlaces(
-              size: size,
-              imageUrl:
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoxsa6Bi3ZEuSNlEpOJv9nu_HRNqCKMUAoGxasmY1kuvbmIgKy6csAGQ2Hfolit1f4LQs&usqp=CAU',
-            ),
-            SizedBox(height: size.width * .075),
-            Text(
-              'Inspiration for your next Trip',
-              style: AppTextStyles.styleWeight600(
-                fontSize: size.width * .06,
-              ),
-            ),
-            Text(
-              'Family-friendly spots to explore',
-              style: AppTextStyles.styleWeight400(
-                fontSize: size.width * .04,
-              ),
-            ),
-            SizedBox(height: size.width * .025),
-            _HomeCities(
-              size: size,
-              imageUrl:
-                  'https://i.pinimg.com/originals/9b/c6/9e/9bc69e93317d5ee90e13c546d82d88d9.png',
-            ),
-            SizedBox(height: size.width * .075),
-            Text(
-              'Top Attraction',
-              style: AppTextStyles.styleWeight600(
-                fontSize: size.width * .06,
-              ),
-            ),
-            Text(
-              'Most popular palce to visit',
-              style: AppTextStyles.styleWeight400(
-                fontSize: size.width * .04,
-              ),
-            ),
-            SizedBox(height: size.width * .025),
-            _HomePlaces(
-              size: size,
-              imageUrl:
-                  'https://media.istockphoto.com/photos/patan-picture-id637696304?s=170667a',
-            ),
-            SizedBox(height: size.width * .075),
-            Text(
-              'Descover some experince',
-              style: AppTextStyles.styleWeight600(
-                fontSize: size.width * .06,
-              ),
-            ),
-            Text(
-              'Thing to do on your trip',
-              style: AppTextStyles.styleWeight400(
-                fontSize: size.width * .04,
-              ),
-            ),
-            SizedBox(height: size.width * .025),
-            _HomeTrips(size: size),
-            SizedBox(height: size.width * .075),
-            Text(
-              'Small Batch Stays',
-              style: AppTextStyles.styleWeight600(
-                fontSize: size.width * .06,
-              ),
-            ),
-            Text(
-              'Cool citites, cooler boutique hotels',
-              style: AppTextStyles.styleWeight400(
-                fontSize: size.width * .04,
-              ),
-            ),
-            SizedBox(height: size.width * .025),
-            _HomeCities(
-              size: size,
-              imageUrl:
-                  'https://assets.theedgemarkets.com/CC4_KuchingProperty_TEM1378_theedgemarkets.jpg?pWlPSDFjTim1RExRLlJcJimJj8KabIn_',
-            ),
-            SizedBox(height: size.width * .075),
-            Text(
-              'You might like This',
-              style: AppTextStyles.styleWeight600(
-                fontSize: size.width * .06,
-              ),
-            ),
-            Text(
-              'More places to explore in damascus',
-              style: AppTextStyles.styleWeight400(
-                fontSize: size.width * .04,
-              ),
-            ),
-            SizedBox(height: size.width * .025),
-            _HomePlaces(
-              size: size,
-              imageUrl: 'https://theinpaint.com/images/example-1-1.jpg',
-            )
-          ],
-        ),
       ),
     );
   }

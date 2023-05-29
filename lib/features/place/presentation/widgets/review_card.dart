@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trippo/features/place/data/models/reviews_response.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../../../../core/config/app_text_styles.dart';
 import '../../../../core/widgets/cache_image.dart';
@@ -9,8 +11,10 @@ class ReviewCard extends StatelessWidget {
   const ReviewCard({
     Key? key,
     required this.size,
+    required this.review,
   }) : super(key: key);
   final Size size;
+  final ReviewModel review;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +41,8 @@ class ReviewCard extends StatelessWidget {
                       Navigator.of(context).pushNamed(ProfileScreen.routeName);
                     },
                     child: CacheImage(
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuWlKVGJeILLo6n3_-9GgvdvWyz7MJbC1o7g&usqp=CAU',
+                      imageUrl: review.user?.image?.url ??
+                          'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg',
                       height: size.width * .15,
                       width: size.width * .15,
                       shape: BoxShape.circle,
@@ -51,14 +55,21 @@ class ReviewCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Mark Z',
-                        style: AppTextStyles.styleWeight600(
-                          fontSize: size.width * .04,
+                      SizedBox(
+                        width: size.width * .7,
+                        child: Text(
+                          review.user!.firstName! +
+                              " " +
+                              review.user!.lastName!,
+                          style: AppTextStyles.styleWeight600(
+                            fontSize: size.width * .04,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
-                        '2 contribution',
+                        review.user!.username!,
                         style: AppTextStyles.styleWeight400(
                           fontSize: size.width * .04,
                         ),
@@ -68,16 +79,21 @@ class ReviewCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: size.width * .01),
-              MainRatingBar(circleSize: size.width * .04),
+              MainRatingBar(
+                isFiter: true,
+                filterRating: double.parse(review.rating.toString()),
+                circleSize: size.width * .04,
+              ),
+              SizedBox(height: size.width * .01),
               Text(
-                'Not a 4 Start . Look for something that`s creditable. False advertising dump .',
+                review.tilte!,
                 style: AppTextStyles.styleWeight600(
                   fontSize: size.width * .04,
                 ),
               ),
               SizedBox(height: size.width * .01),
               Text(
-                '20/01/2022',
+                intl.DateFormat("yyyy-MM-dd").format(review.createdAt!),
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * .04,
                   color: Colors.grey,
@@ -85,7 +101,7 @@ class ReviewCard extends StatelessWidget {
               ),
               SizedBox(height: size.width * .01),
               Text(
-                'pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla pla ',
+                review.description!,
                 style: AppTextStyles.styleWeight400(
                   fontSize: size.width * .04,
                 ),
@@ -96,15 +112,17 @@ class ReviewCard extends StatelessWidget {
                 height: size.width * .5,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
+                  itemCount: review.images!.length,
                   itemBuilder: (context, index) => Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * .025),
                     child: CacheImage(
+                      isPushed: true,
                       width: size.width * .4,
                       height: size.width * .5,
+                      hash: review.images![index].hash,
+                      imageUrl: review.images![index].url!,
                       borderRadius: BorderRadius.circular(15),
-                      imageUrl:
-                          'https://st2.depositphotos.com/2576711/8499/i/950/depositphotos_84995726-stock-photo-dramatic-sunset-over-uttakleiv-beach.jpg',
                     ),
                   ),
                 ),

@@ -1,13 +1,18 @@
 part of '../pages/setting_screen.dart';
 
 class _SupportWidget extends StatelessWidget {
-  const _SupportWidget({
+  _SupportWidget({
     Key? key,
     required this.size,
   }) : super(key: key);
   final Size size;
+  User? user;
+  final pref = serviceLocator<SharedPreferences>();
+
   @override
   Widget build(BuildContext context) {
+    String getUser = pref.getString(PrefsKeys.userInfo) ?? "";
+    user = User.fromJson(jsonDecode(getUser));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,7 +28,7 @@ class _SupportWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.support,
           child: Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .075,
@@ -35,7 +40,7 @@ class _SupportWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.help,
           child: Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .075,
@@ -47,7 +52,25 @@ class _SupportWidget extends StatelessWidget {
           onPressed: () {},
           title: AppLocalizations.of(context)!.faq,
           child: Icon(
-            GlobalFunction().isRTLDirectionality(context)
+            GlobalFunctions().isRTLDirectionality(context)
+                ? Icons.keyboard_arrow_left_rounded
+                : Icons.keyboard_arrow_right_rounded,
+            size: size.width * .075,
+            color: Colors.grey.shade300,
+          ),
+        ),
+        TextButtonProfile(
+          size: size,
+          onPressed: () {
+            if (!user!.isHost!) {
+              Navigator.pushNamed(context, HostInfoScreen.routeName);
+            } else {
+              Navigator.pushNamed(context, AddExperinceSrceen.routeName);
+            }
+          },
+          title: 'Transform to Host',
+          child: Icon(
+            GlobalFunctions().isRTLDirectionality(context)
                 ? Icons.keyboard_arrow_left_rounded
                 : Icons.keyboard_arrow_right_rounded,
             size: size.width * .075,

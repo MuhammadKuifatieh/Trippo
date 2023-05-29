@@ -1,19 +1,37 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/config/app_text_styles.dart';
-import '../pages/place_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class UploadImageBottomSheet extends StatelessWidget {
-  const UploadImageBottomSheet({
+import '../../../../core/config/app_text_styles.dart';
+import '../../../../core/widgets/image_setter.dart';
+import '../../../../core/widgets/main_button.dart';
+
+class UploadImageBottomSheet extends StatefulWidget {
+  UploadImageBottomSheet({
     Key? key,
     required this.size,
+    required this.onTapUpload,
   }) : super(key: key);
 
   final Size size;
+  final void Function(String) onTapUpload;
+
+  @override
+  State<UploadImageBottomSheet> createState() => _UploadImageBottomSheetState();
+}
+
+class _UploadImageBottomSheetState extends State<UploadImageBottomSheet> {
+  late final ValueNotifier<String?> imageName;
+  @override
+  void initState() {
+    imageName = ValueNotifier(null);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
+      width: widget.size.width,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(25),
@@ -23,11 +41,11 @@ class UploadImageBottomSheet extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(
-              top: size.width * .025,
-              bottom: size.width * .05,
+              top: widget.size.width * .025,
+              bottom: widget.size.width * .05,
             ),
             child: Container(
-              width: size.width * .225,
+              width: widget.size.width * .225,
               height: 3,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -36,46 +54,34 @@ class UploadImageBottomSheet extends StatelessWidget {
             ),
           ),
           Text(
-            "Upload Image",
+            AppLocalizations.of(context)!.uploadImage,
             style: AppTextStyles.styleWeight500(
               color: Theme.of(context).primaryColor,
-              fontSize: size.width * .05,
+              fontSize: widget.size.width * .05,
             ),
           ),
-          SizedBox(height: size.width * .025),
-          Container(
-            width: size.width * .8,
-            height: size.width * .4,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-              ),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Text(
-                'add image',
-                style: AppTextStyles.styleWeight500(
-                  fontSize: size.width * .04,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
+          SizedBox(height: widget.size.width * .025),
+          ImageSetter(
+            onChange: (image) {
+              imageName.value = image;
+            },
+            height: widget.size.width * .5,
+            width: widget.size.width * .5,
           ),
-          SizedBox(height: size.width * .025),
+          SizedBox(height: widget.size.width * .025),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               MainButton(
                 child: Text(
-                  "Cancel",
+                  AppLocalizations.of(context)!.cancel,
                   style: AppTextStyles.styleWeight400(
                     color: Theme.of(context).primaryColor,
-                    fontSize: size.width * .035,
+                    fontSize: widget.size.width * .035,
                   ),
                 ),
-                height: size.width * .1,
-                width: size.width * .35,
+                height: widget.size.width * .1,
+                width: widget.size.width * .35,
                 color: Colors.white,
                 border: BorderSide(
                   color: Theme.of(context).primaryColor,
@@ -84,24 +90,30 @@ class UploadImageBottomSheet extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
               ),
-              SizedBox(width: size.width * .1),
+              SizedBox(width: widget.size.width * .1),
               MainButton(
                 child: Text(
-                  "Upload",
+                  AppLocalizations.of(context)!.upload,
                   style: AppTextStyles.styleWeight400(
                     color: Colors.white,
-                    fontSize: size.width * .035,
+                    fontSize: widget.size.width * .035,
                   ),
                 ),
-                height: size.width * .1,
-                width: size.width * .35,
+                height: widget.size.width * .1,
+                width: widget.size.width * .35,
                 onTap: () {
-                  Navigator.of(context).pop();
+                  if (imageName.value != null) {
+                    widget.onTapUpload(imageName.value!);
+                  } else {
+                    BotToast.showText(
+                      text: AppLocalizations.of(context)!.somethingWrong,
+                    );
+                  }
                 },
               ),
             ],
           ),
-          SizedBox(height: size.width * .05),
+          SizedBox(height: widget.size.width * .05),
         ],
       ),
     );
